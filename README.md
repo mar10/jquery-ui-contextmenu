@@ -1,4 +1,4 @@
-# jquery-contextmenu
+# jquery-contextmenu [![Build Status](https://travis-ci.org/mar10/jquery-contextmenu.png?branch=master)](https://travis-ci.org/mar10/jquery-contextmenu)
 
 A jQuery plugin that provides a context menu (based on the standard [jQueryUI menu] widget).
 
@@ -13,7 +13,7 @@ Pre-alpha *not* ready for production
 
 ## Demo
 
-See sample-widget.html
+[Sample page](http://mar10.github.com/jquery-splitbutton/sample-widget.html)
 
 
 ## Example
