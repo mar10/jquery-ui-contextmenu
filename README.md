@@ -13,7 +13,7 @@ Pre-alpha *not* ready for production
 
 ## Demo
 
-[Sample page](http://mar10.github.com/jquery-splitbutton/sample-widget.html)
+[Sample page](http://mar10.github.com/jquery-contextmenu/sample-widget.html)
 
 
 ## Example
