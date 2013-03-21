@@ -1,4 +1,4 @@
-#jquery-contextmenu
+# jquery-contextmenu
 
 A jQuery plugin that provides a context menu (based on the standard [jQueryUI menu] widget).
 
