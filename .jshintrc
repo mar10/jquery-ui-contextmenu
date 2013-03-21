@@ -1,0 +1,25 @@
+{
+    "bitwise": true,
+    "camelcase": true,
+	"curly": true,
+	"eqeqeq": true,
+    "expr": true,
+    "immed": true,
+    "latedef": true,
+	"newcap": true,
+    "noarg": true,
+    "nonew": true,
+    "undef": true,
+    "unused": false,
+	
+    "boss": true,
+    "eqnull": false,
+    "evil": false,
+    "smarttabs": true,
+
+    "browser": true,
+	"globals": {
+		"define": true,
+		"jQuery": true
+	}
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<title>jquery.contextmenu.js - Demo</title>
+    <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js" type="text/javascript"></script>
+
+    <script src="jquery.contextmenu.js" type="text/javascript"></script>
+
+<style type="text/css">
+body{
+    font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+    font-size: 62.5%;
+}
+</style>
+
+<!-- Add code to initialize the tree when the document is loaded: -->
+<script type="text/javascript">
+$(function(){
+	$("#container").contextmenu({
+			delegate : ".hasmenu",
+			menu : "#options",
+			focus : function(event, ui) {
+				var menuId = ui.item.find(">a").attr("href");
+				$("#info").text("focus " + menuId);
+			},
+			blur : function(event, ui) {
+				$("#info").text("");
+			},
+			select : function(event, ui) {
+				var menuId = ui.item.find(">a").attr("href");
+				alert("select " + menuId);
+			}
+		});
+	});
+</script>
+</head>
+
+<body class="example">
+	<h1>jquery.contextmenu.js</h1>
+	
+	<p><a href="https://github.com/mar10/jquery-contextmenu">Project site</a></p>
+
+    <div id="container">
+    <div class="hasmenu">AAA</div>
+    <div class="hasmenu">BBB</div>
+    <div class="hasmenu">CCC</div>
+    </div>
+        
+    <ul id="options" class="ui-helper-hidden">
+        <li><a href="#action1">Action 1</a>
+        <li><a href="#action2">Action 2</a>
+        <li class="ui-state-disabled"><a href="#action3">Action 3</a>
+        <li>----
+        <li><a>Extra</a>
+            <ul>
+                <li><a href="#action4">sub4</a>
+                <li><a href="#action5">sub5</a>
+            </ul>
+    </ul>
+    
+    <p id="info"></p>
+</body>
+</html>
