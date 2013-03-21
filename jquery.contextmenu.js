@@ -15,6 +15,7 @@
 		return $menu.data("ui-menu") || $menu.data("menu");
 	}
 	$.widget("ui.contextmenu", {
+		version: "0.0.1pre",
 		options: {
 			delegate: "[data-menu]",  // selector
 			menu: null,      // selector or jQuery or a function returning such
