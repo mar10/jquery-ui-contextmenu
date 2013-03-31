@@ -19,6 +19,7 @@
 		options: {
 			delegate: "[data-menu]",  // selector
 			menu: null,      // selector or jQuery or a function returning such
+			preventBuiltinMenu: true,
 			// Events:
 			beforeopen: $.noop, // menu about to open; return `false` to prevent opening
 			blur: $.noop,       // menu option lost focus
@@ -30,8 +31,12 @@
 			select: $.noop      // menu option was selected; return `false` to prevent closing
 		},
 		_create: function () {
-			var self = this;
 			this.element.delegate(this.options.delegate, "click", $.proxy(this._openMenu, this));
+            if(this.options.preventBuiltinMenu){
+                this.element.delegate(this.options.delegate, "contextmenu.contextmenu", function(event){
+                    return false;
+                });
+            }
 			this._trigger("init");
 		},
 		/** Return menu jQuery object. */
