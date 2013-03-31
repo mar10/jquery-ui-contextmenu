@@ -80,7 +80,7 @@
 				if( event.which === $.ui.keyCode.ESCAPE ){
 					self._closeMenu();
 				}
-			}).bind("mousedown.contextmenu", function(event){
+			}).bind("mousedown.contextmenu touchstart.contextmenu", function(event){
 				// Close menu when clicked outside menu
 				if( !$(event.target).closest(".ui-menu-item").length ){
 					self._closeMenu();
