@@ -19,7 +19,7 @@
 		options: {
 			delegate: "[data-menu]",  // selector
 			menu: null,      // selector or jQuery or a function returning such
-			preventBuiltinMenu: true,
+//			preventBuiltinMenu: true,
 			// Events:
 			beforeopen: $.noop, // menu about to open; return `false` to prevent opening
 			blur: $.noop,       // menu option lost focus
@@ -31,17 +31,17 @@
 			select: $.noop      // menu option was selected; return `false` to prevent closing
 		},
 		_create: function () {
-			this.element.delegate(this.options.delegate, "click", $.proxy(this._openMenu, this));
-            if(this.options.preventBuiltinMenu){
-                this.element.delegate(this.options.delegate, "contextmenu.contextmenu", function(event){
-                    return false;
-                });
-            }
+		    this.element.delegate(this.options.delegate, "contextmenu.contextmenu", $.proxy(this._openMenu, this));
+//		    if(this.options.preventBuiltinMenu){
+//		        this.element.delegate(this.options.delegate, "contextmenu.contextmenu", function(event){
+//		            return false;
+//		        });
+//		    }
 			this._trigger("init");
 		},
 		/** Return menu jQuery object. */
 		_getMenu: function(){
-			// this.options.menu may be a string, jQuery or a function returnig that.
+			// this.options.menu may be a string, jQuery or a function returning that.
 			var $menu = this.options.menu;
 			if( $.isFunction($menu) ){
 				$menu = $menu();
@@ -55,6 +55,7 @@
 		},
 		/** Open dropdown. */
 		_openMenu: function(event){
+		    event.preventDefault();
 			if( this._trigger("beforeopen", event) === false ){
 				return false;
 			}
@@ -88,7 +89,9 @@
 			});
 			$menu
 				.css({
-					position: "absolute"
+					position: "absolute",
+					left: 0,
+					top: 0
 				}).position({
 					my: "left top", 
 					at: "left bottom", 
