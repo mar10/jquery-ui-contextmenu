@@ -14,6 +14,12 @@ body{
     font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
     font-size: 62.5%;
 }
+.hasmenu{
+    border: 1px solid #008;
+    margin: 3px;
+    padding: 2px;
+    width: 30px;
+}
 </style>
 
 <!-- Add code to initialize the tree when the document is loaded: -->
@@ -33,7 +39,7 @@ $(function(){
 //          alert("beforeopen on " + $(event.relatedTarget).text());
         },
         open: function(event) {
-          alert("open on " + $(event.relatedTarget).text());
+//          alert("open on " + $(event.relatedTarget).text());
         },
         select: function(event, ui) {
             var menuId = ui.item.find(">a").attr("href");
@@ -62,7 +68,7 @@ $(function(){
         
     <ul id="options" class="ui-helper-hidden">
         <li><a href="#action1">Action 1</a>
-        <li><a href="#action2">Action 2</a>
+        <li><a href="#action2"><span class="ui-icon ui-icon-heart"></span>Action 2</a>
         <li class="ui-state-disabled"><a href="#action3">Action 3</a>
         <li>----
         <li><a>Extra</a>

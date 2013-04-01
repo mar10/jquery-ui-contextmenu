@@ -15,10 +15,11 @@
 		return $menu.data("ui-menu") || $menu.data("menu");
 	}
 	$.widget("ui.contextmenu", {
-		version: "0.1.0",
+		version: "0.0.1",
 		options: {
 			delegate: "[data-menu]",  // selector
 			menu: null,      // selector or jQuery or a function returning such
+			taphold: 2000, // open menu after 2000 ms long touch
 			// Events:
 			beforeopen: $.noop, // menu about to open; return `false` to prevent opening
 			blur: $.noop,       // menu option lost focus
@@ -30,7 +31,32 @@
 			select: $.noop      // menu option was selected; return `false` to prevent closing
 		},
 		_create: function () {
-		    this.element.delegate(this.options.delegate, "contextmenu.contextmenu", $.proxy(this._openMenu, this));
+            this.element.delegate(this.options.delegate, "contextmenu.contextmenu", $.proxy(this._openMenu, this));
+            // emulate a 'taphold' event
+            /*
+            this.element.delegate(this.options.delegate, "mousedown.contextmenu", $.proxy(function(event, ui){
+                var self = this;
+                console.log("Event ", event.type, this.timer);
+                if(this.timer){
+                    console.log(" clear " + this.timer);
+                    clearTimeout(this.timer);
+                    this.timer = null;
+                }
+                this.timer = setTimeout(function(){
+                    console.log("Timeout ", event.type, self.timer);
+                    self.open.call(self, $(event.target));
+                    self.timer = null;
+                }, this.options.taphold);
+                console.log("Event started ", event.type, this.timer);
+            }, this));
+            this.element.delegate(this.options.delegate, "mouseup.contextmenu", $.proxy(function(){
+                if(this.timer){
+                    console.log("Event ", event.type, "clear" + this.timer);
+                    clearTimeout(this.timer);
+                    this.timer = null;
+                }
+            }, this));
+            */
 			this._trigger("init");
 		},
 		/** Return menu jQuery object. */
@@ -108,6 +134,10 @@
 		_closeMenu: function(){
 			var self = this, 
 				$menu = this._getMenu();
+            if(this.timer){
+                clearTimeout(this.timer);
+                this.timer = null;
+            }
 			$menu.fadeOut(function() {
 				self._trigger("close");
 			});
