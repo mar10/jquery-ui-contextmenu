@@ -27,6 +27,7 @@ body{
 $(function(){
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
+//		ignoreParentSelect: false,
 		menu: "#options",
 		focus: function(event, ui) {
 			var menuId = ui.item.find(">a").attr("href");
@@ -36,7 +37,7 @@ $(function(){
 			$("#info").text("");
 		},
         beforeOpen: function(event) {
-//          alert("beforeopen on " + $(event.relatedTarget).text());
+          alert("beforeopen on " + $(event.relatedTarget).text());
         },
         open: function(event, ui) {
 //          alert("open on " + $(event.relatedTarget).text());

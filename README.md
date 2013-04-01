@@ -79,12 +79,19 @@ structure (see [jQueryUI menu] for details):
     Type: <code>String</code><br>
     A selector to filter the elements that trigger the context menu.    
 </dd>
+<dt>ignoreParentSelect</dt>
+<dd>
+    Type: <code>Boolean</code>, default: <code>true</code><br>
+    If <code>true</code>, a click on a menu item that contains a sub-menu, will <em>not</em>
+    trigger the <code>select</code> event.
+</dd>
 <dt>menu</dt>
 <dd>
     Type: <code>String | jQuery | function</code><br>
     jQuery object or selector (or function returning such) of HTML markup that defines the context menu
     structure (see [jQueryUI menu] for details).
 </dd>
+
 </dl>
 
 

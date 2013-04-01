@@ -18,6 +18,7 @@
 		version: "0.0.1",
 		options: {
 			delegate: "[data-menu]",  // selector
+			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents 
 			menu: null,      // selector or jQuery or a function returning such
 			taphold: 2000, // open menu after 2000 ms long touch
 			// Events:
@@ -100,9 +101,12 @@
 					select: function(event, ui){
 					    // Also pass the target that the menu was triggered on:
 					    event.relatedTarget = openEvent.target;
-						if( self._trigger.call(self, "select", event, ui) !== false ){
-							self._closeMenu.call(self);
-						}
+					    var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
+					    if( !isParent || !self.options.ignoreParentSelect){
+	                        if( self._trigger.call(self, "select", event, ui) !== false ){
+	                            self._closeMenu.call(self);
+	                        }
+					    }
 					}
 				});
 			// Register global event handlers that close the dropdown-menu
@@ -117,7 +121,7 @@
 				}
 			});
 			$menu
-			    .show() // required to fix positioning error (issue #)
+			    .show() // required to fix positioning error (issue #3)
 				.css({
 					position: "absolute",
 					left: 0,
