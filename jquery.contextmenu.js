@@ -55,12 +55,19 @@
 		},
 		/** Open dropdown. */
 		_openMenu: function(event){
+            var self = this, 
+                $menu = this._getMenu(),
+                openEvent = event;
+		    // Prevent browser from opening the system context menu
 		    event.preventDefault();
+            // Also pass the target that the menu was triggered on as 'relatedTarget'.
+		    // This is required because our _trigger() calls will create events
+		    // that refer to the contextmenu's context (which is the target *container*) 
+            event.relatedTarget = openEvent.target;
+            
 			if( this._trigger("beforeopen", event) === false ){
 				return false;
 			}
-			var self = this, 
-				$menu = this._getMenu();
 			// Create - but hide - context-menu
 			$menu
 				.hide()
@@ -71,7 +78,9 @@
 					create: $.proxy(this.options.create, this),
 					focus: $.proxy(this.options.focus, this),
 					select: function(event, ui){
-						if( self._trigger("select", event, ui) !== false ){
+//					    // Also pass the target that the menu was triggered on:
+					    event.relatedTarget = openEvent.target;
+						if( self._trigger.call(self, "select", event, ui) !== false ){
 							self._closeMenu.call(self);
 						}
 					}
@@ -98,7 +107,7 @@
 					of: event, 
 					collision: "fit"
 				}).slideDown("fast", function(){
-					self._trigger("open", event);
+					self._trigger.call(self, "open", event);
 				});
 		},
 		/** Close dropdown. */
@@ -109,11 +118,18 @@
 				self._trigger("close");
 			});
 		},
-		/**
-		 * Handle $().contextmenu("option", ...) calls. 
-		 */
-		_setOption: function(key, value){
-			$.Widget.prototype._setOption.apply(this, arguments);
-		}
+        /**
+         * Handle $().contextmenu("option", ...) calls. 
+         */
+        _setOption: function(key, value){
+            $.Widget.prototype._setOption.apply(this, arguments);
+        },
+        /**
+         * Open context menu on a specific target (must match options.delegate) 
+         */
+        open: function(target){
+            var e = jQuery.Event("contextmenu", {target: target.get(0)});
+            return this.element.trigger(e);
+        }
 	});
 } (jQuery));

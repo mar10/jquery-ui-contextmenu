@@ -4,8 +4,8 @@
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 	<title>jquery.contextmenu.js - Demo</title>
     <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.js" type="text/javascript"></script>
 
     <script src="jquery.contextmenu.js" type="text/javascript"></script>
 
@@ -20,21 +20,32 @@ body{
 <script type="text/javascript">
 $(function(){
 	$("#container").contextmenu({
-			delegate : ".hasmenu",
-			menu : "#options",
-			focus : function(event, ui) {
-				var menuId = ui.item.find(">a").attr("href");
-				$("#info").text("focus " + menuId);
-			},
-			blur : function(event, ui) {
-				$("#info").text("");
-			},
-			select : function(event, ui) {
-				var menuId = ui.item.find(">a").attr("href");
-				alert("select " + menuId);
-			}
-		});
+		delegate: ".hasmenu",
+		menu: "#options",
+		focus: function(event, ui) {
+			var menuId = ui.item.find(">a").attr("href");
+			$("#info").text("focus " + menuId);
+		},
+		blur: function(event, ui) {
+			$("#info").text("");
+		},
+        beforeopen: function(event) {
+//          alert("beforeopen on " + $(event.relatedTarget).text());
+        },
+        open: function(event) {
+          alert("open on " + $(event.relatedTarget).text());
+        },
+        select: function(event, ui) {
+            var menuId = ui.item.find(">a").attr("href");
+            alert("select " + menuId + " on " + $(event.relatedTarget).text());
+        }
 	});
+	
+    $("#triggerPopup").click(function(){
+        // Trigger popup menu on the first target element
+        $("#container").contextmenu("open", $(".hasmenu:first"));
+    });
+});
 </script>
 </head>
 
@@ -61,6 +72,6 @@ $(function(){
             </ul>
     </ul>
     
-    <p id="info"></p>
+    <button id="triggerPopup">Trigger popup</button>
 </body>
 </html>
