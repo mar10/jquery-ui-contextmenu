@@ -15,11 +15,10 @@
 		return $menu.data("ui-menu") || $menu.data("menu");
 	}
 	$.widget("ui.contextmenu", {
-		version: "0.0.1pre",
+		version: "0.1.0",
 		options: {
 			delegate: "[data-menu]",  // selector
 			menu: null,      // selector or jQuery or a function returning such
-//			preventBuiltinMenu: true,
 			// Events:
 			beforeopen: $.noop, // menu about to open; return `false` to prevent opening
 			blur: $.noop,       // menu option lost focus
@@ -32,11 +31,6 @@
 		},
 		_create: function () {
 		    this.element.delegate(this.options.delegate, "contextmenu.contextmenu", $.proxy(this._openMenu, this));
-//		    if(this.options.preventBuiltinMenu){
-//		        this.element.delegate(this.options.delegate, "contextmenu.contextmenu", function(event){
-//		            return false;
-//		        });
-//		    }
 			this._trigger("init");
 		},
 		/** Return menu jQuery object. */
@@ -78,7 +72,7 @@
 					create: $.proxy(this.options.create, this),
 					focus: $.proxy(this.options.focus, this),
 					select: function(event, ui){
-//					    // Also pass the target that the menu was triggered on:
+					    // Also pass the target that the menu was triggered on:
 					    event.relatedTarget = openEvent.target;
 						if( self._trigger.call(self, "select", event, ui) !== false ){
 							self._closeMenu.call(self);
