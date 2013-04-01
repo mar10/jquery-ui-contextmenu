@@ -76,11 +76,14 @@ structure (see [jQueryUI menu] for details):
 <dl>
 <dt>delegate</dt>
 <dd>
-    `{String}` jQuery selector describing the elements that trigger the context menu.    
+    Type: <code>String</code><br>
+    A selector to filter the elements that trigger the context menu.    
 </dd>
 <dt>menu</dt>
 <dd>
-    `{String | jQuery | function}` jQuery object or selector (or function returning such) describing the menu definition.    
+    Type: <code>String | jQuery | function</code><br>
+    jQuery object or selector (or function returning such) of HTML markup that defines the context menu
+    structure (see [jQueryUI menu] for details).
 </dd>
 </dl>
 
@@ -89,7 +92,8 @@ structure (see [jQueryUI menu] for details):
 <dl>
 <dt>open(target)</dt>
 <dd>
-    Open context menu on a specific target (must match options.delegate).
+    Open context menu on a specific target (target must match the options.delegate filter).<br>
+    Call like <code>$(...).contextmenu("open", target);</code>.
 </dd>
 </dl>
 
@@ -111,7 +115,7 @@ $("#container").contextmenu({
 });
 ```
 
-Alternatively a handler may be bound, so this is equivaent:
+Alternatively a handler may be bound, so this is equivalent:
 ```js
 $("#container").bind("contextmenuselect", function(event, ui) {
     var menuId = ui.item.find(">a").attr("href"),
@@ -121,37 +125,39 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 ```
 
 <dl>
-<dt>beforeopen(event)</dt>
+<dt>beforeOpen(event)</dt>
 <dd>
-    Menu about to open; return `false` to prevent opening.
+    Triggered just before the popup menu is opened.<br>
+    Return <code>false</code> to prevent opening.
 </dd>
 <dt>blur(event, ui)</dt>
 <dd>
-    menu option lost focus
+    Triggered when the menu loses focus.
 </dd>
-<dt>close(event, ui)</dt>
+<dt>close(event)</dt>
 <dd>
-    menu was closed
+    Triggered when the menu is closed.
 </dd>
 <dt>create(event, ui)</dt>
 <dd>
-    menu was initialized
+    Triggered when the menu is created.
 </dd>
 <dt>focus(event, ui)</dt>
 <dd>
-    menu option got focus
+    Triggered when a menu gains focus or when any menu item is activated.
 </dd>
-<dt>init(event, ui)</dt>
+<dt>init(event)</dt>
 <dd>
-    ui-contextmenu was initialized
+    Triggered when the contextmenu widget is initialized.
 </dd>
-<dt>open(event, ui)</dt>
+<dt>open(event)</dt>
 <dd>
-    menu was opened
+    Triggered when the menu is opened.
 </dd>
 <dt>select(event, ui)</dt>
 <dd>
-     menu option was selected; return `false` to prevent closing.
+    Triggered when a menu item is selected.<br>
+    Return <code>false</code> to prevent closing the menu.
 </dd>
 </dl>
 
