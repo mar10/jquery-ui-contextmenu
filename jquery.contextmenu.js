@@ -21,7 +21,7 @@
 			menu: null,      // selector or jQuery or a function returning such
 			taphold: 2000, // open menu after 2000 ms long touch
 			// Events:
-			beforeopen: $.noop, // menu about to open; return `false` to prevent opening
+			beforeOpen: $.noop, // menu about to open; return `false` to prevent opening
 			blur: $.noop,       // menu option lost focus
 			close: $.noop,      // menu was closed
 			create: $.noop,     // menu was initialized
@@ -85,7 +85,7 @@
 		    // that refer to the contextmenu's context (which is the target *container*) 
             event.relatedTarget = openEvent.target;
             
-			if( this._trigger("beforeopen", event) === false ){
+			if( this._trigger("beforeOpen", event) === false ){
 				return false;
 			}
 			// Create - but hide - context-menu
@@ -117,6 +117,7 @@
 				}
 			});
 			$menu
+			    .show() // required to fix positioning error (issue #)
 				.css({
 					position: "absolute",
 					left: 0,
@@ -126,7 +127,8 @@
 					at: "left bottom", 
 					of: event, 
 					collision: "fit"
-				}).slideDown("fast", function(){
+				}).hide()
+				.slideDown("fast", function(){
 					self._trigger.call(self, "open", event);
 				});
 		},
