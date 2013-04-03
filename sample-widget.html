@@ -20,6 +20,9 @@ body{
 	padding: 2px;
 	width: 30px;
 }
+.ui-menu {
+	width: 120px;
+}
 </style>
 
 <!-- Add code to initialize the tree when the document is loaded: -->
@@ -59,12 +62,12 @@ $(function(){
 <body class="example">
 	<h1>jquery.contextmenu.js</h1>
 
-	<p><a href="https://github.com/mar10/jquery-contextmenu">Project site</a></p>
-
+	<p><a href="https://github.com/mar10/jquery-contextmenu">View project on GitHub</a></p>
+	<p>Right-click in an element to open the context menu:</p>
 	<div id="container">
-	<div class="hasmenu">AAA</div>
-	<div class="hasmenu">BBB</div>
-	<div class="hasmenu">CCC</div>
+		<div class="hasmenu">AAA</div>
+		<div class="hasmenu">BBB</div>
+		<div class="hasmenu">CCC</div>
 	</div>
 
 	<ul id="options" class="ui-helper-hidden">
@@ -79,6 +82,7 @@ $(function(){
 			</ul>
 	</ul>
 
+	<p>Open context menu using <code>$("#container").contextmenu("open", $(".hasmenu:first"))</code>:</p>
 	<button id="triggerPopup">Trigger popup</button>
 </body>
 </html>
