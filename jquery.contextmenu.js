@@ -14,14 +14,14 @@
 		$menu = $(menu);
 		return $menu.data("ui-menu") || $menu.data("menu");
 	}
-
+/*
 	var startTime, endTime;
 	var gbMove = false;
 
 	window.addEventListener('touchstart',function(event) {
-	    startTime = new Date().getTime(); 
-	    gbMove = false;
-	    alert('tap hold s event');
+		startTime = new Date().getTime();
+		gbMove = false;
+		alert('tap hold s event');
 	}, false);
 
 	window.addEventListener('touchmove',function(event) {
@@ -29,11 +29,12 @@
 	}, false);
 
 	window.addEventListener('touchend',function(event) {
-	    endTime = new Date().getTime();
-	    if(!gbMove && (endTime-startTime)/1000 > 2)
-	        alert('tap hold event');      
+		endTime = new Date().getTime();
+		if(!gbMove && (endTime-startTime)/1000 > 2){
+			alert('tap hold event');
+		}
 	}, false);
-	
+*/
 	$.widget("ui.contextmenu", {
 		version: "0.0.1",
 		options: {
@@ -52,9 +53,10 @@
 			select: $.noop      // menu option was selected; return `false` to prevent closing
 		},
 		_create: function () {
-			var self = this;
+//			var self = this;
 			this.element.delegate(this.options.delegate, "contextmenu.contextmenu", $.proxy(this._openMenu, this));
 			// emulate a 'taphold' event
+/*
 			var tapStartHandler = function(event){
 				console.log("Event ", event.type, this.tapTimer);
 				tapClearHandler(event);
@@ -83,6 +85,7 @@
 				.delegate(this.options.delegate, "touchstart.contextmenu", $.proxy(tapStartHandler, this))
 				.delegate(this.options.delegate, "touchend.contextmenu", $.proxy(tapEndHandler, this))
 				.delegate(this.options.delegate, "touchmove.contextmenu", $.proxy(tapClearHandler, this));
+*/
 //			this.element.delegate(this.options.delegate, "touchstart.contextmenu", $.proxy(function(event, ui){
 //				var self = this;
 //				console.log("Event ", event.type, this.tapTimer);
@@ -125,7 +128,9 @@
 		_openMenu: function(event){
 			var self = this,
 				$menu = this._getMenu(),
-				openEvent = event;
+				openEvent = event,
+				// if called by 'open' method, 'relatedTarget' is the requested target object
+				target = openEvent.relatedTarget ? openEvent.relatedTarget : openEvent;
 			// Prevent browser from opening the system context menu
 			event.preventDefault();
 			// Also pass the target that the menu was triggered on as 'relatedTarget'.
@@ -176,7 +181,7 @@
 				}).position({
 					my: "left top",
 					at: "left bottom",
-					of: event,
+					of: target,
 					collision: "fit"
 				}).hide()
 				.slideDown("fast", function(){
@@ -206,6 +211,8 @@
 		 */
 		open: function(target){
 			var e = jQuery.Event("contextmenu", {target: target.get(0)});
+			// pass the requested targe piggyback with the event
+			e.relatedTarget = target;
 			return this.element.trigger(e);
 		}
 	});
