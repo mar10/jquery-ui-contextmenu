@@ -14,13 +14,33 @@
 		$menu = $(menu);
 		return $menu.data("ui-menu") || $menu.data("menu");
 	}
+
+	var startTime, endTime;
+	var gbMove = false;
+
+	window.addEventListener('touchstart',function(event) {
+	    startTime = new Date().getTime(); 
+	    gbMove = false;
+	    alert('tap hold s event');
+	}, false);
+
+	window.addEventListener('touchmove',function(event) {
+	  gbMove = true;
+	}, false);
+
+	window.addEventListener('touchend',function(event) {
+	    endTime = new Date().getTime();
+	    if(!gbMove && (endTime-startTime)/1000 > 2)
+	        alert('tap hold event');      
+	}, false);
+	
 	$.widget("ui.contextmenu", {
 		version: "0.0.1",
 		options: {
 			delegate: "[data-menu]",  // selector
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
 			menu: null,      // selector or jQuery or a function returning such
-			taphold: 2000, // open menu after 2000 ms long touch
+			taphold: 800, // open menu after 2000 ms long touch
 			// Events:
 			beforeOpen: $.noop, // menu about to open; return `false` to prevent opening
 			blur: $.noop,       // menu option lost focus
@@ -32,32 +52,59 @@
 			select: $.noop      // menu option was selected; return `false` to prevent closing
 		},
 		_create: function () {
+			var self = this;
 			this.element.delegate(this.options.delegate, "contextmenu.contextmenu", $.proxy(this._openMenu, this));
 			// emulate a 'taphold' event
-			/*
-			this.element.delegate(this.options.delegate, "mousedown.contextmenu", $.proxy(function(event, ui){
-				var self = this;
-				console.log("Event ", event.type, this.timer);
-				if(this.timer){
-					console.log(" clear " + this.timer);
-					clearTimeout(this.timer);
-					this.timer = null;
-				}
-				this.timer = setTimeout(function(){
-					console.log("Timeout ", event.type, self.timer);
-					self.open.call(self, $(event.target));
-					self.timer = null;
+			var tapStartHandler = function(event){
+				console.log("Event ", event.type, this.tapTimer);
+				tapClearHandler(event);
+				this.tapTimer = setTimeout(function(){
+					console.log("Timeout ", event.type, this.tapTimer, event.target);
+					alert("Timeout " + event.type + this.tapTimer + " " + $(event.target).text());
+					this.open.call(this, $(event.target));
+					this.tapTimer = null;
 				}, this.options.taphold);
-				console.log("Event started ", event.type, this.timer);
-			}, this));
-			this.element.delegate(this.options.delegate, "mouseup.contextmenu", $.proxy(function(){
-				if(this.timer){
-					console.log("Event ", event.type, "clear" + this.timer);
-					clearTimeout(this.timer);
-					this.timer = null;
+				console.log("Event started ", event.type, this.tapTimer);
+			};
+			var tapClearHandler = function(event){
+				if(this.tapTimer){
+					console.log("clear " + this.tapTimer);
+					clearTimeout(this.tapTimer);
+					this.tapTimer = null;
 				}
-			}, this));
-			*/
+			};
+			var tapEndHandler = function(event){
+				if(this.tapTimer){
+					tapClearHandler(event);
+					return false;
+				}
+			};
+			this.element
+				.delegate(this.options.delegate, "touchstart.contextmenu", $.proxy(tapStartHandler, this))
+				.delegate(this.options.delegate, "touchend.contextmenu", $.proxy(tapEndHandler, this))
+				.delegate(this.options.delegate, "touchmove.contextmenu", $.proxy(tapClearHandler, this));
+//			this.element.delegate(this.options.delegate, "touchstart.contextmenu", $.proxy(function(event, ui){
+//				var self = this;
+//				console.log("Event ", event.type, this.tapTimer);
+//				if(this.tapTimer){
+//					console.log(" clear " + this.tapTimer);
+//					clearTimeout(this.tapTimer);
+//					this.tapTimer = null;
+//				}
+//				this.tapTimer = setTimeout(function(){
+//					console.log("Timeout ", event.type, self.tapTimer);
+//					self.open.call(self, $(event.target));
+//					self.tapTimer = null;
+//				}, this.options.taphold);
+//				console.log("Event started ", event.type, this.tapTimer);
+//			}, this));
+//			this.element.delegate(this.options.delegate, "touchend.contextmenu", $.proxy(function(){
+//				if(this.tapTimer){
+//					console.log("Event ", event.type, "clear" + this.tapTimer);
+//					clearTimeout(this.tapTimer);
+//					this.tapTimer = null;
+//				}
+//			}, this));
 			this._trigger("init");
 		},
 		/** Return menu jQuery object. */
@@ -140,9 +187,9 @@
 		_closeMenu: function(){
 			var self = this,
 				$menu = this._getMenu();
-			if(this.timer){
-				clearTimeout(this.timer);
-				this.timer = null;
+			if(this.tapTimer){
+				clearTimeout(this.tapTimer);
+				this.tapTimer = null;
 			}
 			$menu.fadeOut(function() {
 				self._trigger("close");
