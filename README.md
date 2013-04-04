@@ -9,12 +9,12 @@ A jQuery plugin that provides a context menu (based on the standard [jQueryUI me
 
 
 ## Status
-Beta: *not* ready for production.
+Beta. Please report issues.
 
 
 ## Demo
 
-[Live demo page](http://mar10.github.com/jquery-contextmenu/sample-widget.html)
+[Live demo page](http://mar10.github.com/jquery-contextmenu/demo/sample-widget.html)
 
 
 ## Example
@@ -97,6 +97,11 @@ structure (see [jQueryUI menu] for details):
 
 ### Methods
 <dl>
+<dt>close()</dt>
+<dd>
+    Close context menu if open.<br>
+    Call like <code>$(...).contextmenu("close");</code>.
+</dd>
 <dt>open(target)</dt>
 <dd>
     Open context menu on a specific target (target must match the options.delegate filter).<br>

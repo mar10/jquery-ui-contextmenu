@@ -24,7 +24,8 @@ module.exports = function (grunt) {
 			},
 			build: {
 				src: "jquery.contextmenu.js",
-				dest: "build/jquery.contextmenu-<%= pkg.version %>.min.js"
+//                dest: "build/jquery.contextmenu-<%= pkg.version %>.min.js"
+                dest: "jquery.contextmenu.min.js"
 			}
 		}
 	});
@@ -33,6 +34,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-contrib-qunit");
 
-	grunt.registerTask("default", ["jshint", "qunit"]);
-	grunt.registerTask("ci", ["default"]);
+    grunt.registerTask("ci", ["jshint", "qunit"]);
+	grunt.registerTask("default", ["jshint", "qunit", "uglify"]);
 };

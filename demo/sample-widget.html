@@ -7,23 +7,26 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js" type="text/javascript"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.js" type="text/javascript"></script>
 
-	<script src="jquery.contextmenu.js" type="text/javascript"></script>
+	<script src="../jquery.contextmenu.js" type="text/javascript"></script>
 
 <style type="text/css">
 body{
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
-	font-size: 62.5%;
+    font-size: .8em;
 }
 .hasmenu{
-	border: 1px solid #008;
-	margin: 3px;
-	padding: 2px;
-	width: 30px;
+    border: 1px solid #008;
+    margin: 3px;
+    padding: 2px;
+    width: 30px;
+}
+.ui-widget{
+    font-size: .8em;
 }
 .ui-menu {
 	width: 120px;
 }
-/**/
+/* Define a custom icon */
 .ui-icon.custom-icon-firefox {
     background-image: url(application_firefox.gif);
 	background-position: 0 0;
@@ -59,6 +62,9 @@ $(function(){
 	$("#triggerPopup").click(function(){
 		// Trigger popup menu on the first target element
 		$("#container").contextmenu("open", $(".hasmenu:first"));
+		setTimeout(function(){
+	        $("#container").contextmenu("close");
+		}, 2000);
 	});
 });
 </script>
@@ -87,7 +93,7 @@ $(function(){
 			</ul>
 	</ul>
 
-	<p>Open context menu using <code>$("#container").contextmenu("open", $(".hasmenu:first"))</code>:</p>
+	<p>Open context menu using <code>$("#container").contextmenu("open", $(".hasmenu:first"))</code> and close after 2 sec.:</p>
 	<button id="triggerPopup">Trigger popup</button>
 </body>
 </html>

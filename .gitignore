@@ -1,6 +1,4 @@
 /.settings
 /.project
-<<<<<<< HEAD
 /node_modules
-=======
->>>>>>> branch 'master' of https://github.com/mar10/jquery-contextmenu.git
+.DS_Store
