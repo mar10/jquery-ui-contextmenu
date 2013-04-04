@@ -130,7 +130,6 @@
 				$menu = this._getMenu(),
 				openEvent = event,
 				// if called by 'open' method, 'relatedTarget' is the requested target object
-//				target = openEvent.relatedTarget ? openEvent.relatedTarget : openEvent;
 				parentTarget = openEvent.target ? openEvent.target : openEvent;
 			// Prevent browser from opening the system context menu
 			event.preventDefault();
@@ -154,11 +153,13 @@
 					select: function(event, ui){
 						// Also pass the target that the menu was triggered on:
 						event.relatedTarget = openEvent.target;
+						// ignore clicks, if they only open a sub-menu
 						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
 						if( !isParent || !self.options.ignoreParentSelect){
 							if( self._trigger.call(self, "select", event, ui) !== false ){
 								self._closeMenu.call(self);
 							}
+							event.preventDefault();
 						}
 					}
 				});
@@ -212,8 +213,6 @@
 		 */
 		open: function(target){
 			var e = jQuery.Event("contextmenu", {target: target.get(0)});
-			// pass the requested targe piggyback with the event
-//			e.relatedTarget = target;
 			return this.element.trigger(e);
 		}
 	});
