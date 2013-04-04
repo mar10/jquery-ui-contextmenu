@@ -110,7 +110,7 @@
 //			}, this));
 			this._trigger("init");
 		},
-		/** Return menu jQuery object. */
+		/** Return ui-menu root element as jQuery object. */
 		_getMenu: function(){
 			// this.options.menu may be a string, jQuery or a function returning that.
 			var $menu = this.options.menu;
@@ -119,7 +119,7 @@
 			}
 			return (typeof $menu === "string") ? $($menu) : $menu;
 		},
-		/** Return menu widget instance (works on pre and post jQueryUI 1.9). */
+		/** Return ui-menu widget instance (works on pre and post jQueryUI 1.9). */
 		_getMenuWidget: function(){
 			var $menu = this._getMenu();
 			return $menu.data("ui-menu") || $menu.data("menu");
@@ -130,7 +130,8 @@
 				$menu = this._getMenu(),
 				openEvent = event,
 				// if called by 'open' method, 'relatedTarget' is the requested target object
-				target = openEvent.relatedTarget ? openEvent.relatedTarget : openEvent;
+//				target = openEvent.relatedTarget ? openEvent.relatedTarget : openEvent;
+				parentTarget = openEvent.target ? openEvent.target : openEvent;
 			// Prevent browser from opening the system context menu
 			event.preventDefault();
 			// Also pass the target that the menu was triggered on as 'relatedTarget'.
@@ -181,7 +182,7 @@
 				}).position({
 					my: "left top",
 					at: "left bottom",
-					of: target,
+					of: parentTarget,
 					collision: "fit"
 				}).hide()
 				.slideDown("fast", function(){
@@ -212,7 +213,7 @@
 		open: function(target){
 			var e = jQuery.Event("contextmenu", {target: target.get(0)});
 			// pass the requested targe piggyback with the event
-			e.relatedTarget = target;
+//			e.relatedTarget = target;
 			return this.element.trigger(e);
 		}
 	});
