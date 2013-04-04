@@ -36,7 +36,7 @@
 	}, false);
 */
 	$.widget("ui.contextmenu", {
-		version: "0.0.1",
+		version: "0.1.0",
 		options: {
 			delegate: "[data-menu]",  // selector
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
@@ -208,12 +208,18 @@
 		_setOption: function(key, value){
 			$.Widget.prototype._setOption.apply(this, arguments);
 		},
-		/**
-		 * Open context menu on a specific target (must match options.delegate)
-		 */
-		open: function(target){
-			var e = jQuery.Event("contextmenu", {target: target.get(0)});
-			return this.element.trigger(e);
-		}
+        /**
+         * Open context menu on a specific target (must match options.delegate)
+         */
+        open: function(target){
+            var e = jQuery.Event("contextmenu", {target: target.get(0)});
+            return this.element.trigger(e);
+        },
+        /**
+         * Close context menu.
+         */
+        close: function(){
+            return this._closeMenu.call(this);
+        }
 	});
 } (jQuery));
