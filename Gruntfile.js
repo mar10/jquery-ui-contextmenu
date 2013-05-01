@@ -6,6 +6,12 @@ module.exports = function (grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON("package.json"),
+        exec: {
+            tabfix: {
+                // convert 4-spaces to tabs (requires https://github.com/mar10/tabfix)
+                cmd: "tabfix -t -r -m*.js,*.css,*.html src demo test"
+            }
+        },
 		qunit: {
 			all: ["test/index.html"]
 		},
@@ -38,7 +44,9 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-contrib-qunit");
+    grunt.loadNpmTasks("grunt-exec");
 
     grunt.registerTask("ci", ["jshint", "qunit"]);
 	grunt.registerTask("default", ["jshint", "qunit", "uglify"]);
+    grunt.registerTask("build", ["exec:tabfix", "default"]);
 };
