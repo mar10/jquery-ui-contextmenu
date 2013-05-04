@@ -9,11 +9,11 @@
  */
 
 (function ($) {
-	function getMenuFromEvent(event){
-		var menu = $(event.target).closest(":ui-menu"),
-		$menu = $(menu);
-		return $menu.data("ui-menu") || $menu.data("menu");
-	}
+//	function getMenuFromEvent(event){
+//		var menu = $(event.target).closest(":ui-menu"),
+//		$menu = $(menu);
+//		return $menu.data("ui-menu") || $menu.data("menu");
+//	}
 /*
 	var startTime, endTime;
 	var gbMove = false;

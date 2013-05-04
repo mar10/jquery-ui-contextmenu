@@ -8,8 +8,13 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON("package.json"),
         exec: {
             tabfix: {
-                // convert 4-spaces to tabs (requires https://github.com/mar10/tabfix)
+                // Cleanup whitespace according to http://contribute.jquery.org/style-guide/js/
+                // (requires https://github.com/mar10/tabfix)
                 cmd: "tabfix -t -r -m*.js,*.css,*.html src demo test"
+            },
+            upload: {
+                // FTP upload the demo files (requires https://github.com/mar10/pyftpsync)
+                cmd: "pyftpsync upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --omit dist,node_modules,.*,_* -x"
             }
         },
 		qunit: {
@@ -48,5 +53,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask("ci", ["jshint", "qunit"]);
 	grunt.registerTask("default", ["jshint", "qunit", "uglify"]);
+    grunt.registerTask("upload", [//"build",
+                                  "exec:upload"]);
     grunt.registerTask("build", ["exec:tabfix", "default"]);
 };
