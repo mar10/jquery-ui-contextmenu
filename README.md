@@ -2,19 +2,20 @@
 
 A jQuery plugin that provides a context menu (based on the standard [jQueryUI menu] widget).
 
-  * themable
-  * supports delegation (i.e. can be bound to elements that don't exist at the
-    time the context menu is initialized)
-  * exposes events from [jQueryUI menu]: `blur`, `create`, `focus`, `select`
+  * Themable using [jQuery ThemeRoller](http://jqueryui.com/themeroller/).
+  * Supports delegation (i.e. can be bound to elements that don't exist at the
+    time the context menu is initialized).
+  * Exposes events from [jQueryUI menu]: `blur`, `create`, `focus`, `select`.
 
 
 ## Status
+
 Beta. Please report issues.
 
 
 ## Demo
 
-[Live demo page](http://mar10.github.com/jquery-contextmenu/demo/sample-widget.html)
+[Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/)
 
 
 ## Example

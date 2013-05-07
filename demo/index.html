@@ -12,23 +12,23 @@
 <style type="text/css">
 body{
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
-    font-size: .8em;
+	font-size: .8em;
 }
 .hasmenu{
-    border: 1px solid #008;
-    margin: 3px;
-    padding: 2px;
-    width: 30px;
+	border: 1px solid #008;
+	margin: 3px;
+	padding: 2px;
+	width: 30px;
 }
 .ui-widget{
-    font-size: .8em;
+	font-size: .8em;
 }
 .ui-menu {
 	width: 120px;
 }
 /* Define a custom icon */
 .ui-icon.custom-icon-firefox {
-    background-image: url(application_firefox.gif);
+	background-image: url(application_firefox.gif);
 	background-position: 0 0;
 }
 </style>
@@ -63,7 +63,7 @@ $(function(){
 		// Trigger popup menu on the first target element
 		$("#container").contextmenu("open", $(".hasmenu:first"));
 		setTimeout(function(){
-	        $("#container").contextmenu("close");
+			$("#container").contextmenu("close");
 		}, 2000);
 	});
 });
