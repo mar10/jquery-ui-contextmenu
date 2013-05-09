@@ -14,7 +14,7 @@ body{
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 	font-size: .8em;
 }
-.hasmenu{
+.hasmenu, .hasmenu2 {
 	border: 1px solid #008;
 	margin: 3px;
 	padding: 2px;
@@ -36,8 +36,30 @@ body{
 <!-- Add code to initialize the tree when the document is loaded: -->
 <script type="text/javascript">
 $(function(){
-	$("#container").contextmenu({
+
+	/* Init menu by passing an array of entries. */
+
+	$(document).contextmenu({
 		delegate: ".hasmenu",
+		menu: [
+			{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
+			{title: "Paste", cmd: "paste", disabled: true },
+			{title: "----"},
+			{title: "More", children: [
+				{title: "Sub 1", cmd: "sub1"},
+				{title: "Sub 2", cmd: "sub1"}
+				]}
+			],
+		select: function(event, ui) {
+			var menuId = ui.item.find(">a").attr("href");
+			alert("select " + menuId + " on " + $(event.relatedTarget).text());
+		}
+	});
+
+	/* Init menu by passing an <ul> element. */
+
+	$("#container").contextmenu({
+		delegate: ".hasmenu2",
 //		ignoreParentSelect: false,
 		menu: "#options",
 		focus: function(event, ui) {
@@ -59,11 +81,13 @@ $(function(){
 		}
 	});
 
+	/* Open an existing menu without clicking */
+
 	$("#triggerPopup").click(function(){
 		// Trigger popup menu on the first target element
-		$("#container").contextmenu("open", $(".hasmenu:first"));
+		$(document).contextmenu("open", $(".hasmenu:first"));
 		setTimeout(function(){
-			$("#container").contextmenu("close");
+			$(document).contextmenu("close");
 		}, 2000);
 	});
 });
@@ -74,11 +98,19 @@ $(function(){
 	<h1>jquery.contextmenu.js</h1>
 
 	<p><a href="https://github.com/mar10/jquery-contextmenu">View project on GitHub</a></p>
-	<p>Right-click in an element to open the context menu:</p>
+
+	<p>Right-click in an element to open the context menu (initialized by command-array):</p>
+	<div>
+		<span class="hasmenu">AAA</span>
+		<span class="hasmenu">BBB</span>
+		<span class="hasmenu">CCC</span>
+	</div>
+
+	<p>Right-click in an element to open the context menu (initialized by hidden &lt;ul> element):</p>
 	<div id="container">
-		<div class="hasmenu">AAA</div>
-		<div class="hasmenu">BBB</div>
-		<div class="hasmenu">CCC</div>
+		<span class="hasmenu2">AAA</span>
+		<span class="hasmenu2">BBB</span>
+		<span class="hasmenu2">CCC</span>
 	</div>
 
 	<ul id="options" class="ui-helper-hidden">

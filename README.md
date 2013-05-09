@@ -30,27 +30,37 @@ Say we have some HTML elements that we want to attach a popup menu to:
 </div>
 ```
 
-
 now we can enable a contextmenu like so:
- 
+
+```js
+$(document).contextmenu({
+	delegate: ".hasmenu",
+	menu: [
+		{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
+		{title: "Paste", cmd: "paste", disabled: true },
+		{title: "----"},
+		{title: "More", children: [
+			{title: "Sub 1", cmd: "sub1"},
+			{title: "Sub 2", cmd: "sub1"}
+			]}
+		],
+	select: function(event, ui) {
+		var menuId = ui.item.find(">a").attr("href");
+		alert("select " + menuId + " on " + $(event.relatedTarget).text());
+	}
+});
+```
+
+
+### Initialize menu from an existing `<ul>` element
+
 ```js
 $("#container").contextmenu({
     delegate: ".hasmenu",
     menu: "#options",
     select: function(event, ui) {
-        var menuId = ui.item.find(">a").attr("href"),
-            target = event.relatedTarget;
-        alert("select " + menuId + " on " + $(target).text());
+    	...
     }
-});
-```
-
-To apply the selector globally, pass `document` as context:
-
-```js
-$(document).contextmenu({
-    delegate: ".hasmenu",
-    [...]
 });
 ```
 
