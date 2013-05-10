@@ -251,10 +251,10 @@ $.extend($.ui.contextmenu, {
 			if(menu.title.match(/^---/)){
 				$li.text(menu.title);
 			}else{
-				$a = $li.append($("<a>", {
+				$a = $("<a>", {
 					text: "" + menu.title,
 					href: "#" + (menu.cmd || "")
-				}));
+				}).appendTo($li);
 				if(menu.uiIcon){
 					$a.append($("<span class='ui-icon'>").addClass(menu.uiIcon));
 				}

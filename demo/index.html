@@ -42,8 +42,9 @@ $(function(){
 	$(document).contextmenu({
 		delegate: ".hasmenu",
 		menu: [
+			{title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors"},
 			{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
-			{title: "Paste", cmd: "paste", disabled: true },
+			{title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
 			{title: "----"},
 			{title: "More", children: [
 				{title: "Sub 1", cmd: "sub1"},
