@@ -1,5 +1,5 @@
 {
-  "name": "jquery-ui-contextmenu",
+  "name": "ui-contextmenu",
   "title": "jQuery context menu plugin",
   "description": "jQuery UI plugin that turns a jQuery UI menu widget into a context menu.",
   "version": "0.2.0",
