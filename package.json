@@ -1,24 +1,24 @@
 {
-  "name": "jquery.contextmenu",
+  "name": "jquery.ui-contextmenu",
   "title": "jQuery context menu plugin",
   "description": "jQuery plugin that turns a jQueryUI menu widget into a context menu.",
   "version": "0.1.0",
-  "homepage": "https://github.com/mar10/contextmenu",
+  "homepage": "https://github.com/mar10/jquery-ui-contextmenu",
   "author": {
 	"name": "Martin Wendt",
 	"url": "http://wwwendt.de/"
   },
   "repository": {
 	"type": "svn",
-	"url": "https://github.com/mar10/contextmenu"
+	"url": "https://github.com/mar10/jquery-ui-contextmenu"
   },
   "bugs": {
-	"url": "https://github.com/mar10/contextmenu/issues"
+	"url": "https://github.com/mar10/jquery-ui-contextmenu/issues"
   },
   "licenses": [
 	{
 	  "type": "MIT",
-	  "url": "https://github.com/mar10/jquery-contextmenu/blob/master/MIT-LICENSE.txt"
+	  "url": "https://github.com/mar10/jquery-ui-contextmenu/blob/master/MIT-LICENSE.txt"
 	}
   ],
   "dependencies": {

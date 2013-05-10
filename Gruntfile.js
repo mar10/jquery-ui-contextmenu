@@ -23,7 +23,7 @@ module.exports = function (grunt) {
 		jshint: {
 			files: [
 				"Gruntfile.js",
-				"jquery.contextmenu.js"
+				"jquery.ui-contextmenu.js"
 			],
 			options: {
 				jshintrc: ".jshintrc"
@@ -38,9 +38,9 @@ module.exports = function (grunt) {
 				" Licensed <%= _.pluck(pkg.licenses, 'type').join(', ') %> */\n"
 			},
 			build: {
-				src: "jquery.contextmenu.js",
-//                dest: "build/jquery.contextmenu-<%= pkg.version %>.min.js"
-				dest: "jquery.contextmenu.min.js"
+				src: "jquery.ui-contextmenu.js",
+//                dest: "build/jquery.ui-contextmenu-<%= pkg.version %>.min.js"
+				dest: "jquery.ui-contextmenu.min.js"
 			}
 		},
 		connect: {

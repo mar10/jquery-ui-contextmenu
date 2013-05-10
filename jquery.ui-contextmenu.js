@@ -1,9 +1,9 @@
 /*******************************************************************************
- * jquery.contextmenu.js plugin.
+ * jquery.ui-contextmenu.js plugin.
  *
  * jQuery plugin that provides a context menu (based on the jQueryUI menu widget).
  *
- * @see https://github.com/mar10/jquery-contextmenu
+ * @see https://github.com/mar10/jquery-ui-contextmenu
  *
  * Copyright (c) 2013, Martin Wendt (http://wwWendt.de). Licensed MIT.
  */
