@@ -6,14 +6,20 @@
   "homepage": "https://github.com/mar10/jquery-ui-contextmenu",
   "author": {
 	"name": "Martin Wendt",
-	"url": "http://wwwendt.de/"
+    "url": "http://careers.stackoverflow.com/martin-wendt"
   },
   "repository": {
 	"type": "git",
 	"url": "https://github.com/mar10/jquery-ui-contextmenu"
   },
+  "demo": {
+    "url": "http://wwwendt.de/tech/demo/jquery-contextmenu/demo/"
+  },
+  "docs": {
+    "url": "https://github.com/mar10/jquery-ui-contextmenu/blob/master/README.md"
+  },
   "bugs": {
-	"url": "https://github.com/mar10/jquery-ui-contextmenu/issues"
+    "url": "https://github.com/mar10/jquery-ui-contextmenu/issues"
   },
   "licenses": [
 	{
@@ -22,8 +28,8 @@
 	}
   ],
   "dependencies": {
-	"jquery": "~1.8",
-	"jqueryui": "~1.9"
+	"jquery": "<=1.8",
+	"jqueryui": "<=1.9"
   },
   "keywords": ["context menu", "contetxtmenu", "menu", "jquery ui menu", "popup", "right-click"],
   "scripts": {
