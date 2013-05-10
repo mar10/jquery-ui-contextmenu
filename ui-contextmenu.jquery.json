@@ -1,7 +1,7 @@
 {
   "name": "ui-contextmenu",
-  "title": "jQuery context menu plugin",
-  "description": "jQuery UI plugin that turns a jQuery UI menu widget into a context menu.",
+  "title": "jQuery UI context menu plugin",
+  "description": "jQuery UI plugin that turns a jQuery UI Menu widget into a context menu.",
   "version": "0.2.0",
   "homepage": "https://github.com/mar10/jquery-ui-contextmenu",
   "author": {
@@ -22,10 +22,10 @@
 	}
   ],
   "dependencies": {
-    "jquery": "~1.8",
-    "jqueryui": "~1.9"
+	"jquery": "~1.8",
+	"jqueryui": "~1.9"
   },
-  "keywords": [],
+  "keywords": ["context menu", "contetxtmenu", "menu", "jquery ui menu", "popup", "right-click"],
   "scripts": {
 	"test": "grunt ci --verbose"
   }
