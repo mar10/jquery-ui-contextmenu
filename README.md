@@ -15,7 +15,7 @@ Beta. Please report issues.
 
 ## Demo
 
-[Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/)
+[Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/).
 
 
 ## Example
