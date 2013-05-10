@@ -36,7 +36,7 @@
 	}, false);
 */
 	$.widget("ui.contextmenu", {
-		version: "0.1.0",
+		version: "0.2.0",
 		options: {
 			delegate: "[data-menu]",  // selector
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
@@ -53,7 +53,11 @@
 			select: $.noop      // menu option was selected; return `false` to prevent closing
 		},
 		_create: function () {
-//			var self = this;
+			var opts = this.options;
+			if($.isArray(opts.menu)){
+				this.orgMenu = opts.menu;
+				opts.menu = $.ui.contextmenu.createMenuMarkup(opts.menu);
+			}
 			this.element.delegate(this.options.delegate, "contextmenu.contextmenu", $.proxy(this._openMenu, this));
 			// emulate a 'taphold' event
 /*
@@ -109,6 +113,21 @@
 //				}
 //			}, this));
 			this._trigger("init");
+		},
+		/**
+		 *
+		 */
+		_destroy: function(key, value){
+			if(this.orgMenu){
+				this.options.menu.remove();
+				this.options.menu = this.orgMenu;
+			}
+		},
+		/**
+		 * Handle $().contextmenu("option", ...) calls.
+		 */
+		_setOption: function(key, value){
+			$.Widget.prototype._setOption.apply(this, arguments);
 		},
 		/** Return ui-menu root element as jQuery object. */
 		_getMenu: function(){
@@ -203,12 +222,6 @@
 			});
 		},
 		/**
-		 * Handle $().contextmenu("option", ...) calls.
-		 */
-		_setOption: function(key, value){
-			$.Widget.prototype._setOption.apply(this, arguments);
-		},
-		/**
 		 * Open context menu on a specific target (must match options.delegate)
 		 */
 		open: function(target){
@@ -222,4 +235,40 @@
 			return this._closeMenu.call(this);
 		}
 	});
+
+
+$.extend($.ui.contextmenu, {
+	/** Convert a nested array of command objects into a <ul> structure. */
+	createMenuMarkup: function(options, $parentUl){
+		var i, menu, $ul, $li, $a;
+		if( $parentUl == null ){
+			$parentUl = $("<ul class='ui-helper-hidden'>").appendTo("body");
+		}
+		for(i = 0; i < options.length; i++){
+			menu = options[i];
+			$li = $("<li>").appendTo($parentUl);
+
+			if(menu.title.match(/^---/)){
+				$li.text(menu.title);
+			}else{
+				$a = $("<a>", {
+					text: "" + menu.title,
+					href: "#" + (menu.cmd || "")
+				}).appendTo($li);
+				if(menu.uiIcon){
+					$a.append($("<span class='ui-icon'>").addClass(menu.uiIcon));
+				}
+				if(menu.disabled){
+					$a.addClass("ui-state-disabled");
+				}
+			}
+			if( $.isArray(menu.children) ){
+				$ul = $("<ul>").appendTo($li);
+				$.ui.contextmenu.createMenuMarkup(menu.children, $ul);
+			}
+		}
+		return $parentUl;
+	}
+});
+
 } (jQuery));

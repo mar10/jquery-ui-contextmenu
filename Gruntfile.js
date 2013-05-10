@@ -10,7 +10,7 @@ module.exports = function (grunt) {
 			tabfix: {
 				// Cleanup whitespace according to http://contribute.jquery.org/style-guide/js/
 				// (requires https://github.com/mar10/tabfix)
-				cmd: "tabfix -t -r -m *.js,*.css,*.html,*json,*.yaml -i node_modules ."
+				cmd: "tabfix -t --line=UNIX -r -m *.js,*.css,*.html,*json,*.yaml -i node_modules ."
 			},
 			upload: {
 				// FTP upload the demo files (requires https://github.com/mar10/pyftpsync)
@@ -59,6 +59,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-qunit");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.loadNpmTasks("grunt-contrib-connect");
 	grunt.loadNpmTasks("grunt-exec");
 
 	// The 'ci' task is run on travis
@@ -72,4 +73,5 @@ module.exports = function (grunt) {
 								 "uglify"]);
 	grunt.registerTask("upload", ["build",
 								  "exec:upload"]);
+	grunt.registerTask("server", ["connect:demo"]);
 };
