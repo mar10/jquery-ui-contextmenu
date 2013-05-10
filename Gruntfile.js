@@ -43,22 +43,33 @@ module.exports = function (grunt) {
 //                dest: "build/jquery.contextmenu-<%= pkg.version %>.min.js"
 				dest: "jquery.contextmenu.min.js"
 			}
+		},
+		connect: {
+			demo: {
+				options: {
+					port: 8080,
+					base: "demo/",
+					keepalive: true
+				}
+			}
 		}
 	});
 
+	grunt.loadNpmTasks("grunt-contrib-connect");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
-	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-contrib-qunit");
+	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-exec");
 
 	// The 'ci' task is run on travis
-	grunt.registerTask("ci", ["jshint",
-							  "qunit"]);
-	grunt.registerTask("default", ["jshint",
-								   "qunit",
-								   "uglify"]);
+	grunt.registerTask("server", ["connect:demo"]);
+	grunt.registerTask("test", ["jshint",
+								"qunit"]);
+	grunt.registerTask("ci", ["test"]);
+	grunt.registerTask("default", ["test"]);
 	grunt.registerTask("build", ["exec:tabfix",
-								 "default"]);
+								 "test",
+								 "uglify"]);
 	grunt.registerTask("upload", ["build",
 								  "exec:upload"]);
 };
