@@ -31,7 +31,6 @@ module.exports = function (grunt) {
 		},
 		uglify: {
 			options: {
-//				banner: "/*! <%= pkg.name %> v<%= pkg.version %> | <%= pkg.license %> */\n"
 				banner: "/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - " +
 				"<%= grunt.template.today('yyyy-mm-dd') %> | " +
 				"<%= pkg.homepage ? ' ' + pkg.homepage + ' | ' : '' %>" +
