@@ -22,11 +22,8 @@
 	}
   ],
   "dependencies": {
-	"jquery": "<=1.8",
-	"jqueryui": "<=1.9"
+	"jquery": ">=1.7",
+	"jqueryui": ">=1.9"
   },
-  "keywords": ["context-menu", "contetxtmenu", "menu", "jquery-ui-menu", "popup", "right-click"],
-  "scripts": {
-	"test": "grunt ci --verbose"
-  }
+  "keywords": ["context-menu", "contetxtmenu", "menu", "jquery-ui-menu", "popup", "right-click"]
 }
