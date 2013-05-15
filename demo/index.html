@@ -17,37 +17,46 @@
 	<script src="../jquery.ui-contextmenu.js" type="text/javascript"></script>
 
 <style type="text/css">
+
+/* Some styling */
+
 body{
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 	font-size: .8em;
 }
+
 .hasmenu, .hasmenu2 {
 	border: 1px solid #008;
 	margin: 3px;
 	padding: 2px;
 	width: 30px;
 }
+
 .ui-widget{
 	font-size: .8em;
 }
 .ui-menu {
 	width: 120px;
 }
+
 /* Define a custom icon */
+
 .ui-icon.custom-icon-firefox {
 	background-image: url(application_firefox.gif);
 	background-position: 0 0;
 }
 </style>
 
-<!-- Add code to initialize the tree when the document is loaded: -->
+
 <script type="text/javascript">
 $(function(){
 
-	/* Init menu by passing an array of entries. */
+	/* Menu 1: init by passing an array of entries. */
 
 	$(document).contextmenu({
 		delegate: ".hasmenu",
+		preventSelect: true,
+		taphold: true,
 		menu: [
 			{title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors"},
 			{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
@@ -61,15 +70,19 @@ $(function(){
 		select: function(event, ui) {
 			var menuId = ui.item.find(">a").attr("href");
 			alert("select " + menuId + " on " + $(event.relatedTarget).text());
+		},
+		beforeOpen: function(event) {
+//          alert("beforeopen on " + $(event.relatedTarget).text());
 		}
 	});
 
-	/* Init menu by passing an <ul> element. */
+	/* Menu 1: init menu by passing an <ul> element. */
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu2",
-//		ignoreParentSelect: false,
 		menu: "#options",
+		preventSelect: true,
+		taphold: true,
 		focus: function(event, ui) {
 			var menuId = ui.item.find(">a").attr("href");
 			$("#info").text("focus " + menuId);
@@ -89,7 +102,7 @@ $(function(){
 		}
 	});
 
-	/* Open an existing menu without clicking */
+	/* Open and close an existing menu without programatically. */
 
 	$("#triggerPopup").click(function(){
 		// Trigger popup menu on the first target element
@@ -106,6 +119,16 @@ $(function(){
 	<h1>jquery.contextmenu.js</h1>
 
 	<p><a href="https://github.com/mar10/jquery-contextmenu">View project on GitHub</a></p>
+	
+	Not-so-obvious features:
+	<ul>
+		<li>`preventSelect: true` prevents accidential selection of the menu
+			targets (i.e. 'AAA') when double-clicking or dragging the mouse.
+		<li>`taphold: true` enables long-press to open the menu (useful on 
+			tablet computers).
+		<li>Ctrl+Click or two-finger-click on the touchpad also works (MacBook).
+		<li>The menu is modified in the `beforeOpen` event.
+	</ul>
 
 	<p>Right-click in an element to open the context menu (initialized by command-array):</p>
 	<div>

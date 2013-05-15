@@ -14,37 +14,59 @@
 //		$menu = $(menu);
 //		return $menu.data("ui-menu") || $menu.data("menu");
 //	}
-	var NS = ".contextmenu";
+	var NS = ".contextmenu",
+		supportSelectstart = "onselectstart" in document.createElement("div");
 
 	$.widget("ui.contextmenu", {
 		version: "0.3.0",
 		options: {
 			delegate: "[data-menu]",  // selector
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
-			menu: null,         // selector or jQuery or a function returning such
-			taphold: true,      // open menu on taphold events (requires external plugins)
+			menu: null,           // selector or jQuery or a function returning such
+			preventSelect: false, // disable text selection of target
+			taphold: false,       // open menu on taphold events (requires external plugins)
 			// Events:
-			beforeOpen: $.noop, // menu about to open; return `false` to prevent opening
-			blur: $.noop,       // menu option lost focus
-			close: $.noop,      // menu was closed
-			create: $.noop,     // menu was initialized
-			focus: $.noop,      // menu option got focus
-			init: $.noop,       // ui-contextmenu was initialized
-			open: $.noop,       // menu was opened
-			select: $.noop      // menu option was selected; return `false` to prevent closing
+			beforeOpen: $.noop,   // menu about to open; return `false` to prevent opening
+			blur: $.noop,         // menu option lost focus
+			close: $.noop,        // menu was closed
+			create: $.noop,       // menu was initialized
+			focus: $.noop,        // menu option got focus
+			init: $.noop,         // ui-contextmenu was initialized
+			open: $.noop,         // menu was opened
+			select: $.noop        // menu option was selected; return `false` to prevent closing
 		},
 		_create: function () {
 			var opts = this.options,
-				eventNames = "contextmenu" + NS;
+				eventNames = "contextmenu" + NS,
+				targetId = this.element.uniqueId().attr("id");
+
 			if(opts.taphold){
 				eventNames += " taphold" + NS;
+			}
+			if(opts.preventSelect){
+				// Create a global style for all potential menu targets
+				this.$headStyle = $("<style>")
+					.prop("type", "text/css")
+					.html("#" + targetId + " " + opts.delegate + " {" +
+						"-webkit-user-select: none;" +
+						"-khtml-user-select: none;" +
+						"-moz-user-select: none;" +
+						"-ms-user-select: none;" +
+						"user-select: none;" +
+						"}")
+					.appendTo("head");
+				// TODO: the selectstart is not supported by FF?
+				if(supportSelectstart){
+					this.element.delegate(opts.delegate, "selectstart" + NS, function(event){
+						event.preventDefault();
+					});
+				}
 			}
 			if($.isArray(opts.menu)){
 				this.orgMenu = opts.menu;
 				opts.menu = $.ui.contextmenu.createMenuMarkup(opts.menu);
 			}
-
-			this.element.delegate(this.options.delegate, eventNames, $.proxy(this._openMenu, this));
+			this.element.delegate(opts.delegate, eventNames, $.proxy(this._openMenu, this));
 			// emulate a 'taphold' event
 			this._trigger("init");
 		},
@@ -52,9 +74,14 @@
 		 *
 		 */
 		_destroy: function(key, value){
+			if(this.$headStyle){
+				this.$headStyle.remove();
+				this.$headStyle = null;
+			}
 			if(this.orgMenu){
 				this.options.menu.remove();
 				this.options.menu = this.orgMenu;
+				this.orgMenu = null;
 			}
 		},
 		/**
@@ -73,10 +100,10 @@
 			return (typeof $menu === "string") ? $($menu) : $menu;
 		},
 		/** Return ui-menu widget instance (works on pre and post jQueryUI 1.9). */
-		_getMenuWidget: function(){
-			var $menu = this._getMenu();
-			return $menu.data("ui-menu") || $menu.data("menu");
-		},
+//		_getMenuWidget: function(){
+//			var $menu = this._getMenu();
+//			return $menu.data("ui-menu") || $menu.data("menu");
+//		},
 		/** Open dropdown. */
 		_openMenu: function(event){
 			var self = this,

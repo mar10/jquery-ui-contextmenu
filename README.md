@@ -6,6 +6,7 @@ A jQuery plugin that provides a context menu (based on the standard [jQueryUI me
   * Supports delegation (i.e. can be bound to elements that don't exist at the
     time the context menu is initialized).
   * Exposes events from [jQueryUI menu]: `blur`, `create`, `focus`, `select`.
+  * Optional support for touch devices.
 
 
 ## Status
@@ -30,10 +31,10 @@ Say we have some HTML elements that we want to attach a popup menu to:
 </div>
 ```
 
-now we can enable a contextmenu like so:
+now we can enable a context menu like so:
 
 ```js
-$(document).contextmenu({
+$("#container").contextmenu({
 	delegate: ".hasmenu",
 	menu: [
 		{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
@@ -51,11 +52,21 @@ $(document).contextmenu({
 });
 ```
 
+To attach menus to *all* elements on the page that have `class="hasmenu"`,
+we use `document` as context:
+```js
+$(document).contextmenu({
+    delegate: ".hasmenu",
+    ...
+});
+```
 
 ### Initialize menu from an existing `<ul>` element
 
+In this case `menu` must point to the markup:
+
 ```js
-$("#container").contextmenu({
+$(document).contextmenu({
     delegate: ".hasmenu",
     menu: "#options",
     select: function(event, ui) {
@@ -64,19 +75,18 @@ $("#container").contextmenu({
 });
 ```
 
-Of course we also have to provide some HTML markup that defines the context menu 
+We also have to provide some HTML markup that defines the context menu 
 structure (see [jQueryUI menu] for details):
 
 ```html
 <ul id="options" class="ui-helper-hidden">
-    <li><a href="#action1">Action 1</a>
-    <li><a href="#action2">Action 2</a>
-    <li class="ui-state-disabled"><a href="#action3">Action 3</a>
+    <li><a href="#copy"><span class="ui-icon ui-icon-copy"></span>Copy</a>
+    <li class="ui-state-disabled"><a href="#paste">Paste</a>
     <li>----
-    <li><a>Extra</a>
+    <li><a>More</a>
         <ul>
-            <li><a href="#action4">sub4</a>
-            <li><a href="#action5">sub5</a>
+            <li><a href="#sub1">Sub 1</a>
+            <li><a href="#sub2">Sub 2</a>
         </ul>
 </ul>
 ```
@@ -93,16 +103,34 @@ structure (see [jQueryUI menu] for details):
 <dt>ignoreParentSelect</dt>
 <dd>
     Type: <code>Boolean</code>, default: <code>true</code><br>
-    If <code>true</code>, a click on a menu item that contains a sub-menu, will <em>not</em>
-    trigger the <code>select</code> event.
+    If <code>true</code>, a click on a menu item that contains a sub-menu, will 
+    <em>not</em> trigger the <code>select</code> event.
 </dd>
 <dt>menu</dt>
 <dd>
-    Type: <code>String | jQuery | function</code><br>
-    jQuery object or selector (or function returning such) of HTML markup that defines the context menu
-    structure (see [jQueryUI menu] for details).
-</dd>
+    Type: <code>Object[] | String | jQuery | function</code><br>
+    jQuery object or selector (or function returning such) of HTML markup that 
+    defines the context menu structure (see 
+    <a href="http://jqueryui.com/menu/">jQueryUI menu</a> for details).
 
+    If an array of objects is passed, it will be interpreted used to generate
+    such markup on the fly.
+
+    If a function is passed, it must return one of the formats described above.
+</dd>
+<dt>preventSelect</dt>
+<dd>
+    Type: <code>Boolean</code>, default: <code>false</code><br>
+    Prevent accidental text selection of potential menu targets on doubleclick 
+    or drag.
+</dd>
+<dt>taphold</dt>
+<dd>
+    Type: <code>Boolean</code>, default: <code>false</code><br>
+    Open menu on <a href="http://api.jquerymobile.com/taphold/">taphold events</a>, 
+    which is especially useful for touch devices (but may require external 
+    plugins to generate <code>taphold</code> events).
+</dd>
 </dl>
 
 
