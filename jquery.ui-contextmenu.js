@@ -35,10 +35,17 @@
 			open: $.noop,         // menu was opened
 			select: $.noop        // menu option was selected; return `false` to prevent closing
 		},
+		/**
+		 *
+		 */
 		_create: function () {
 			var opts = this.options,
 				eventNames = "contextmenu" + NS,
 				targetId = this.element.uniqueId().attr("id");
+
+			this.$headStyle = null;
+			this.orgMenu = null;
+			this.currentTarget = null;
 
 			if(opts.taphold){
 				eventNames += " taphold" + NS;
@@ -47,12 +54,12 @@
 				// Create a global style for all potential menu targets
 				this.$headStyle = $("<style>")
 					.prop("type", "text/css")
-					.html("#" + targetId + " " + opts.delegate + " {" +
-						"-webkit-user-select: none;" +
-						"-khtml-user-select: none;" +
-						"-moz-user-select: none;" +
-						"-ms-user-select: none;" +
-						"user-select: none;" +
+					.html("#" + targetId + " " + opts.delegate + " { " +
+						"-webkit-user-select: none; " +
+						"-khtml-user-select: none; " +
+						"-moz-user-select: none; " +
+						"-ms-user-select: none; " +
+						"user-select: none; " +
 						"}")
 					.appendTo("head");
 				// TODO: the selectstart is not supported by FF?
@@ -66,6 +73,28 @@
 				this.orgMenu = opts.menu;
 				opts.menu = $.ui.contextmenu.createMenuMarkup(opts.menu);
 			}
+			// Create - but hide - context-menu
+			this._getMenu()
+				.hide()
+				.addClass("ui-contextmenu")
+				// Create a menu instance that delegates events to our widget
+				.menu({
+					blur: $.proxy(this.options.blur, this),
+					create: $.proxy(this.options.create, this),
+					focus: $.proxy(this.options.focus, this),
+					select: $.proxy(function(event, ui){
+						// Also pass the target that the menu was triggered on:
+						event.relatedTarget = this.currentTarget;
+						// ignore clicks, if they only open a sub-menu
+						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
+						if( !isParent || !this.options.ignoreParentSelect){
+							if( this._trigger.call(this, "select", event, ui) !== false ){
+								this._closeMenu.call(this);
+							}
+							event.preventDefault();
+						}
+					}, this)
+				});
 			this.element.delegate(opts.delegate, eventNames, $.proxy(this._openMenu, this));
 			// emulate a 'taphold' event
 			this._trigger("init");
@@ -110,39 +139,44 @@
 				$menu = this._getMenu(),
 				openEvent = event,
 				// if called by 'open' method, 'relatedTarget' is the requested target object
-				parentTarget = openEvent.target ? openEvent.target : openEvent;
+				parentTarget = openEvent.target ? openEvent.target : openEvent,
+				ui = {menu: $menu};
+			this.currentTarget = openEvent.target;
 			// Prevent browser from opening the system context menu
 			event.preventDefault();
 			// Also pass the target that the menu was triggered on as 'relatedTarget'.
 			// This is required because our _trigger() calls will create events
 			// that refer to the contextmenu's context (which is the target *container*)
-			event.relatedTarget = openEvent.target;
+			event.relatedTarget = this.currentTarget;
 
-			if( this._trigger("beforeOpen", event) === false ){
+			if( this._trigger("beforeOpen", event, ui) === false ){
 				return false;
 			}
+
+			// TODO: $menu.refresh() if menu was modified
+
 			// Create - but hide - context-menu
-			$menu
-				.hide()
-				.addClass("ui-contextmenu")
-				// Create a menu instance that delegates events to our widget
-				.menu({
-					blur: $.proxy(this.options.blur, this),
-					create: $.proxy(this.options.create, this),
-					focus: $.proxy(this.options.focus, this),
-					select: function(event, ui){
-						// Also pass the target that the menu was triggered on:
-						event.relatedTarget = openEvent.target;
-						// ignore clicks, if they only open a sub-menu
-						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
-						if( !isParent || !self.options.ignoreParentSelect){
-							if( self._trigger.call(self, "select", event, ui) !== false ){
-								self._closeMenu.call(self);
-							}
-							event.preventDefault();
-						}
-					}
-				});
+//			$menu
+//				.hide()
+//				.addClass("ui-contextmenu")
+//				// Create a menu instance that delegates events to our widget
+//				.menu({
+//					blur: $.proxy(this.options.blur, this),
+//					create: $.proxy(this.options.create, this),
+//					focus: $.proxy(this.options.focus, this),
+//					select: function(event, ui){
+//						// Also pass the target that the menu was triggered on:
+//						event.relatedTarget = openEvent.target;
+//						// ignore clicks, if they only open a sub-menu
+//						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
+//						if( !isParent || !self.options.ignoreParentSelect){
+//							if( self._trigger.call(self, "select", event, ui) !== false ){
+//								self._closeMenu.call(self);
+//							}
+//							event.preventDefault();
+//						}
+//					}
+//				});
 			// Register global event handlers that close the dropdown-menu
 			$(document).bind("keydown" + NS, function(event){
 				if( event.which === $.ui.keyCode.ESCAPE ){
@@ -174,27 +208,31 @@
 		_closeMenu: function(){
 			var self = this,
 				$menu = this._getMenu();
-			if(this.tapTimer){
-				clearTimeout(this.tapTimer);
-				this.tapTimer = null;
-			}
 			$menu.fadeOut(function() {
 				self._trigger("close");
+				this.currentTarget = null;
 			});
+			$(document)
+				.unbind("mousedown" + NS)
+				.unbind("touchstart" + NS)
+				.unbind("keydown" + NS);
 		},
 		/**
 		 * Open context menu on a specific target (must match options.delegate)
 		 */
 		open: function(target){
-			// Fake a contextmenu event
+			// Fake a 'contextmenu' event
 			var e = jQuery.Event("contextmenu", {target: target.get(0)});
 			return this.element.trigger(e);
 		},
-		/**
-		 * Close context menu.
-		 */
+		/** Close context menu. */
 		close: function(){
 			return this._closeMenu.call(this);
+		},
+		/** Enable or disable the menu command. */
+		enableEntry: function(cmd, flag){
+			var $entry = this.element.find("a[href=#" + cmd + "]");
+			$entry.toggleClass("ui-status-disabled", (flag === false));
 		}
 	});
 

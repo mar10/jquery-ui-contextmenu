@@ -71,8 +71,13 @@ $(function(){
 			var menuId = ui.item.find(">a").attr("href");
 			alert("select " + menuId + " on " + $(event.relatedTarget).text());
 		},
-		beforeOpen: function(event) {
-//          alert("beforeopen on " + $(event.relatedTarget).text());
+		beforeOpen: function(event, ui) {
+			var $menu = ui.menu,
+				target = event.relatedTarget;
+			console.log("beforeOpen", this, event, ui);
+			$menu.append($("<li>").text("hurz"));
+			$menu.contextmenu("enableEntry", "cut", false);
+			// optionally return false, to prevent opening the menu now
 		}
 	});
 
@@ -119,12 +124,12 @@ $(function(){
 	<h1>jquery.contextmenu.js</h1>
 
 	<p><a href="https://github.com/mar10/jquery-contextmenu">View project on GitHub</a></p>
-	
+
 	Not-so-obvious features:
 	<ul>
 		<li>`preventSelect: true` prevents accidential selection of the menu
 			targets (i.e. 'AAA') when double-clicking or dragging the mouse.
-		<li>`taphold: true` enables long-press to open the menu (useful on 
+		<li>`taphold: true` enables long-press to open the menu (useful on
 			tablet computers).
 		<li>Ctrl+Click or two-finger-click on the touchpad also works (MacBook).
 		<li>The menu is modified in the `beforeOpen` event.
