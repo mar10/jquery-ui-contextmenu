@@ -76,7 +76,8 @@ $(function(){
 				target = event.relatedTarget;
 			console.log("beforeOpen", this, event, ui);
 			$menu.append($("<li>").text("hurz"));
-			$menu.contextmenu("enableEntry", "cut", false);
+			$(document).contextmenu("enableEntry", "cut", false);
+			$(document).contextmenu("showEntry", "paste", false);
 			// optionally return false, to prevent opening the menu now
 		}
 	});

@@ -232,7 +232,12 @@
 		/** Enable or disable the menu command. */
 		enableEntry: function(cmd, flag){
 			var $entry = this.element.find("a[href=#" + cmd + "]");
-			$entry.toggleClass("ui-status-disabled", (flag === false));
+			$entry.toggleClass("ui-state-disabled", (flag === false));
+		},
+		/** Show or hide the menu command. */
+		showEntry: function(cmd, flag){
+			var $entry = this.element.find("a[href=#" + cmd + "]");
+			$entry.toggle(flag !== false);
 		}
 	});
 
