@@ -1,9 +1,12 @@
 {
 	"name": "ui-contextmenu",
-	"title": "jQuery UI context menu plugin",
-	"description": "Turns a jQuery UI Menu widget into a context menu.",
 	"version": "0.3.0",
-	"homepage": "https://github.com/mar10/jquery-ui-contextmenu",
+
+	"title": "jQuery UI context menu plugin",
+	"description": "Turn a jQuery UI Menu widget into a context menu.",
+	"keywords": ["context-menu", "contetxtmenu", "menu", "delegate",
+				 "jquery-ui-menu", "popup", "right-click"],
+
 	"author": {
 		"name": "Martin Wendt",
 		"email": "jquery@wwwendt.de",
@@ -13,6 +16,7 @@
 		"type": "git",
 		"url": "https://github.com/mar10/jquery-ui-contextmenu"
 	},
+	"homepage": "https://github.com/mar10/jquery-ui-contextmenu",
 	"demo": "http://wwwendt.de/tech/demo/jquery-contextmenu/demo/",
 	"docs": "https://github.com/mar10/jquery-ui-contextmenu/blob/master/README.md",
 	"bugs": "https://github.com/mar10/jquery-ui-contextmenu/issues",
@@ -25,7 +29,5 @@
 	"dependencies": {
 		"jquery": ">=1.7",
 		"jqueryui": ">=1.9"
-	},
-	"keywords": ["context-menu", "contetxtmenu", "menu", "delegate",
-				 "jquery-ui-menu", "popup", "right-click"]
+	}
 }

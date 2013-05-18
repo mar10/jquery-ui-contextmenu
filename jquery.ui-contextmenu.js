@@ -41,9 +41,7 @@
 			open: $.noop,         // menu was opened
 			select: $.noop        // menu option was selected; return `false` to prevent closing
 		},
-		/**
-		 *
-		 */
+		/** Contrutcor */
 		_create: function () {
 			var opts = this.options,
 				eventNames = "contextmenu" + NS,
@@ -75,11 +73,13 @@
 					});
 				}
 			}
+			// If a menu definition array was passed, create a hidden <ul>
+			// and generate the structure now
 			if($.isArray(opts.menu)){
 				this.orgMenu = opts.menu;
 				opts.menu = $.ui.contextmenu.createMenuMarkup(opts.menu);
 			}
-			// Create - but hide - context-menu
+			// Create - but hide - the jQuery UI Menu
 			this._getMenu()
 				.hide()
 				.addClass("ui-contextmenu")
@@ -105,41 +105,20 @@
 			// emulate a 'taphold' event
 			this._trigger("init");
 		},
-		/**
-		 *
-		 */
+		/** Destructor, called on $().contextmenu("destroy"). */
 		_destroy: function(key, value){
 			if(this.$headStyle){
 				this.$headStyle.remove();
 				this.$headStyle = null;
 			}
+			// Remove temporary <ul> if any
 			if(this.orgMenu){
 				this.options.menu.remove();
 				this.options.menu = this.orgMenu;
 				this.orgMenu = null;
 			}
 		},
-		/**
-		 * Handle $().contextmenu("option", ...) calls.
-		 */
-		_setOption: function(key, value){
-			$.Widget.prototype._setOption.apply(this, arguments);
-		},
-		/** Return ui-menu root element as jQuery object. */
-		_getMenu: function(){
-			// this.options.menu may be a string, jQuery or a function returning that.
-			var $menu = this.options.menu;
-			if( $.isFunction($menu) ){
-				$menu = $menu();
-			}
-			return (typeof $menu === "string") ? $($menu) : $menu;
-		},
-		/** Return ui-menu widget instance (works on pre and post jQueryUI 1.9). */
-//		_getMenuWidget: function(){
-//			var $menu = this._getMenu();
-//			return $menu.data("ui-menu") || $menu.data("menu");
-//		},
-		/** Open dropdown. */
+		/** Open popup (called on 'contextmenu' event). */
 		_openMenu: function(event){
 			var self = this,
 				$menu = this._getMenu(),
@@ -169,6 +148,7 @@
 					self._closeMenu();
 				}
 			});
+			// Finally display the popup
 			$menu
 				.show() // required to fix positioning error (issue #3)
 				.css({
@@ -185,7 +165,7 @@
 					self._trigger.call(self, "open", event);
 				});
 		},
-		/** Close dropdown. */
+		/** Close popup. */
 		_closeMenu: function(){
 			var self = this,
 				$menu = this._getMenu();
@@ -198,9 +178,28 @@
 				.unbind("touchstart" + NS)
 				.unbind("keydown" + NS);
 		},
-		/**
-		 * Open context menu on a specific target (must match options.delegate)
-		 */
+		/** Handle $().contextmenu("option", key, value) calls. */
+		_setOption: function(key, value){
+//          var opts = this.options,
+//              $menu = this._getMenu();
+
+			switch(key){
+			case "menu":
+				this.replaceMenu(value);
+				break;
+			}
+			$.Widget.prototype._setOption.apply(this, arguments);
+		},
+		/** Return ui-menu root element as jQuery object. */
+		_getMenu: function(){
+			// this.options.menu may be a string, jQuery or a function returning that.
+			var $menu = this.options.menu;
+//            if( $.isFunction($menu) ){
+//                $menu = $menu();
+//            }
+			return (typeof $menu === "string") ? $($menu) : $menu;
+		},
+		/** Open context menu on a specific target (must match options.delegate) */
 		open: function(target){
 			// Fake a 'contextmenu' event
 			var e = jQuery.Event("contextmenu", {target: target.get(0)});
@@ -212,13 +211,35 @@
 		},
 		/** Enable or disable the menu command. */
 		enableEntry: function(cmd, flag){
+			// TODO: should be $menu.find(...)!
 			var $entry = this.element.find("a[href=#" + normCommand(cmd) + "]");
 			$entry.toggleClass("ui-state-disabled", (flag === false));
 		},
 		/** Redefine the whole menu. */
-		replaceMenu: function(menu){
-			// TODO: $menu.refresh() if menu was modified
-			$.error("not implemented");
+		replaceMenu: function(data){
+//			return this.element.contextmenu("option", "menu", menu);
+			var opts = this.options,
+				$menu = this._getMenu();
+
+			if($.isArray(data)){
+				if(this.orgMenu){
+					// re-use existing temporary <ul>
+					$menu.empty();
+					$.ui.contextmenu.createMenuMarkup(data, opts.menu);
+					$menu.menu("refresh");
+				}else{
+					$.error("not implemented");
+//                    this.orgMenu = opts.menu;
+//                    opts.menu = $.ui.contextmenu.createMenuMarkup(data);
+				}
+			}else{
+//                if(this.orgMenu){
+//                    // re-use existing temporary <ul>
+//                }else{
+//                }
+//                $menu.menu("option", "menu", opts.menu);
+				$.error("not implemented");
+			}
 		},
 		/** Redefine menu entry (title or all of it). */
 		setEntry: function(cmd, titleOrData){
@@ -245,7 +266,9 @@
 		}
 	});
 
-
+/*
+ * Global functions
+ */
 $.extend($.ui.contextmenu, {
 	/** Convert a menu description into a into a <li> content. */
 	createEntryMarkup: function(entry, $parentLi){

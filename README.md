@@ -2,6 +2,8 @@
 
 A jQuery plugin that provides a context menu (based on the standard [jQueryUI menu] widget).
 
+  * Define menus from `<ul>` element or definition list (i.e. 
+    `[{title: "Paste", cmd: "paste"}, ...]`).
   * Themable using [jQuery ThemeRoller](http://jqueryui.com/themeroller/).
   * Supports delegation (i.e. can be bound to elements that don't exist at the
     time the context menu is initialized).
@@ -141,10 +143,31 @@ structure (see [jQueryUI menu] for details):
     Close context menu if open.<br>
     Call like <code>$(...).contextmenu("close");</code>.
 </dd>
+<dt>enableEntry(cmd, flag)</dt>
+<dd>
+    Enable or disable the entry. `flag` defaults to `true`<br>
+    Call like <code>$(...).contextmenu("enableEntry", "paste", false);</code>.
+</dd>
 <dt>open(target)</dt>
 <dd>
     Open context menu on a specific target (target must match the options.delegate filter).<br>
     Call like <code>$(...).contextmenu("open", target);</code>.
+</dd>
+<dt>replaceMenu(menu)</dt>
+<dd>
+    Replace the whole menu definition.<br>
+    Call like <code>$(...).contextmenu("replaceMenu", "#menu2");</code>.
+</dd>
+<dt>setEntry(cmd, data)</dt>
+<dd>
+    Redefine menu entry (title or all of it).<br>
+    `data` may be a title string or a menu definition object.<br>
+    Call like <code>$(...).contextmenu("setEntry", "paste", "Paste link");</code>.
+</dd>
+<dt>showEntry(cmd, flag)</dt>
+<dd>
+    Show or hide the entry. `flag` defaults to `true`<br>
+    Call like <code>$(...).contextmenu("showEntry", "paste", false);</code>.
 </dd>
 </dl>
 
@@ -179,7 +202,9 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 <dt>beforeOpen(event)</dt>
 <dd>
     Triggered just before the popup menu is opened.<br>
-    Return <code>false</code> to prevent opening.
+    Return <code>false</code> to prevent opening.<br>
+    This is also a good place to modify the menu (i.e. hiding, disabling, or
+    renaming entries, or replace the menu altogether).
 </dd>
 <dt>blur(event, ui)</dt>
 <dd>
