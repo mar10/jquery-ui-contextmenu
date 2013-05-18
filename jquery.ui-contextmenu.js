@@ -17,6 +17,12 @@
 	var NS = ".contextmenu",
 		supportSelectstart = "onselectstart" in document.createElement("div");
 
+	/** Return command without leading '#' (default to ""). */
+	function normCommand(cmd){
+		return (cmd && cmd.match(/^#/)) ? cmd.substring(1) : (cmd || "");
+	}
+
+
 	$.widget("ui.contextmenu", {
 		version: "0.3.0",
 		options: {
@@ -152,31 +158,6 @@
 			if( this._trigger("beforeOpen", event, ui) === false ){
 				return false;
 			}
-
-			// TODO: $menu.refresh() if menu was modified
-
-			// Create - but hide - context-menu
-//			$menu
-//				.hide()
-//				.addClass("ui-contextmenu")
-//				// Create a menu instance that delegates events to our widget
-//				.menu({
-//					blur: $.proxy(this.options.blur, this),
-//					create: $.proxy(this.options.create, this),
-//					focus: $.proxy(this.options.focus, this),
-//					select: function(event, ui){
-//						// Also pass the target that the menu was triggered on:
-//						event.relatedTarget = openEvent.target;
-//						// ignore clicks, if they only open a sub-menu
-//						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
-//						if( !isParent || !self.options.ignoreParentSelect){
-//							if( self._trigger.call(self, "select", event, ui) !== false ){
-//								self._closeMenu.call(self);
-//							}
-//							event.preventDefault();
-//						}
-//					}
-//				});
 			// Register global event handlers that close the dropdown-menu
 			$(document).bind("keydown" + NS, function(event){
 				if( event.which === $.ui.keyCode.ESCAPE ){
@@ -231,21 +212,64 @@
 		},
 		/** Enable or disable the menu command. */
 		enableEntry: function(cmd, flag){
-			var $entry = this.element.find("a[href=#" + cmd + "]");
+			var $entry = this.element.find("a[href=#" + normCommand(cmd) + "]");
 			$entry.toggleClass("ui-state-disabled", (flag === false));
+		},
+		/** Redefine the whole menu. */
+		replaceMenu: function(menu){
+			// TODO: $menu.refresh() if menu was modified
+			$.error("not implemented");
+		},
+		/** Redefine menu entry (title or all of it). */
+		setEntry: function(cmd, titleOrData){
+			var $parent,
+				$entry = this.element.find("a[href=#" + normCommand(cmd) + "]");
+
+			if(typeof titleOrData === "string"){
+				// Replace <a> text without removing <span> child
+				$entry
+					.contents()
+					.filter(function(){ return this.nodeType === 3; })
+					.first()
+					.replaceWith(titleOrData);
+			}else{
+				$parent = $entry.closest("li");
+				$parent.empty();
+				$.ui.contextmenu.createEntryMarkup(titleOrData, $parent);
+			}
 		},
 		/** Show or hide the menu command. */
 		showEntry: function(cmd, flag){
-			var $entry = this.element.find("a[href=#" + cmd + "]");
+			var $entry = this.element.find("a[href=#" + normCommand(cmd) + "]");
 			$entry.toggle(flag !== false);
 		}
 	});
 
 
 $.extend($.ui.contextmenu, {
+	/** Convert a menu description into a into a <li> content. */
+	createEntryMarkup: function(entry, $parentLi){
+		var $a = null;
+
+		if(entry.title.match(/^---/)){
+			$parentLi.text(entry.title);
+		}else{
+			$a = $("<a>", {
+				text: "" + entry.title,
+				href: "#" + normCommand(entry.cmd)
+			}).appendTo($parentLi);
+			if(entry.uiIcon){
+				$a.append($("<span class='ui-icon'>").addClass(entry.uiIcon));
+			}
+			if(entry.disabled){
+				$a.addClass("ui-state-disabled");
+			}
+		}
+		return $a;
+	},
 	/** Convert a nested array of command objects into a <ul> structure. */
 	createMenuMarkup: function(options, $parentUl){
-		var i, menu, $ul, $li, $a;
+		var i, menu, $ul, $li;
 		if( $parentUl == null ){
 			$parentUl = $("<ul class='ui-helper-hidden'>").appendTo("body");
 		}
@@ -253,20 +277,8 @@ $.extend($.ui.contextmenu, {
 			menu = options[i];
 			$li = $("<li>").appendTo($parentUl);
 
-			if(menu.title.match(/^---/)){
-				$li.text(menu.title);
-			}else{
-				$a = $("<a>", {
-					text: "" + menu.title,
-					href: "#" + (menu.cmd || "")
-				}).appendTo($li);
-				if(menu.uiIcon){
-					$a.append($("<span class='ui-icon'>").addClass(menu.uiIcon));
-				}
-				if(menu.disabled){
-					$a.addClass("ui-state-disabled");
-				}
-			}
+			$.ui.contextmenu.createEntryMarkup(menu, $li);
+
 			if( $.isArray(menu.children) ){
 				$ul = $("<ul>").appendTo($li);
 				$.ui.contextmenu.createMenuMarkup(menu.children, $ul);

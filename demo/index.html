@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-	<title>jquery.contextmenu.js - Demo</title>
+	<title>jquery.ui-contextmenu.js - Demo</title>
 	<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
 	<!-- min requirements:
 	<script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
@@ -49,8 +49,8 @@ body{
 
 
 <script type="text/javascript">
+var CLIPBOARD = "";
 $(function(){
-
 	/* Menu 1: init by passing an array of entries. */
 
 	$(document).contextmenu({
@@ -68,16 +68,28 @@ $(function(){
 				]}
 			],
 		select: function(event, ui) {
-			var menuId = ui.item.find(">a").attr("href");
+			var menuId = ui.item.find(">a").attr("href"),
+				$target = $(event.relatedTarget);
+			switch(menuId){
+			case "#copy":
+				CLIPBOARD = $target.text();
+				break
+			case "#paste":
+				CLIPBOARD = "";
+				break
+			}
 			alert("select " + menuId + " on " + $(event.relatedTarget).text());
 		},
 		beforeOpen: function(event, ui) {
 			var $menu = ui.menu,
-				target = event.relatedTarget;
-			console.log("beforeOpen", this, event, ui);
-			$menu.append($("<li>").text("hurz"));
-			$(document).contextmenu("enableEntry", "cut", false);
-			$(document).contextmenu("showEntry", "paste", false);
+				$target = $(event.relatedTarget);
+			console.log("beforeOpen", this, event, ui, "" + CLIPBOARD);
+			$(document)
+//				.contextmenu("setEntry", "cut", {title: "cuty", uiIcon: "ui-icon-heart", disabled: true})
+				.contextmenu("setEntry", "copy", "Copy '" + $target.text() + "'")
+				.contextmenu("setEntry", "paste", "Paste" + (CLIPBOARD ? " '" + CLIPBOARD + "'" : ""))
+				.contextmenu("enableEntry", "paste", (CLIPBOARD !== ""));
+
 			// optionally return false, to prevent opening the menu now
 		}
 	});
@@ -122,9 +134,9 @@ $(function(){
 </head>
 
 <body class="example">
-	<h1>jquery.contextmenu.js</h1>
+	<h1>jquery.ui-contextmenu.js</h1>
 
-	<p><a href="https://github.com/mar10/jquery-contextmenu">View project on GitHub</a></p>
+	<p><a href="https://github.com/mar10/jquery-ui-contextmenu">View project on GitHub</a></p>
 
 	Not-so-obvious features:
 	<ul>
