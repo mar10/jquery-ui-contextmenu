@@ -8,6 +8,14 @@
  * Copyright (c) 2013, Martin Wendt (http://wwWendt.de). Licensed MIT.
  */
 
+/*
+ * TODO:
+ * - change namespace to 'moogle'
+ * - use _on / _off
+ * - move version to prototype
+ * - generally take more advantage off http://api.jqueryui.com/jQuery.widget/
+ * - open() programatically at a given positon
+ */
 (function ($) {
 //	function getMenuFromEvent(event){
 //		var menu = $(event.target).closest(":ui-menu"),
@@ -27,6 +35,8 @@
 		version: "0.3.0",
 		options: {
 			delegate: "[data-menu]",  // selector
+			hide: { effect: "fadeOut", duration: "fast"},
+			show: { effect: "slideDown", duration: "slow"},
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
 			menu: null,           // selector or jQuery or a function returning such
 			preventSelect: false, // disable text selection of target
@@ -41,7 +51,7 @@
 			open: $.noop,         // menu was opened
 			select: $.noop        // menu option was selected; return `false` to prevent closing
 		},
-		/** Contrutcor */
+		/** Construtcor */
 		_create: function () {
 			var opts = this.options,
 				eventNames = "contextmenu" + NS,
@@ -160,19 +170,22 @@
 					at: "left bottom",
 					of: parentTarget,
 					collision: "fit"
-				}).hide()
-				.slideDown("fast", function(){
-					self._trigger.call(self, "open", event);
-				});
+				}).hide();
+
+			this._show($menu, this.options.show, function(){
+				self._trigger.call(self, "open", event);
+			});
 		},
 		/** Close popup. */
 		_closeMenu: function(){
 			var self = this,
 				$menu = this._getMenu();
-			$menu.fadeOut(function() {
+
+			this._hide($menu, this.options.hide, function() {
 				self._trigger("close");
 				this.currentTarget = null;
 			});
+
 			$(document)
 				.unbind("mousedown" + NS)
 				.unbind("touchstart" + NS)
@@ -180,9 +193,6 @@
 		},
 		/** Handle $().contextmenu("option", key, value) calls. */
 		_setOption: function(key, value){
-//          var opts = this.options,
-//              $menu = this._getMenu();
-
 			switch(key){
 			case "menu":
 				this.replaceMenu(value);

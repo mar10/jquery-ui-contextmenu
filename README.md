@@ -102,6 +102,14 @@ structure (see [jQueryUI menu] for details):
     Type: <code>String</code><br>
     A selector to filter the elements that trigger the context menu.    
 </dd>
+<dt>hide</dt>
+<dd>
+    Type: <code> Boolean | Number | String | Object</code>, 
+    default: <code>{ effect: "fadeOut", duration: "fast"}</code><br>
+    Effect applied when hiding the popup.<br>
+    See <a href="http://api.jqueryui.com/jQuery.widget/#option-show">sample</a> 
+    for possible option values.
+</dd>
 <dt>ignoreParentSelect</dt>
 <dd>
     Type: <code>Boolean</code>, default: <code>true</code><br>
@@ -110,21 +118,27 @@ structure (see [jQueryUI menu] for details):
 </dd>
 <dt>menu</dt>
 <dd>
-    Type: <code>Object[] | String | jQuery | function</code><br>
-    jQuery object or selector (or function returning such) of HTML markup that 
+    Type: <code>Object[] | String | jQuery</code><br>
+    jQuery object or selector of HTML markup that 
     defines the context menu structure (see 
     <a href="http://jqueryui.com/menu/">jQueryUI menu</a> for details).
 
-    If an array of objects is passed, it will be interpreted used to generate
+    If an array of objects is passed, it will be used to generate
     such markup on the fly.
-
-    If a function is passed, it must return one of the formats described above.
 </dd>
 <dt>preventSelect</dt>
 <dd>
     Type: <code>Boolean</code>, default: <code>false</code><br>
     Prevent accidental text selection of potential menu targets on doubleclick 
     or drag.
+</dd>
+<dt>show</dt>
+<dd>
+    Type: <code> Boolean | Number | String | Object</code>, 
+    default: <code>{ effect: "slideDown", duration: "slow"}</code><br>
+    Effect applied when showing the popup.<br>
+    See <a href="http://api.jqueryui.com/jQuery.widget/#option-show">sample</a> 
+    for possible option values.
 </dd>
 <dt>taphold</dt>
 <dd>
@@ -156,7 +170,8 @@ structure (see [jQueryUI menu] for details):
 <dt>replaceMenu(menu)</dt>
 <dd>
     Replace the whole menu definition.<br>
-    Call like <code>$(...).contextmenu("replaceMenu", "#menu2");</code>.
+    Call like <code>$(...).contextmenu("replaceMenu", "#menu2");</code>.<br>
+    **TODO**: this is currently not implemented for &lt;ul> definition mode.
 </dd>
 <dt>setEntry(cmd, data)</dt>
 <dd>
