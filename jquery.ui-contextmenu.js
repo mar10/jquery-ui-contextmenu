@@ -254,8 +254,7 @@
 					.first()
 					.replaceWith(titleOrData);
 			}else{
-				$parent = $entry.closest("li");
-				$parent.empty();
+				$parent = $entry.closest("li").empty();
 				$.ui.contextmenu.createEntryMarkup(titleOrData, $parent);
 			}
 		},
@@ -285,7 +284,7 @@ $.extend($.ui.contextmenu, {
 				$a.append($("<span class='ui-icon'>").addClass(entry.uiIcon));
 			}
 			if(entry.disabled){
-				$a.addClass("ui-state-disabled");
+				$parentLi.addClass("ui-state-disabled");
 			}
 		}
 		return $a;
