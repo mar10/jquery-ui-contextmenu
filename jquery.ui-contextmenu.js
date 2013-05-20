@@ -11,17 +11,8 @@
 /*
  * TODO:
  * - change namespace to 'moogle'
- * - use _on / _off
- * - move version to prototype
- * - generally take more advantage off http://api.jqueryui.com/jQuery.widget/
- * - open() programatically at a given positon
  */
 (function ($) {
-//	function getMenuFromEvent(event){
-//		var menu = $(event.target).closest(":ui-menu"),
-//		$menu = $(menu);
-//		return $menu.data("ui-menu") || $menu.data("menu");
-//	}
 	var supportSelectstart = "onselectstart" in document.createElement("div");
 
 	/** Return command without leading '#' (default to ""). */
@@ -55,18 +46,18 @@
 			var eventNames, targetId,
 				opts = this.options;
 
-			console.log(this.element)
-			
+//			console.log(this.element)
+
 			this.$headStyle = null;
 			this.orgMenu = null;
 			this.currentTarget = null;
 			this.ns = "." + this.widgetName;
-			
+
 			if(opts.preventSelect){
 				// Create a global style for all potential menu targets
-			    // If the contextmenu was bound to `document`, we apply the
-			    // selector relative to the <body> tag instead
-			    targetId = ($(this.element).is(document) ? $("body") : this.element).uniqueId().attr("id");
+				// If the contextmenu was bound to `document`, we apply the
+				// selector relative to the <body> tag instead
+				targetId = ($(this.element).is(document) ? $("body") : this.element).uniqueId().attr("id");
 				this.$headStyle = $("<style class='ui-contextmenu-style'>")
 					.prop("type", "text/css")
 					.html("#" + targetId + " " + opts.delegate + " { " +
@@ -210,9 +201,6 @@
 		_getMenu: function(){
 			// this.options.menu may be a string, jQuery or a function returning that.
 			var $menu = this.options.menu;
-//            if( $.isFunction($menu) ){
-//                $menu = $menu();
-//            }
 			return (typeof $menu === "string") ? $($menu) : $menu;
 		},
 		/** Open context menu on a specific target (must match options.delegate) */
@@ -233,7 +221,6 @@
 		},
 		/** Redefine the whole menu. */
 		replaceMenu: function(data){
-//			return this.element.contextmenu("option", "menu", menu);
 			var opts = this.options,
 				$menu = this._getMenu();
 
@@ -270,8 +257,7 @@
 					.first()
 					.replaceWith(titleOrData);
 			}else{
-				$parent = $entry.closest("li");
-				$parent.empty();
+				$parent = $entry.closest("li").empty();
 				$.ui.contextmenu.createEntryMarkup(titleOrData, $parent);
 			}
 		},
@@ -301,7 +287,7 @@ $.extend($.ui.contextmenu, {
 				$a.append($("<span class='ui-icon'>").addClass(entry.uiIcon));
 			}
 			if(entry.disabled){
-				$a.addClass("ui-state-disabled");
+				$parentLi.addClass("ui-state-disabled");
 			}
 		}
 		return $a;
