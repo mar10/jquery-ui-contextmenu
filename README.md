@@ -15,6 +15,9 @@ A jQuery plugin that provides a context menu (based on the standard [jQueryUI me
 
 Beta. Please report issues.
 
+Latest release is available for download at 
+[The jQuery Plugin Registry](http://plugins.jquery.com/ui-contextmenu/).
+
 
 ## Demo
 

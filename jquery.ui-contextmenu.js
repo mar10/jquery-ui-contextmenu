@@ -22,7 +22,7 @@
 
 
 	$.widget("ui.contextmenu", {
-		version: "0.3.0",
+		version: "0.4.0",
 		options: {
 			delegate: "[data-menu]",  // selector
 			hide: { effect: "fadeOut", duration: "fast"},
