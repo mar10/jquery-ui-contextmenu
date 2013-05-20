@@ -23,12 +23,25 @@
 body{
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 	font-size: .8em;
+	/* Prevent tablets from selecting text on taphold, etc:
+	   Note: 
+	   If only the potential menu trigger elements should be protected, simply
+	   use the 'preventSelect: true' option.
+	   But we disable it more globally for table pcs, because the whole line
+	   or paragraph will still be selected otherwise. 
+
+	 */
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .hasmenu, .hasmenu2 {
 	border: 1px solid #008;
 	margin: 3px;
-	padding: 2px;
+	padding: 5px;
 	width: 30px;
 }
 

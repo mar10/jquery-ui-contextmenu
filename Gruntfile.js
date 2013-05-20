@@ -46,6 +46,7 @@ module.exports = function (grunt) {
 		connect: {
 			demo: {
 				options: {
+				    hostname: "*",  // make accessible from everywhere
 					port: 8080,
 					base: "./",
 					keepalive: true

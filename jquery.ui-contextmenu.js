@@ -22,8 +22,7 @@
 //		$menu = $(menu);
 //		return $menu.data("ui-menu") || $menu.data("menu");
 //	}
-	var NS = ".contextmenu",
-		supportSelectstart = "onselectstart" in document.createElement("div");
+	var supportSelectstart = "onselectstart" in document.createElement("div");
 
 	/** Return command without leading '#' (default to ""). */
 	function normCommand(cmd){
@@ -53,20 +52,22 @@
 		},
 		/** Construtcor */
 		_create: function () {
-			var opts = this.options,
-				eventNames = "contextmenu" + NS,
-				targetId = this.element.uniqueId().attr("id");
+			var eventNames, targetId,
+				opts = this.options;
 
+			console.log(this.element)
+			
 			this.$headStyle = null;
 			this.orgMenu = null;
 			this.currentTarget = null;
-
-			if(opts.taphold){
-				eventNames += " taphold" + NS;
-			}
+			this.ns = "." + this.widgetName;
+			
 			if(opts.preventSelect){
 				// Create a global style for all potential menu targets
-				this.$headStyle = $("<style>")
+			    // If the contextmenu was bound to `document`, we apply the
+			    // selector relative to the <body> tag instead
+			    targetId = ($(this.element).is(document) ? $("body") : this.element).uniqueId().attr("id");
+				this.$headStyle = $("<style class='ui-contextmenu-style'>")
 					.prop("type", "text/css")
 					.html("#" + targetId + " " + opts.delegate + " { " +
 						"-webkit-user-select: none; " +
@@ -78,7 +79,7 @@
 					.appendTo("head");
 				// TODO: the selectstart is not supported by FF?
 				if(supportSelectstart){
-					this.element.delegate(opts.delegate, "selectstart" + NS, function(event){
+					this.element.delegate(opts.delegate, "selectstart" + this.ns, function(event){
 						event.preventDefault();
 					});
 				}
@@ -111,8 +112,13 @@
 						}
 					}, this)
 				});
+
+			eventNames = "contextmenu" + this.ns;
+			if(opts.taphold){
+				eventNames += " taphold" + this.ns;
+			}
 			this.element.delegate(opts.delegate, eventNames, $.proxy(this._openMenu, this));
-			// emulate a 'taphold' event
+
 			this._trigger("init");
 		},
 		/** Destructor, called on $().contextmenu("destroy"). */
@@ -148,11 +154,11 @@
 				return false;
 			}
 			// Register global event handlers that close the dropdown-menu
-			$(document).bind("keydown" + NS, function(event){
+			$(document).bind("keydown" + this.ns, function(event){
 				if( event.which === $.ui.keyCode.ESCAPE ){
 					self._closeMenu();
 				}
-			}).bind("mousedown" + NS + " touchstart" + NS, function(event){
+			}).bind("mousedown" + this.ns + " touchstart" + this.ns, function(event){
 				// Close menu when clicked outside menu
 				if( !$(event.target).closest(".ui-menu-item").length ){
 					self._closeMenu();
@@ -187,9 +193,9 @@
 			});
 
 			$(document)
-				.unbind("mousedown" + NS)
-				.unbind("touchstart" + NS)
-				.unbind("keydown" + NS);
+				.unbind("mousedown" + this.ns)
+				.unbind("touchstart" + this.ns)
+				.unbind("keydown" + this.ns);
 		},
 		/** Handle $().contextmenu("option", key, value) calls. */
 		_setOption: function(key, value){
