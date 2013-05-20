@@ -4,8 +4,9 @@
 
 	"title": "jQuery UI context menu plugin",
 	"description": "Turn a jQuery UI Menu widget into a context menu.",
-	"keywords": ["context-menu", "contextmenu", "menu", "delegate",
-				 "jquery-ui-menu", "popup", "right-click"],
+	"keywords": ["context-menu", "contextmenu", "delegate", 
+				 "jquery-ui-menu", "menu", "navigation", "popup", 
+				 "right-click", "right-click-menu"],
 
 	"author": {
 		"name": "Martin Wendt",
