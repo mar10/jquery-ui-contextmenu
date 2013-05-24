@@ -22,11 +22,12 @@
 
 
 	$.widget("ui.contextmenu", {
-		version: "0.4.0",
+		version: "0.4.1",
 		options: {
 			delegate: "[data-menu]",  // selector
 			hide: { effect: "fadeOut", duration: "fast"},
 			show: { effect: "slideDown", duration: "slow"},
+			position: null, // specify positional preferences.
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
 			menu: null,           // selector or jQuery or a function returning such
 			preventSelect: false, // disable text selection of target
@@ -155,6 +156,26 @@
 					self._closeMenu();
 				}
 			});
+
+			var posOption = this.options.position;
+
+                        if (posOption == null) {
+				posOption = {
+					my: "left top",
+					at: "left bottom",
+					of: parentTarget,
+					collision: "fit"
+				}
+                        } else if (jQuery.isFunction(this.options.position)) {
+				posOption = posOption(event, ui);
+                        } else {
+                        	// do we need to add the of?
+                        	var posTarget = posOption.of;
+                        	if (posTarget == null) {
+					posOption.of = parentTarget;
+                        	}
+                        }
+
 			// Finally display the popup
 			$menu
 				.show() // required to fix positioning error (issue #3)
@@ -162,12 +183,7 @@
 					position: "absolute",
 					left: 0,
 					top: 0
-				}).position({
-					my: "left top",
-					at: "left bottom",
-					of: parentTarget,
-					collision: "fit"
-				}).hide();
+				}).position(posOption).hide();
 
 			this._show($menu, this.options.show, function(){
 				self._trigger.call(self, "open", event);
