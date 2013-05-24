@@ -27,7 +27,7 @@
 			delegate: "[data-menu]",  // selector
 			hide: { effect: "fadeOut", duration: "fast"},
 			show: { effect: "slideDown", duration: "slow"},
-			position: null, // specify positional preferences.
+			position: null, // specify positional preferences (added for issue #18 and #13).
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
 			menu: null,           // selector or jQuery or a function returning such
 			preventSelect: false, // disable text selection of target
@@ -157,6 +157,7 @@
 				}
 			});
 
+                        // required for custom positioning (issue #18 and #13).
 			var posOption = this.options.position;
 
                         if (posOption == null) {
