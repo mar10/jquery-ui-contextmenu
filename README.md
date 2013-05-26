@@ -258,7 +258,7 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 
 # Credits
 
-Contributors in order by appearance:
+Contributors in order of appearance:
 
 * [Jeffrey Dean Altemus](http://jeff.teamaltemus.net)
 

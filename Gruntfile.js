@@ -63,7 +63,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-connect");
 	grunt.loadNpmTasks("grunt-exec");
 
-	// The 'ci' task is run on travis
 	grunt.registerTask("server", ["connect:demo"]);
 	grunt.registerTask("test", ["jshint",
 								"qunit"]);
