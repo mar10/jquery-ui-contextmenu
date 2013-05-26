@@ -7,12 +7,7 @@
  *
  * Copyright (c) 2013, Martin Wendt (http://wwWendt.de). Licensed MIT.
  */
-
-/*
- * TODO:
- * - change namespace to 'moogle'
- */
-(function ($) {
+;(function($, window, document, undefined) {
 	var supportSelectstart = "onselectstart" in document.createElement("div");
 
 	/** Return command without leading '#' (default to ""). */
@@ -313,4 +308,4 @@ $.extend($.ui.contextmenu, {
 	}
 });
 
-} (jQuery));
+}(jQuery, window, document));
