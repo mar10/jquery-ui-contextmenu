@@ -255,6 +255,15 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 </dd>
 </dl>
 
+
+# Credits
+
+Contributors in order by appearance:
+
+* [Jeffrey Dean Altemus](http://jeff.teamaltemus.net)
+
+~~~~
+
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mar10/jquery-contextmenu/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 [jQueryUI menu]: http://jqueryui.com/menu/
