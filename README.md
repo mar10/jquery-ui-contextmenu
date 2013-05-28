@@ -134,13 +134,12 @@ structure (see [jQueryUI menu] for details):
     Type: <code>Object | Function</code>, default: <code>{my: "left top", at: "left bottom", of: parentTarget, collision: "fit"}</code><br>
     Define position where popup opens. A simple <a href="http://api.jqueryui.com/position/">position</a> may be passed.<br>
     Also a function may be specified, to recalculate position every time:<br>
-    <pre><code>
+    <pre>
     $("#container").contextmenu({
 //      position: {my: "left bottom", at: "right top"},
         position: function(event, ui){
             return {my: "left top", at: "center", of: event};
-        },
-    </code></pre>
+        },...</pre>
 </dd>
 <dt>preventSelect</dt>
 <dd>
