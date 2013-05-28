@@ -1,4 +1,8 @@
-# 0.4.0 / Unreleased
+# 0.5.0 / Unreleased
+
+* 
+
+# 0.4.0 / 2013-05-28
 
 * [FEATURE] `position` option (thanks to Jeffrey Dean Altemus)
 

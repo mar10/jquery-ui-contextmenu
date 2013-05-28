@@ -19,22 +19,23 @@
 	$.widget("ui.contextmenu", {
 		version: "0.4.0",
 		options: {
-			delegate: "[data-menu]",  // selector
+			delegate: "[data-menu]", // selector
 			hide: { effect: "fadeOut", duration: "fast"},
 			show: { effect: "slideDown", duration: "slow"},
+			position: null,       // specify positional preferences (added for issue #18 and #13).
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
 			menu: null,           // selector or jQuery or a function returning such
 			preventSelect: false, // disable text selection of target
-			taphold: false,       // open menu on taphold events (requires external plugins)
+			taphold: false,     // open menu on taphold events (requires external plugins)
 			// Events:
-			beforeOpen: $.noop,   // menu about to open; return `false` to prevent opening
-			blur: $.noop,         // menu option lost focus
-			close: $.noop,        // menu was closed
-			create: $.noop,       // menu was initialized
-			focus: $.noop,        // menu option got focus
-			init: $.noop,         // ui-contextmenu was initialized
-			open: $.noop,         // menu was opened
-			select: $.noop        // menu option was selected; return `false` to prevent closing
+			beforeOpen: $.noop, // menu about to open; return `false` to prevent opening
+			blur: $.noop,       // menu option lost focus
+			close: $.noop,      // menu was closed
+			create: $.noop,     // menu was initialized
+			focus: $.noop,      // menu option got focus
+			init: $.noop,       // ui-contextmenu was initialized
+			open: $.noop,       // menu was opened
+			select: $.noop      // menu option was selected; return `false` to prevent closing
 		},
 		/** Construtcor */
 		_create: function () {
@@ -122,7 +123,9 @@
 		},
 		/** Open popup (called on 'contextmenu' event). */
 		_openMenu: function(event){
-			var self = this,
+			var opts = this.options,
+				posOption = opts.position,
+				self = this,
 				$menu = this._getMenu(),
 				openEvent = event,
 				// if called by 'open' method, 'relatedTarget' is the requested target object
@@ -150,6 +153,18 @@
 					self._closeMenu();
 				}
 			});
+
+			// required for custom positioning (issue #18 and #13).
+			if ($.isFunction(posOption)) {
+				posOption = posOption(event, ui);
+			}
+			posOption = $.extend({
+				my: "left top",
+				at: "left bottom",
+				of: parentTarget,
+				collision: "fit"
+			}, posOption);
+
 			// Finally display the popup
 			$menu
 				.show() // required to fix positioning error (issue #3)
@@ -157,12 +172,7 @@
 					position: "absolute",
 					left: 0,
 					top: 0
-				}).position({
-					my: "left top",
-					at: "left bottom",
-					of: parentTarget,
-					collision: "fit"
-				}).hide();
+				}).position(posOption).hide();
 
 			this._show($menu, this.options.show, function(){
 				self._trigger.call(self, "open", event);
@@ -227,15 +237,15 @@
 					$menu.menu("refresh");
 				}else{
 					$.error("not implemented");
-//                    this.orgMenu = opts.menu;
-//                    opts.menu = $.ui.contextmenu.createMenuMarkup(data);
+//			this.orgMenu = opts.menu;
+//			opts.menu = $.ui.contextmenu.createMenuMarkup(data);
 				}
 			}else{
-//                if(this.orgMenu){
-//                    // re-use existing temporary <ul>
-//                }else{
-//                }
-//                $menu.menu("option", "menu", opts.menu);
+//		if(this.orgMenu){
+//			// re-use existing temporary <ul>
+//		}else{
+//		}
+//		$menu.menu("option", "menu", opts.menu);
 				$.error("not implemented");
 			}
 		},

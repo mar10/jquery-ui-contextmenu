@@ -112,6 +112,10 @@ $(function(){
 	$("#container").contextmenu({
 		delegate: ".hasmenu2",
 		menu: "#options",
+//      position: {my: "left bottom", at: "right top"},
+		position: function(event, ui){
+			return {my: "left top", at: "center", of: event};
+		},
 		preventSelect: true,
 		taphold: true,
 		hide: { effect: "explode", duration: "slow" },
@@ -154,24 +158,29 @@ $(function(){
 
 	<p><a href="https://github.com/mar10/jquery-ui-contextmenu">View project on GitHub</a></p>
 
-	Not-so-obvious features:
+	<h3>Sample 1</h3>
 	<ul>
+		<li>Initialized using a command-array.
+		<li>The menu is modified in the `beforeOpen` event (disabling an renaming entries).
 		<li>`preventSelect: true` prevents accidential selection of the menu
 			targets (i.e. 'AAA') when double-clicking or dragging the mouse.
 		<li>`taphold: true` enables long-press to open the menu (useful on
 			tablet computers).
 		<li>Ctrl+Click or two-finger-click on the touchpad also works (MacBook).
-		<li>The menu is modified in the `beforeOpen` event.
 	</ul>
-
-	<p>Right-click in an element to open the context menu (initialized by command-array):</p>
+	<p>Right-click in an element to open the context menu:</p>
 	<div>
 		<span class="hasmenu">AAA</span>
 		<span class="hasmenu">BBB</span>
 		<span class="hasmenu">CCC</span>
 	</div>
 
-	<p>Right-click in an element to open the context menu (initialized by hidden &lt;ul> element):</p>
+	<h3>Sample 2</h3>
+	<ul>
+		<li>Initialized by hidden &lt;ul> element.
+		<li>Use custom show/hide effects.
+		<li>Define custom position.
+	</ul>
 	<div id="container">
 		<span class="hasmenu2">AAA</span>
 		<span class="hasmenu2">BBB</span>
@@ -190,6 +199,7 @@ $(function(){
 			</ul>
 	</ul>
 
+	<h3>Sample 3</h3>
 	<p>Open context menu using <code>$("#container").contextmenu("open", $(".hasmenu:first"))</code> and close after 2 sec.:</p>
 	<button id="triggerPopup">Trigger popup</button>
 </body>
