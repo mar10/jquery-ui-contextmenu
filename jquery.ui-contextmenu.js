@@ -16,8 +16,8 @@
 	}
 
 
-	$.widget("ui.contextmenu", {
-		version: "0.4.0",
+	$.widget("moogle.contextmenu", {
+		version: "0.5.0",
 		options: {
 			delegate: "[data-menu]", // selector
 			hide: { effect: "fadeOut", duration: "fast"},
@@ -75,7 +75,7 @@
 			// and generate the structure now
 			if($.isArray(opts.menu)){
 				this.orgMenu = opts.menu;
-				opts.menu = $.ui.contextmenu.createMenuMarkup(opts.menu);
+				opts.menu = $.moogle.contextmenu.createMenuMarkup(opts.menu);
 			}
 			// Create - but hide - the jQuery UI Menu
 			this._getMenu()
@@ -233,7 +233,7 @@
 				if(this.orgMenu){
 					// re-use existing temporary <ul>
 					$menu.empty();
-					$.ui.contextmenu.createMenuMarkup(data, opts.menu);
+					$.moogle.contextmenu.createMenuMarkup(data, opts.menu);
 					$menu.menu("refresh");
 				}else{
 					$.error("not implemented");
@@ -263,7 +263,7 @@
 					.replaceWith(titleOrData);
 			}else{
 				$parent = $entry.closest("li").empty();
-				$.ui.contextmenu.createEntryMarkup(titleOrData, $parent);
+				$.moogle.contextmenu.createEntryMarkup(titleOrData, $parent);
 			}
 		},
 		/** Show or hide the menu command. */
@@ -276,7 +276,7 @@
 /*
  * Global functions
  */
-$.extend($.ui.contextmenu, {
+$.extend($.moogle.contextmenu, {
 	/** Convert a menu description into a into a <li> content. */
 	createEntryMarkup: function(entry, $parentLi){
 		var $a = null;
@@ -307,11 +307,11 @@ $.extend($.ui.contextmenu, {
 			menu = options[i];
 			$li = $("<li>").appendTo($parentUl);
 
-			$.ui.contextmenu.createEntryMarkup(menu, $li);
+			$.moogle.contextmenu.createEntryMarkup(menu, $li);
 
 			if( $.isArray(menu.children) ){
 				$ul = $("<ul>").appendTo($li);
-				$.ui.contextmenu.createMenuMarkup(menu.children, $ul);
+				$.moogle.contextmenu.createMenuMarkup(menu.children, $ul);
 			}
 		}
 		return $parentUl;

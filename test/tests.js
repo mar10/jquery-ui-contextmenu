@@ -14,5 +14,5 @@ module("prototype", lifecycle);
 
 test("globals", function(){
 	expect(1);
-	ok( !!$.ui.contextmenu, "exists in ui namnespace");
+	ok( !!$.moogle.contextmenu, "exists in ui namnespace");
 });
