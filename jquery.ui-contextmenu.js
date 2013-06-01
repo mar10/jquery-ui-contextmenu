@@ -89,6 +89,8 @@
 					select: $.proxy(function(event, ui){
 						// Also pass the target that the menu was triggered on:
 						event.relatedTarget = this.currentTarget;
+                        ui.cmd = normCommand(ui.item.find(">a").attr("href"));
+                        ui.target = $(this.currentTarget);
 						// ignore clicks, if they only open a sub-menu
 						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
 						if( !isParent || !this.options.ignoreParentSelect){
@@ -130,7 +132,7 @@
 				openEvent = event,
 				// if called by 'open' method, 'relatedTarget' is the requested target object
 				parentTarget = openEvent.target ? openEvent.target : openEvent,
-				ui = {menu: $menu};
+				ui = {menu: $menu, target: $(openEvent.target)};
 			this.currentTarget = openEvent.target;
 			// Prevent browser from opening the system context menu
 			event.preventDefault();
@@ -175,7 +177,7 @@
 				}).position(posOption).hide();
 
 			this._show($menu, this.options.show, function(){
-				self._trigger.call(self, "open", event);
+				self._trigger.call(self, "open", event, ui);
 			});
 		},
 		/** Close popup. */

@@ -17,6 +17,7 @@ Beta. Please report issues.
 
 Latest release is available for download at 
 [The jQuery Plugin Registry](http://plugins.jquery.com/ui-contextmenu/).
+See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/master/CHANGELOG.md).
 
 
 ## Demo
@@ -51,8 +52,7 @@ $("#container").contextmenu({
 			]}
 		],
 	select: function(event, ui) {
-		var menuId = ui.item.find(">a").attr("href");
-		alert("select " + menuId + " on " + $(event.relatedTarget).text());
+		alert("select " + ui.cmd + " on " + ui.target.text());
 	}
 });
 ```
@@ -207,14 +207,12 @@ jquery-contextmenu exposes events from [jQueryUI menu]: `blur`, `create`, `focus
 However, since the `event.target` parameter contains the menu item, we additionally pass the element 
 that was right-clicked in `event.relatedTarget`.
 
-Events may be handled by defining a handler option:
+Events may be handled by passing a handler callback option:
 ```js
 $("#container").contextmenu({
     [...]
     select: function(event, ui) {
-        var menuId = ui.item.find(">a").attr("href"),
-            target = event.relatedTarget;
-        alert("select " + menuId + " on " + $(target).text());
+        alert("select " + ui.cmd + " on " + ui.target.text());
     }
 });
 ```
@@ -222,14 +220,12 @@ $("#container").contextmenu({
 Alternatively a handler may be bound, so this is equivalent:
 ```js
 $("#container").bind("contextmenuselect", function(event, ui) {
-    var menuId = ui.item.find(">a").attr("href"),
-        target = event.relatedTarget;
-    alert("select " + menuId + " on " + $(target).text());
+    alert("select " + ui.cmd + " on " + ui.target.text());
 }
 ```
 
 <dl>
-<dt>beforeOpen(event)</dt>
+<dt>beforeOpen(event, ui)</dt>
 <dd>
     Triggered just before the popup menu is opened.<br>
     Return <code>false</code> to prevent opening.<br>
@@ -263,6 +259,7 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 <dt>select(event, ui)</dt>
 <dd>
     Triggered when a menu item is selected.<br>
+    <code>ui.cmd</code> contains thecommand id.
     Return <code>false</code> to prevent closing the menu.
 </dd>
 </dl>
@@ -276,6 +273,6 @@ Contributors in order of appearance:
 
 ~~~~
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mar10/jquery-contextmenu/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mar10/jquery-contextmenu/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 [jQueryUI menu]: http://jqueryui.com/menu/

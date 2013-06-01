@@ -1,6 +1,7 @@
 # 0.5.0 / Unreleased
 
 * [CHANGE] Changed widget namespace from 'ui' to 'moogle'.
+* [FEATURE] `select` event has new parameters `ui.cmd` and `ui.target`.
 
 # 0.4.0 / 2013-05-28
 

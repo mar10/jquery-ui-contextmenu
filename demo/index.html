@@ -80,21 +80,20 @@ $(function(){
 				]}
 			],
 		select: function(event, ui) {
-			var menuId = ui.item.find(">a").attr("href"),
-				$target = $(event.relatedTarget);
-			switch(menuId){
-			case "#copy":
+			var $target = $(event.relatedTarget);
+			switch(ui.cmd){
+			case "copy":
 				CLIPBOARD = $target.text();
 				break
-			case "#paste":
+			case "paste":
 				CLIPBOARD = "";
 				break
 			}
-			alert("select " + menuId + " on " + $(event.relatedTarget).text());
+			alert("select " + ui.cmd + " on " + ui.target.text());
 		},
 		beforeOpen: function(event, ui) {
 			var $menu = ui.menu,
-				$target = $(event.relatedTarget);
+				$target = ui.target;
 //			console.log("beforeOpen", this, event, ui, "" + CLIPBOARD);
 			$(document)
 //				.contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}])
@@ -127,16 +126,15 @@ $(function(){
 		blur: function(event, ui) {
 			$("#info").text("");
 		},
-		beforeOpen: function(event) {
+		beforeOpen: function(event, ui) {
 //			$("#container").contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}]);
-//          alert("beforeopen on " + $(event.relatedTarget).text());
+//          alert("beforeopen on " + ui.target.text());
 		},
 		open: function(event, ui) {
-//          alert("open on " + $(event.relatedTarget).text());
+//          alert("open on " + ui.target.text());
 		},
 		select: function(event, ui) {
-			var menuId = ui.item.find(">a").attr("href");
-			alert("select " + menuId + " on " + $(event.relatedTarget).text());
+			alert("select " + ui.cmd + " on " + ui.target.text());
 		}
 	});
 
