@@ -80,7 +80,7 @@ $(function(){
 				]}
 			],
 		select: function(event, ui) {
-			var $target = $(event.relatedTarget);
+			var $target = ui.target;
 			switch(ui.cmd){
 			case "copy":
 				CLIPBOARD = $target.text();
@@ -89,12 +89,11 @@ $(function(){
 				CLIPBOARD = "";
 				break
 			}
-			alert("select " + ui.cmd + " on " + ui.target.text());
+			alert("select " + ui.cmd + " on " + $target.text());
 		},
 		beforeOpen: function(event, ui) {
 			var $menu = ui.menu,
 				$target = ui.target;
-//			console.log("beforeOpen", this, event, ui, "" + CLIPBOARD);
 			$(document)
 //				.contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}])
 //				.contextmenu("setEntry", "cut", {title: "Cuty", uiIcon: "ui-icon-heart", disabled: true})
@@ -111,9 +110,9 @@ $(function(){
 	$("#container").contextmenu({
 		delegate: ".hasmenu2",
 		menu: "#options",
-//      position: {my: "left bottom", at: "right top"},
+//        position: {my: "left top", at: "left bottom"},
 		position: function(event, ui){
-			return {my: "left top", at: "center", of: event};
+			return {my: "left top", at: "left.bottom", of: event.target};
 		},
 		preventSelect: true,
 		taphold: true,

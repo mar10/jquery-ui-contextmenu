@@ -131,7 +131,8 @@ structure (see [jQueryUI menu] for details):
 </dd>
 <dt>position</dt>
 <dd>
-    Type: <code>Object | Function</code>, default: <code>{my: "left top", at: "left bottom", of: parentTarget, collision: "fit"}</code><br>
+    Type: <code>Object | Function</code>,<br>
+    default: <code>{my: "left top", at: "center", of: event, collision: "fit"}</code><br>
     Define position where popup opens. A simple <a href="http://api.jqueryui.com/position/">position</a> may be passed.<br>
     Also a function may be specified, to recalculate position every time:<br>
     <pre>
@@ -139,7 +140,7 @@ structure (see [jQueryUI menu] for details):
 //      position: {my: "left bottom", at: "right top"},
         position: function(event, ui){
             return {my: "left top", at: "center", of: event};
-        },...</pre>
+        }, ...</pre>
 </dd>
 <dt>preventSelect</dt>
 <dd>
@@ -150,7 +151,7 @@ structure (see [jQueryUI menu] for details):
 <dt>show</dt>
 <dd>
     Type: <code> Boolean | Number | String | Object</code>, 
-    default: <code>{ effect: "slideDown", duration: "slow"}</code><br>
+    default: <code>{ effect: "slideDown", duration: "fast"}</code><br>
     Effect applied when showing the popup.<br>
     See <a href="http://api.jqueryui.com/jQuery.widget/#option-show">sample</a> 
     for possible option values.

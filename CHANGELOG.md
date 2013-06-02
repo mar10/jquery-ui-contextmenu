@@ -1,6 +1,8 @@
 # 0.5.0 / Unreleased
 
 * [CHANGE] Changed widget namespace from 'ui' to 'moogle'.
+* [CHANGE] Default position is now at click event.
+* [CHANGE] Show-animation now faster by default.
 * [FEATURE] `select` event has new parameters `ui.cmd` and `ui.target`.
 
 # 0.4.0 / 2013-05-28

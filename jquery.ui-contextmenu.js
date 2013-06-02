@@ -21,12 +21,12 @@
 		options: {
 			delegate: "[data-menu]", // selector
 			hide: { effect: "fadeOut", duration: "fast"},
-			show: { effect: "slideDown", duration: "slow"},
-			position: null,       // specify positional preferences (added for issue #18 and #13).
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
 			menu: null,           // selector or jQuery or a function returning such
+			position: null,       // popup positon
 			preventSelect: false, // disable text selection of target
-			taphold: false,     // open menu on taphold events (requires external plugins)
+			show: { effect: "slideDown", duration: "fast"},
+			taphold: false,       // open menu on taphold events (requires external plugins)
 			// Events:
 			beforeOpen: $.noop, // menu about to open; return `false` to prevent opening
 			blur: $.noop,       // menu option lost focus
@@ -41,8 +41,6 @@
 		_create: function () {
 			var eventNames, targetId,
 				opts = this.options;
-
-//			console.log(this.element)
 
 			this.$headStyle = null;
 			this.orgMenu = null;
@@ -87,12 +85,10 @@
 					create: $.proxy(this.options.create, this),
 					focus: $.proxy(this.options.focus, this),
 					select: $.proxy(function(event, ui){
-						// Also pass the target that the menu was triggered on:
-						event.relatedTarget = this.currentTarget;
-                        ui.cmd = normCommand(ui.item.find(">a").attr("href"));
-                        ui.target = $(this.currentTarget);
-						// ignore clicks, if they only open a sub-menu
 						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
+						ui.cmd = normCommand(ui.item.find(">a").attr("href"));
+						ui.target = $(this.currentTarget);
+						// ignore clicks, if they only open a sub-menu
 						if( !isParent || !this.options.ignoreParentSelect){
 							if( this._trigger.call(this, "select", event, ui) !== false ){
 								this._closeMenu.call(this);
@@ -129,17 +125,10 @@
 				posOption = opts.position,
 				self = this,
 				$menu = this._getMenu(),
-				openEvent = event,
-				// if called by 'open' method, 'relatedTarget' is the requested target object
-				parentTarget = openEvent.target ? openEvent.target : openEvent,
-				ui = {menu: $menu, target: $(openEvent.target)};
-			this.currentTarget = openEvent.target;
+				ui = {menu: $menu, target: $(event.target)};
+			this.currentTarget = event.target;
 			// Prevent browser from opening the system context menu
 			event.preventDefault();
-			// Also pass the target that the menu was triggered on as 'relatedTarget'.
-			// This is required because our _trigger() calls will create events
-			// that refer to the contextmenu's context (which is the target *container*)
-			event.relatedTarget = this.currentTarget;
 
 			if( this._trigger("beforeOpen", event, ui) === false ){
 				return false;
@@ -163,18 +152,20 @@
 			posOption = $.extend({
 				my: "left top",
 				at: "left bottom",
-				of: parentTarget,
+				// if called by 'open' method, event does not have pageX/Y
+				of: (event.pageX === undefined) ? event.target : event,
 				collision: "fit"
 			}, posOption);
 
 			// Finally display the popup
 			$menu
-				.show() // required to fix positioning error (issue #3)
+				.show() // required to fix positioning error
 				.css({
 					position: "absolute",
 					left: 0,
 					top: 0
-				}).position(posOption).hide();
+				}).position(posOption)
+				.hide();
 
 			this._show($menu, this.options.show, function(){
 				self._trigger.call(self, "open", event, ui);
@@ -206,9 +197,13 @@
 		},
 		/** Return ui-menu root element as jQuery object. */
 		_getMenu: function(){
-			// this.options.menu may be a string, jQuery or a function returning that.
 			var $menu = this.options.menu;
 			return (typeof $menu === "string") ? $($menu) : $menu;
+		},
+		/** Return ui-menu entry (<A> or <LI> tag). */
+		_getMenuEntry: function(cmd, wantLi){
+			var $entry = this._getMenu().find("li a[href=#" + normCommand(cmd) + "]");
+			return wantLi ? $entry.closest("li") : $entry;
 		},
 		/** Open context menu on a specific target (must match options.delegate) */
 		open: function(target){
@@ -222,9 +217,7 @@
 		},
 		/** Enable or disable the menu command. */
 		enableEntry: function(cmd, flag){
-			// TODO: should be $menu.find(...)!
-			var $entry = this.element.find("a[href=#" + normCommand(cmd) + "]");
-			$entry.toggleClass("ui-state-disabled", (flag === false));
+			this._getMenuEntry(cmd, true).toggleClass("ui-state-disabled", (flag === false));
 		},
 		/** Redefine the whole menu. */
 		replaceMenu: function(data){
@@ -254,7 +247,7 @@
 		/** Redefine menu entry (title or all of it). */
 		setEntry: function(cmd, titleOrData){
 			var $parent,
-				$entry = this.element.find("a[href=#" + normCommand(cmd) + "]");
+				$entry = this._getMenuEntry(cmd, false);
 
 			if(typeof titleOrData === "string"){
 				// Replace <a> text without removing <span> child
@@ -270,8 +263,7 @@
 		},
 		/** Show or hide the menu command. */
 		showEntry: function(cmd, flag){
-			var $entry = this.element.find("a[href=#" + normCommand(cmd) + "]");
-			$entry.toggle(flag !== false);
+			this._getMenuEntry(cmd, true).toggle(flag !== false);
 		}
 	});
 
