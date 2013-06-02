@@ -137,9 +137,8 @@ structure (see [jQueryUI menu] for details):
     Also a function may be specified, to recalculate position every time:<br>
     <pre>
     $("#container").contextmenu({
-//      position: {my: "left bottom", at: "right top"},
         position: function(event, ui){
-            return {my: "left top", at: "center", of: event};
+            return {my: "left top", at: "left bottom", of: ui.target};
         }, ...</pre>
 </dd>
 <dt>preventSelect</dt>

@@ -17,7 +17,7 @@
 
 
 	$.widget("moogle.contextmenu", {
-		version: "0.5.0",
+		version: "0.6.0",
 		options: {
 			delegate: "[data-menu]", // selector
 			hide: { effect: "fadeOut", duration: "fast"},

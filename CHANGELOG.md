@@ -1,4 +1,8 @@
-# 0.5.0 / Unreleased
+# 0.6.0 / Unreleased
+
+* [BUGFIX] Fixed custom position sample.
+
+# 0.5.0 / 2013-06-02
 
 * [CHANGE] Changed widget namespace from 'ui' to 'moogle'.
 * [CHANGE] Default position is now at click event.pageX/Y.
