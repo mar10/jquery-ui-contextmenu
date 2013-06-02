@@ -90,18 +90,20 @@ $(function(){
 				break
 			}
 			alert("select " + ui.cmd + " on " + $target.text());
+			// Optionally return false, to prevent closing the menu now
 		},
 		beforeOpen: function(event, ui) {
 			var $menu = ui.menu,
 				$target = ui.target;
 			$(document)
 //				.contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}])
+//				.contextmenu("replaceMenu", "#options2")
 //				.contextmenu("setEntry", "cut", {title: "Cuty", uiIcon: "ui-icon-heart", disabled: true})
 				.contextmenu("setEntry", "copy", "Copy '" + $target.text() + "'")
 				.contextmenu("setEntry", "paste", "Paste" + (CLIPBOARD ? " '" + CLIPBOARD + "'" : ""))
 				.contextmenu("enableEntry", "paste", (CLIPBOARD !== ""));
 
-			// optionally return false, to prevent opening the menu now
+			// Optionally return false, to prevent opening the menu now
 		}
 	});
 
@@ -116,8 +118,8 @@ $(function(){
 		},
 		preventSelect: true,
 		taphold: true,
-		hide: { effect: "explode", duration: "slow" },
 		show: { effect: "fold", duration: "slow"},
+		hide: { effect: "explode", duration: "slow" },
 		focus: function(event, ui) {
 			var menuId = ui.item.find(">a").attr("href");
 			$("#info").text("focus " + menuId);
@@ -126,8 +128,8 @@ $(function(){
 			$("#info").text("");
 		},
 		beforeOpen: function(event, ui) {
+//			$("#container").contextmenu("replaceMenu", "#options2");
 //			$("#container").contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}]);
-//          alert("beforeopen on " + ui.target.text());
 		},
 		open: function(event, ui) {
 //          alert("open on " + ui.target.text());
@@ -184,7 +186,7 @@ $(function(){
 		<span class="hasmenu2">CCC</span>
 	</div>
 
-	<ul id="options" class="ui-helper-hidden">
+	<ul id="options" style="display: none;">
 		<li><a href="#action1"><span class="ui-icon custom-icon-firefox"></span>Action 1</a>
 		<li><a href="#action2"><span class="ui-icon ui-icon-heart"></span>Action 2</a>
 		<li class="ui-state-disabled"><a href="#action3">Action 3</a>
@@ -194,6 +196,11 @@ $(function(){
 				<li><a href="#action4">sub4</a>
 				<li><a href="#action5">sub5</a>
 			</ul>
+	</ul>
+
+	<ul id="options2" class="ui-helper-hidden">
+		<li><a href="#action2"><span class="ui-icon ui-icon-heart"></span>Action 2</a>
+		<li class="ui-state-disabled"><a href="#action3">Action 3</a>
 	</ul>
 
 	<h3>Sample 3</h3>

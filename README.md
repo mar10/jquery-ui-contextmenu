@@ -186,8 +186,7 @@ structure (see [jQueryUI menu] for details):
 <dt>replaceMenu(menu)</dt>
 <dd>
     Replace the whole menu definition.<br>
-    Call like <code>$(...).contextmenu("replaceMenu", "#menu2");</code>.<br>
-    **TODO**: this is currently not implemented for &lt;ul> definition mode.
+    Call like <code>$(...).contextmenu("replaceMenu", "#menu2");</code>.
 </dd>
 <dt>setEntry(cmd, data)</dt>
 <dd>
