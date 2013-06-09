@@ -1,5 +1,8 @@
 # 0.6.0 / Unreleased
 
+* [CHANGE] Removed `init` event, added `createMenu` event.
+* [CHANGE] Added unit tests.
+* [FEATURE] Added `getMenu` method.
 * [BUGFIX] Fixed custom position sample.
 
 # 0.5.0 / 2013-06-02
@@ -12,11 +15,11 @@
 
 # 0.4.0 / 2013-05-28
 
-* [FEATURE] `position` option (thanks to Jeffrey Dean Altemus)
+* [FEATURE] `position` option (thanks to Jeffrey Dean Altemus).
 
 # 0.3.0 / 2013-05-20
 
-* [CHANGE] Renamed project from "jquery-contextmenu" to "jquery-ui-contextmenu"
-* [FEATURE] Support `taphold` events
-* [FEATURE] Show / hide effects configurable
-* [BUGFIX] Fixed markup for disabled entries
+* [CHANGE] Renamed project from "jquery-contextmenu" to "jquery-ui-contextmenu".
+* [FEATURE] Support `taphold` events.
+* [FEATURE] Show / hide effects configurable.
+* [BUGFIX] Fixed markup for disabled entries.

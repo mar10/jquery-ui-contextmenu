@@ -24,7 +24,8 @@ module.exports = function (grunt) {
 		jshint: {
 			files: [
 				"Gruntfile.js",
-				"jquery.ui-contextmenu.js"
+				"jquery.ui-contextmenu.js",
+				"test/tests.js"
 			],
 			options: {
 				jshintrc: ".jshintrc"

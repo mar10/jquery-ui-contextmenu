@@ -17,9 +17,9 @@
 
 
 	$.widget("moogle.contextmenu", {
-		version: "0.6.0",
+		version: "1.0.0",
 		options: {
-			delegate: "[data-menu]", // selector
+			delegate: null,       // selector
 			hide: { effect: "fadeOut", duration: "fast"},
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
 			menu: null,           // selector or jQuery pointing to <UL>, or a definition hash
@@ -28,17 +28,19 @@
 			show: { effect: "slideDown", duration: "fast"},
 			taphold: false,       // open menu on taphold events (requires external plugins)
 			// Events:
-			beforeOpen: $.noop, // menu about to open; return `false` to prevent opening
-			blur: $.noop,       // menu option lost focus
-			close: $.noop,      // menu was closed
-			create: $.noop,     // menu was initialized
-			focus: $.noop,      // menu option got focus
-			init: $.noop,       // ui-contextmenu was initialized
-			open: $.noop,       // menu was opened
-			select: $.noop      // menu option was selected; return `false` to prevent closing
+			beforeOpen: $.noop,   // menu about to open; return `false` to prevent opening
+			blur: $.noop,         // menu option lost focus
+			close: $.noop,        // menu was closed
+			create: $.noop,       // menu was initialized
+			createMenu: $.noop,   // menu was initialized (original UI Menu)
+			focus: $.noop,        // menu option got focus
+//			init: $.noop,         // ui-contextmenu was initialized
+			open: $.noop,         // menu was opened
+			select: $.noop        // menu option was selected; return `false` to prevent closing
 		},
-		/** Construtcor */
+		/** Constructor */
 		_create: function () {
+            console.log("_create()");
 			var eventNames, targetId,
 				opts = this.options;
 
@@ -53,7 +55,7 @@
 				// If the contextmenu was bound to `document`, we apply the
 				// selector relative to the <body> tag instead
 				targetId = ($(this.element).is(document) ? $("body") : this.element).uniqueId().attr("id");
-				this.$headStyle = $("<style class='ui-contextmenu-style'>")
+				this.$headStyle = $("<style class='moogle-contextmenu-style'>")
 					.prop("type", "text/css")
 					.html("#" + targetId + " " + opts.delegate + " { " +
 						"-webkit-user-select: none; " +
@@ -78,10 +80,17 @@
 			}
 			this.element.delegate(opts.delegate, eventNames, $.proxy(this._openMenu, this));
 
-			this._trigger("init");
+			console.log("_create() - delegate");
+
+//			this._trigger("init");
 		},
 		/** Destructor, called on $().contextmenu("destroy"). */
-		_destroy: function(key, value){
+		_destroy: function(){
+		    console.log("_destroy() undelegate NS menu=", this.$menu);
+			this.element.undelegate(this.ns);
+			if(this.isOpen()){
+			    this._closeMenu();
+			}
 			this._createUiMenu(null);
 			if(this.$headStyle){
 				this.$headStyle.remove();
@@ -91,10 +100,13 @@
 		/** (Re)Create jQuery UI Menu. */
 		_createUiMenu: function(menuDef){
 			// Remove temporary <ul> if any
+		    console.log("_createUiMenu()", menuDef);
 			if(this.menuIsTemp){
+	            console.log("_createUiMenu - remove ", this.$menu);
 				this.$menu.remove(); // this will also destroy ui.menu
 				this.menuIsTemp = false;
 			} else if(this.$menu){
+                console.log("_createUiMenu - destroy ", this.$menu);
 				this.$menu.menu("destroy").hide();
 			}
 			// If a menu definition array was passed, create a hidden <ul>
@@ -113,13 +125,14 @@
 			// Create - but hide - the jQuery UI Menu widget
 			this.$menu
 				.hide()
-				.addClass("ui-contextmenu")
+//				.addClass("moogle-contextmenu")
 				// Create a menu instance that delegates events to our widget
 				.menu({
 					blur: $.proxy(this.options.blur, this),
-					create: $.proxy(this.options.create, this),
+					create: $.proxy(this.options.createMenu, this),
 					focus: $.proxy(this.options.focus, this),
 					select: $.proxy(function(event, ui){
+//					    window.console.log("select proxy");
 						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
 						ui.cmd = normCommand(ui.item.find(">a").attr("href"));
 						ui.target = $(this.currentTarget);
@@ -135,6 +148,7 @@
 		},
 		/** Open popup (called on 'contextmenu' event). */
 		_openMenu: function(event){
+            console.log("_openMenu()");
 			var opts = this.options,
 				posOption = opts.position,
 				self = this,
@@ -148,6 +162,7 @@
 			}
 			ui.menu = this.$menu; // Might have changed in beforeOpen
 			// Register global event handlers that close the dropdown-menu
+            console.log("_openMenu() - document.bind: " + this.ns, this.menuIsTemp, this.$menu);
 			$(document).bind("keydown" + this.ns, function(event){
 				if( event.which === $.ui.keyCode.ESCAPE ){
 					self._closeMenu();
@@ -189,15 +204,16 @@
 		_closeMenu: function(){
 			var self = this;
 
-			this._hide(this.$menu, this.options.hide, function() {
-				self._trigger("close");
-				this.currentTarget = null;
-			});
+            console.log("_closeMenu() - document.unbind: " + this.ns, this.menuIsTemp, this.$menu);
+            $(document)
+                .unbind("mousedown" + this.ns)
+                .unbind("touchstart" + this.ns)
+                .unbind("keydown" + this.ns);
 
-			$(document)
-				.unbind("mousedown" + this.ns)
-				.unbind("touchstart" + this.ns)
-				.unbind("keydown" + this.ns);
+            this._hide(this.$menu, this.options.hide, function() {
+				self._trigger("close");
+				self.currentTarget = null;
+			});
 		},
 		/** Handle $().contextmenu("option", key, value) calls. */
 		_setOption: function(key, value){
@@ -213,6 +229,15 @@
 			var $entry = this.$menu.find("li a[href=#" + normCommand(cmd) + "]");
 			return wantLi ? $entry.closest("li") : $entry;
 		},
+        /** Return Menu element (UL). */
+        getMenu: function(){
+            return this.$menu;
+        },
+        /** Return true if menu is open. */
+        isOpen: function(){
+//            return this.$menu && this.$menu.is(":visible");
+            return !!this.$menu && !!this.currentTarget;
+        },
 		/** Open context menu on a specific target (must match options.delegate) */
 		open: function(target){
 			// Fake a 'contextmenu' event

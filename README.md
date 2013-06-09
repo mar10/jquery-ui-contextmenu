@@ -13,10 +13,9 @@ A jQuery plugin that provides a context menu (based on the standard [jQueryUI me
 
 ## Status
 
-Beta. Please report issues.
-
-Latest release is available for download at 
+The latest release is available for download at 
 [The jQuery Plugin Registry](http://plugins.jquery.com/ui-contextmenu/).
+
 See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/master/CHANGELOG.md).
 
 
@@ -177,6 +176,10 @@ structure (see [jQueryUI menu] for details):
     Enable or disable the entry. `flag` defaults to `true`<br>
     Call like <code>$(...).contextmenu("enableEntry", "paste", false);</code>.
 </dd>
+<dt>getMenu()</dt>
+<dd>
+    Return the jQuery object for the menu's <code>UL</code> element.
+</dd>
 <dt>open(target)</dt>
 <dd>
     Open context menu on a specific target (target must match the options.delegate filter).<br>
@@ -233,7 +236,7 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 </dd>
 <dt>blur(event, ui)</dt>
 <dd>
-    Triggered when the menu loses focus.
+    Triggered when the menu loses focus (original jQuery UI Menu event).
 </dd>
 <dt>close(event)</dt>
 <dd>
@@ -241,15 +244,15 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 </dd>
 <dt>create(event, ui)</dt>
 <dd>
-    Triggered when the menu is created.
+    Triggered when the contextmenu widget is created.
+</dd>
+<dt>createMenu(event, ui)</dt>
+<dd>
+    Triggered when the popup menu is created (original jQuery UI Menu `create` event).
 </dd>
 <dt>focus(event, ui)</dt>
 <dd>
-    Triggered when a menu gains focus or when any menu item is activated.
-</dd>
-<dt>init(event)</dt>
-<dd>
-    Triggered when the contextmenu widget is initialized.
+    Triggered when a menu gains focus or when any menu item is activated (original jQuery UI Menu event).
 </dd>
 <dt>open(event)</dt>
 <dd>
