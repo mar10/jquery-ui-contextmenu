@@ -31,12 +31,12 @@ function TestHelpers() {
 		},
 		entryEvent: function( menu, item, type ) {
 			lastItem = item;
-			window.console.log(type + ": ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
+//			window.console.log(type + ": ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
 			menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( type );
 		},
 		click: function( menu, item ) {
 			lastItem = item;
-			window.console.log("clck: ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
+//			window.console.log("clck: ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
 			menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( "click" );
 		},
 		entry: function( menu, item ) {
@@ -48,42 +48,42 @@ function TestHelpers() {
 /** Create a profile wrapper */
 /*
 function profile(fn, flag, opts){
-    if( flag === false ){
-        return fn;
-    }
-    var start, elap,
-        count = 0,
-        level = 0,
-        maxLevel = 0,
-        name = fn.name,
-        min =  Math.pow(2, 32) - 1,
-        max = 0,
-        sum = 0,
-        printTime = opts.printTime !== false,
-        wrapper = function(){
-            count += 1;
-            level += 1;
-            if(printTime && level === 1){
-                console.time(name);
-            }
+	if( flag === false ){
+		return fn;
+	}
+	var start, elap,
+		count = 0,
+		level = 0,
+		maxLevel = 0,
+		name = fn.name,
+		min =  Math.pow(2, 32) - 1,
+		max = 0,
+		sum = 0,
+		printTime = opts.printTime !== false,
+		wrapper = function(){
+			count += 1;
+			level += 1;
+			if(printTime && level === 1){
+				console.time(name);
+			}
 
-            start = new Date().getTime();
-            fn.apply(this, arguments);
-            elap = new Date().getTime() - start;
+			start = new Date().getTime();
+			fn.apply(this, arguments);
+			elap = new Date().getTime() - start;
 
-            min = Math.min(min, elap);
-            max = Math.max(max, elap);
-            maxLevel = Math.max(maxLevel, elap);
-            sum += elap;
-            if(printTime && level === 1){
-                console.timeEnd(name);
-            }
-            level -= 1;
-        };
-    wrapper.stats = function(){
-        return "count";
-    };
-    return wrapper;
+			min = Math.min(min, elap);
+			max = Math.max(max, elap);
+			maxLevel = Math.max(maxLevel, elap);
+			sum += elap;
+			if(printTime && level === 1){
+				console.timeEnd(name);
+			}
+			level -= 1;
+		};
+	wrapper.stats = function(){
+		return "count";
+	};
+	return wrapper;
 }
 */
 
@@ -269,16 +269,16 @@ function _clickTest(menu){
 		menu: menu,
 //        show: false,
 //        hide: false,
-        beforeOpen: function(event, ui){
-            log("beforeOpen(" + ui.target.text() + ")");
-        },
-        create: function(event, ui){
-            log("create");
-        },
-        createMenu: function(event, ui){
-            log("createMenu");
-        },
-        /*TODO: Seems that focus gets called twice in Safary, but nod PhantomJS */
+		beforeOpen: function(event, ui){
+			log("beforeOpen(" + ui.target.text() + ")");
+		},
+		create: function(event, ui){
+			log("create");
+		},
+		createMenu: function(event, ui){
+			log("createMenu");
+		},
+		/*TODO: Seems that focus gets called twice in Safary, but nod PhantomJS */
 //        focus: function(event, ui){
 //            var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
 //            log("focus(" + t + ")");
@@ -292,23 +292,23 @@ function _clickTest(menu){
 ////            equal( ui.cmd, "cut", "blur: ui.cmd is set" );
 ////            equal( ui.target && ui.target.text(), "AAA", "blur: ui.target is set" );
 //		},
-        select: function(event, ui){
-            window.console.log("select");
-            var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
-            log("select(" + t + ")");
-            equal( ui.cmd, "cut", "select: ui.cmd is set" );
-            equal( ui.target.text(), "AAA", "select: ui.target is set" );
-        },
-        open: function(event){
-            log("open");
-            setTimeout(function(){
-            	entryEvent($popup, 0, "mouseenter");
-            	click($popup, 0);
-            }, 10);
-        },
-        close: function(event){
-            log("close");
-        }
+		select: function(event, ui){
+//			window.console.log("select");
+			var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
+			log("select(" + t + ")");
+			equal( ui.cmd, "cut", "select: ui.cmd is set" );
+			equal( ui.target.text(), "AAA", "select: ui.target is set" );
+		},
+		open: function(event){
+			log("open");
+			setTimeout(function(){
+				entryEvent($popup, 0, "mouseenter");
+				click($popup, 0);
+			}, 10);
+		},
+		close: function(event){
+			log("close");
+		}
 	});
 
 	$ctx = $(":moogle-contextmenu");
@@ -319,16 +319,16 @@ function _clickTest(menu){
 	log("after open()");
 
 	setTimeout(function(){
-	    // TODO: why is focus() called twice?
-        equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(#cut),close",
-                "Event sequence OK.");
-        start();
+		// TODO: why is focus() called twice?
+		equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(#cut),close",
+				"Event sequence OK.");
+		start();
 	}, 500);
 }
 
 
 asyncTest("Array menu", function(){
-    _clickTest(SAMPLE_MENU);
+	_clickTest(SAMPLE_MENU);
 });
 
 

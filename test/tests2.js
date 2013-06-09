@@ -145,7 +145,7 @@ function _openTest(menu){
 
 
 asyncTest("UL menu", function(){
-    _openTest("ul#sampleMenu");
+	_openTest("ul#sampleMenu");
 });
 
 
@@ -168,40 +168,40 @@ function _clickTest(menu){
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
 		menu: menu,
-        beforeOpen: function(event, ui){
-            log("beforeOpen(" + ui.target.text() + ")");
-        },
-        create: function(event, ui){
-            log("create");
-        },
-        createMenu: function(event, ui){
-            log("createMenu");
-        },
+		beforeOpen: function(event, ui){
+			log("beforeOpen(" + ui.target.text() + ")");
+		},
+		create: function(event, ui){
+			log("create");
+		},
+		createMenu: function(event, ui){
+			log("createMenu");
+		},
 //        focus: function(event, ui){
 //            log("focus");
 //        },
 //        blur: function(event, ui){
 //            log("blur");
 //        },
-        select: function(event, ui){
-            window.console.log("select");
-            var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
-            log("select(" + t + ")");
-            equal( ui.cmd, "cut", "select: ui.cmd is set" );
-            equal( ui.target.text(), "AAA", "select: ui.target is set" );
-        },
-        open: function(event){
-            log("open");
-            setTimeout(function(){
-            	var ctm = $ctx.data("moogle-contextmenu"),
-            		mnu = ctm.$menu.data("ui-menu");
-                click($popup, 0);
-                console.log($popup, $ctx);
-            }, 10);
-        },
-        close: function(event){
-            log("close");
-        }
+		select: function(event, ui){
+			window.console.log("select");
+			var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
+			log("select(" + t + ")");
+			equal( ui.cmd, "cut", "select: ui.cmd is set" );
+			equal( ui.target.text(), "AAA", "select: ui.target is set" );
+		},
+		open: function(event){
+			log("open");
+			setTimeout(function(){
+				var ctm = $ctx.data("moogle-contextmenu"),
+					mnu = ctm.$menu.data("ui-menu");
+				click($popup, 0);
+				console.log($popup, $ctx);
+			}, 10);
+		},
+		close: function(event){
+			log("close");
+		}
 	});
 
 	$ctx = $(":moogle-contextmenu");
@@ -212,22 +212,22 @@ function _clickTest(menu){
 	log("after open()");
 
 	setTimeout(function(){
-	    // TODO: why is focus() called twice?
-        equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(#cut),close",
-                "Event sequence OK.");
+		// TODO: why is focus() called twice?
+		equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(#cut),close",
+				"Event sequence OK.");
 		window.console.log("TEST 2 END ----------------------------------");
-        start();
+		start();
 	}, 500);
 }
 
 
 asyncTest("Array menu", function(){
-    _clickTest(SAMPLE_MENU);
+	_clickTest(SAMPLE_MENU);
 });
 
 
 asyncTest("UL menu", function(){
-    _clickTest("ul#sampleMenu");
+	_clickTest("ul#sampleMenu");
 });
 
 
