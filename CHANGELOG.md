@@ -1,8 +1,8 @@
-# 0.6.0 / Unreleased
+# 1.0.0 / Unreleased
 
 * [CHANGE] Removed `init` event, added `createMenu` event.
 * [CHANGE] Added unit tests.
-* [FEATURE] Added `getMenu` method.
+* [FEATURE] Added `getMenu()` and `isOpen()` methods.
 * [BUGFIX] Fixed custom position sample.
 
 # 0.5.0 / 2013-06-02

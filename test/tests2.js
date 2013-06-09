@@ -31,7 +31,7 @@ function TestHelpers() {
 		},
 		click: function( menu, item ) {
 			lastItem = item;
-			window.console.log("clck: ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
+			window.console.log("click: ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
 			menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( "click" );
 		},
 		entry: function( menu, item ) {
@@ -62,9 +62,12 @@ var th = new TestHelpers(),
 	lifecycle = {
 		setup: function () {
 			th.clearLog();
+			// Always create a fresh copy of the menu <UL> definition
+			$("#sampleMenuTemplate").clone().attr("id", "sampleMenu").appendTo("body");
 		},
 		teardown: function () {
 			$(":moogle-contextmenu").contextmenu("destroy");
+			$("#sampleMenu").remove();
 		}
 	},
 	SAMPLE_MENU = [
@@ -90,6 +93,8 @@ module("open", lifecycle);
 
 function _openTest(menu){
 	var $ctx, $popup;
+
+	window.console.log("TEST 1 --------------------------------------");
 
 	expect(11);
 
@@ -119,10 +124,6 @@ function _openTest(menu){
 
 			ok( $popup.is(":visible"), "open: Menu is visible" );
 			ok( entry($popup, 2).hasClass("ui-state-disabled"), "open: Entry is disabled" );
-
-			equal(logOutput(), "open(),beforeOpen,after open(),open",
-				  "Event sequence OK.");
-			start();
 		}
 	});
 
@@ -134,20 +135,23 @@ function _openTest(menu){
 	log("open()");
 	$ctx.contextmenu("open", $("span.hasmenu:first"));
 	log("after open()");
+	setTimeout(function(){
+		equal(logOutput(), "open(),beforeOpen,after open(),open",
+		  "Event sequence OK.");
+		window.console.log("TEST 1 END ----------------------------------");
+		start();
+	}, 500);
 }
 
 
 asyncTest("UL menu", function(){
-    _openTest("ul#sampleMenu1");
+    _openTest("ul#sampleMenu");
 });
-//asyncTest("UL menu", function(){
-//    _openTest("ul#sampleMenu1");
-//});
 
 
-//asyncTest("Array menu", function(){
-//	_openTest(SAMPLE_MENU);
-//});
+asyncTest("Array menu", function(){
+	_openTest(SAMPLE_MENU);
+});
 
 
 //---------------------------------------------------------------------------
@@ -156,6 +160,8 @@ module("click event sequence", lifecycle);
 
 function _clickTest(menu){
 	var $ctx, $popup;
+
+	window.console.log("TEST 2 --------------------------------------");
 
 	expect(3);
 
@@ -171,6 +177,12 @@ function _clickTest(menu){
         createMenu: function(event, ui){
             log("createMenu");
         },
+//        focus: function(event, ui){
+//            log("focus");
+//        },
+//        blur: function(event, ui){
+//            log("blur");
+//        },
         select: function(event, ui){
             window.console.log("select");
             var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
@@ -181,7 +193,10 @@ function _clickTest(menu){
         open: function(event){
             log("open");
             setTimeout(function(){
+            	var ctm = $ctx.data("moogle-contextmenu"),
+            		mnu = ctm.$menu.data("ui-menu");
                 click($popup, 0);
+                console.log($popup, $ctx);
             }, 10);
         },
         close: function(event){
@@ -200,18 +215,19 @@ function _clickTest(menu){
 	    // TODO: why is focus() called twice?
         equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(#cut),close",
                 "Event sequence OK.");
+		window.console.log("TEST 2 END ----------------------------------");
         start();
-	}, 4000);
+	}, 500);
 }
 
 
-//asyncTest("Array menu", function(){
-//    _clickTest(SAMPLE_MENU);
-//});
+asyncTest("Array menu", function(){
+    _clickTest(SAMPLE_MENU);
+});
 
 
 asyncTest("UL menu", function(){
-    _clickTest("ul#sampleMenu1");
+    _clickTest("ul#sampleMenu");
 });
 
 

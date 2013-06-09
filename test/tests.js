@@ -29,6 +29,11 @@ function TestHelpers() {
 		clearLog: function() {
 			log.length = 0;
 		},
+		entryEvent: function( menu, item, type ) {
+			lastItem = item;
+			window.console.log(type + ": ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
+			menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( type );
+		},
 		click: function( menu, item ) {
 			lastItem = item;
 			window.console.log("clck: ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
@@ -101,13 +106,17 @@ var th = new TestHelpers(),
 	log = th.log,
 	logOutput = th.logOutput,
 	click = th.click,
+	entryEvent = th.entryEvent,
 	entry = th.entry,
 	lifecycle = {
 		setup: function () {
 			th.clearLog();
+			// Always create a fresh copy of the menu <UL> definition
+			$("#sampleMenuTemplate").clone().attr("id", "sampleMenu").appendTo("body");
 		},
 		teardown: function () {
 			$(":moogle-contextmenu").contextmenu("destroy");
+			$("#sampleMenu").remove();
 		}
 	},
 	SAMPLE_MENU = [
@@ -160,13 +169,13 @@ function _createTest(menu){
 	log( "afterConstructor");
 	$ctx = $(":moogle-contextmenu");
 	equal( $ctx.length, 1, "widget created");
-//    ok($("#sampleMenu1").hasClass( "moogle-contextmenu" ), "Class set to menu definition");
+//    ok($("#sampleMenu").hasClass( "moogle-contextmenu" ), "Class set to menu definition");
 	equal( $("head style.moogle-contextmenu-style").length, 1, "global stylesheet created");
 
 	$ctx.contextmenu("destroy");
 
 	equal( $(":moogle-contextmenu").length, 0, "widget destroyed");
-//    ok( ! $("#sampleMenu1").hasClass( "moogle-contextmenu" ), "Class removed from menu definition");
+//    ok( ! $("#sampleMenu").hasClass( "moogle-contextmenu" ), "Class removed from menu definition");
 	equal( $("head style.moogle-contextmenu-style").length, 0, "global stylesheet removed");
 
 	equal(logOutput(), "constructor,createMenu,create,afterConstructor",
@@ -174,7 +183,7 @@ function _createTest(menu){
 }
 
 test("create from UL", function(){
-	_createTest("ul#sampleMenu1");
+	_createTest("ul#sampleMenu");
 });
 
 
@@ -237,7 +246,7 @@ function _openTest(menu){
 
 
 asyncTest("UL menu", function(){
-	_openTest("ul#sampleMenu1");
+	_openTest("ul#sampleMenu");
 });
 
 
@@ -276,7 +285,7 @@ function _clickTest(menu){
 ////            equal( ui.cmd, "cut", "focus: ui.cmd is set" );
 ////            ok( !ui.target || ui.target.text() === "AAA", "focus: ui.target is set" );
 //        },
-        /* blur seems always to have ui.item === null. Also called twice in Safari? */
+//        /* blur seems always to have ui.item === null. Also called twice in Safari? */
 //		blur: function(event, ui){
 //		    var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
 //			log("blur(" + t + ")");
@@ -293,7 +302,8 @@ function _clickTest(menu){
         open: function(event){
             log("open");
             setTimeout(function(){
-                click($popup, 0);
+            	entryEvent($popup, 0, "mouseenter");
+            	click($popup, 0);
             }, 10);
         },
         close: function(event){
@@ -313,7 +323,7 @@ function _clickTest(menu){
         equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(#cut),close",
                 "Event sequence OK.");
         start();
-	}, 4000);
+	}, 500);
 }
 
 
@@ -323,7 +333,7 @@ asyncTest("Array menu", function(){
 
 
 asyncTest("UL menu", function(){
-	_clickTest("ul#sampleMenu1");
+	_clickTest("ul#sampleMenu");
 });
 
 

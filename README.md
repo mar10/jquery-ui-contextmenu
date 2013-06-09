@@ -180,6 +180,10 @@ structure (see [jQueryUI menu] for details):
 <dd>
     Return the jQuery object for the menu's <code>UL</code> element.
 </dd>
+<dt>isOpen()</dt>
+<dd>
+    Return true if popup is visible.
+</dd>
 <dt>open(target)</dt>
 <dd>
     Open context menu on a specific target (target must match the options.delegate filter).<br>

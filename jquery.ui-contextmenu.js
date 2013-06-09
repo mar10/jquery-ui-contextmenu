@@ -48,7 +48,6 @@
 			this.$menu = null;
 			this.menuIsTemp = false;
 			this.currentTarget = null;
-			this.ns = "." + this.widgetName;
 
 			if(opts.preventSelect){
 				// Create a global style for all potential menu targets
@@ -67,31 +66,27 @@
 					.appendTo("head");
 				// TODO: the selectstart is not supported by FF?
 				if(supportSelectstart){
-					this.element.delegate(opts.delegate, "selectstart" + this.ns, function(event){
+					this.element.delegate(opts.delegate, "selectstart" + this.eventNamespace, function(event){
 						event.preventDefault();
 					});
 				}
 			}
 			this._createUiMenu(opts.menu);
 
-			eventNames = "contextmenu" + this.ns;
+			eventNames = "contextmenu" + this.eventNamespace;
 			if(opts.taphold){
-				eventNames += " taphold" + this.ns;
+				eventNames += " taphold" + this.eventNamespace;
 			}
+			console.log("_create() - element.delegate('" + this.eventNamespace + "')");
 			this.element.delegate(opts.delegate, eventNames, $.proxy(this._openMenu, this));
-
-			console.log("_create() - delegate");
-
-//			this._trigger("init");
 		},
 		/** Destructor, called on $().contextmenu("destroy"). */
 		_destroy: function(){
-		    console.log("_destroy() undelegate NS menu=", this.$menu);
-			this.element.undelegate(this.ns);
-			if(this.isOpen()){
-			    this._closeMenu();
-			}
+		    console.log("_destroy() element.undelegate('" + this.eventNamespace + "'), menu=", this.$menu);
+			this.element.undelegate(this.eventNamespace);
+			
 			this._createUiMenu(null);
+			
 			if(this.$headStyle){
 				this.$headStyle.remove();
 				this.$headStyle = null;
@@ -100,19 +95,25 @@
 		/** (Re)Create jQuery UI Menu. */
 		_createUiMenu: function(menuDef){
 			// Remove temporary <ul> if any
-		    console.log("_createUiMenu()", menuDef);
+		    console.log("_createUiMenu("+ menuDef + ")");
+		    
+			if(this.isOpen()){
+				// close without animation, to force async mode
+			    this._closeMenu(true);
+			}
+			
 			if(this.menuIsTemp){
-	            console.log("_createUiMenu - remove ", this.$menu);
+	            console.log("_createUiMenu - remove $menu", this.$menu);
 				this.$menu.remove(); // this will also destroy ui.menu
-				this.menuIsTemp = false;
 			} else if(this.$menu){
-                console.log("_createUiMenu - destroy ", this.$menu);
+                console.log("_createUiMenu - destroy $menu", this.$menu);
 				this.$menu.menu("destroy").hide();
 			}
+			this.$menu = null;
+			this.menuIsTemp = false;
 			// If a menu definition array was passed, create a hidden <ul>
 			// and generate the structure now
 			if( ! menuDef ){
-				this.$menu = null;
 				return;
 			} else if($.isArray(menuDef)){
 				this.$menu = $.moogle.contextmenu.createMenuMarkup(menuDef);
@@ -123,6 +124,7 @@
 				this.$menu = menuDef;
 			}
 			// Create - but hide - the jQuery UI Menu widget
+            console.log("_createUiMenu - create $menu", this.$menu);
 			this.$menu
 				.hide()
 //				.addClass("moogle-contextmenu")
@@ -132,7 +134,6 @@
 					create: $.proxy(this.options.createMenu, this),
 					focus: $.proxy(this.options.focus, this),
 					select: $.proxy(function(event, ui){
-//					    window.console.log("select proxy");
 						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
 						ui.cmd = normCommand(ui.item.find(">a").attr("href"));
 						ui.target = $(this.currentTarget);
@@ -158,16 +159,17 @@
 			event.preventDefault();
 
 			if( this._trigger("beforeOpen", event, ui) === false ){
+				this.currentTarget = null;
 				return false;
 			}
 			ui.menu = this.$menu; // Might have changed in beforeOpen
 			// Register global event handlers that close the dropdown-menu
-            console.log("_openMenu() - document.bind: " + this.ns, this.menuIsTemp, this.$menu);
-			$(document).bind("keydown" + this.ns, function(event){
+            console.log("_openMenu() - document.bind('" + this.eventNamespace + "')", this.menuIsTemp, this.$menu);
+			$(document).bind("keydown" + this.eventNamespace, function(event){
 				if( event.which === $.ui.keyCode.ESCAPE ){
 					self._closeMenu();
 				}
-			}).bind("mousedown" + this.ns + " touchstart" + this.ns, function(event){
+			}).bind("mousedown" + this.eventNamespace + " touchstart" + this.eventNamespace, function(event){
 				// Close menu when clicked outside menu
 				if( !$(event.target).closest(".ui-menu-item").length ){
 					self._closeMenu();
@@ -198,21 +200,24 @@
 
 			this._show(this.$menu, this.options.show, function(){
 				self._trigger.call(self, "open", event, ui);
+	            console.log("_openMenu() - done");
 			});
 		},
 		/** Close popup. */
-		_closeMenu: function(){
-			var self = this;
+		_closeMenu: function(immediately){
+			var self = this,
+				hideOpts = immediately ? false : this.options.hide;
 
-            console.log("_closeMenu() - document.unbind: " + this.ns, this.menuIsTemp, this.$menu);
+            console.log("_closeMenu() - document.unbind('" + this.eventNamespace + "')", this.menuIsTemp, this.$menu);
             $(document)
-                .unbind("mousedown" + this.ns)
-                .unbind("touchstart" + this.ns)
-                .unbind("keydown" + this.ns);
-
-            this._hide(this.$menu, this.options.hide, function() {
+                .unbind("mousedown" + this.eventNamespace)
+                .unbind("touchstart" + this.eventNamespace)
+                .unbind("keydown" + this.eventNamespace);
+            
+            this._hide(this.$menu, hideOpts, function() {
 				self._trigger("close");
 				self.currentTarget = null;
+	            console.log("_closeMenu() - done");
 			});
 		},
 		/** Handle $().contextmenu("option", key, value) calls. */
@@ -229,6 +234,17 @@
 			var $entry = this.$menu.find("li a[href=#" + normCommand(cmd) + "]");
 			return wantLi ? $entry.closest("li") : $entry;
 		},
+		/** Close context menu. */
+		close: function(){
+			if(this.isOpen()){
+			    this._closeMenu();
+			}
+		},
+		/** Enable or disable the menu command. */
+		enableEntry: function(cmd, flag){
+			this._getMenuEntry(cmd, true).toggleClass("ui-state-disabled", (flag === false));
+		},
+		/** Redefine the whole menu. */
         /** Return Menu element (UL). */
         getMenu: function(){
             return this.$menu;
@@ -244,15 +260,6 @@
 			var e = jQuery.Event("contextmenu", {target: target.get(0)});
 			return this.element.trigger(e);
 		},
-		/** Close context menu. */
-		close: function(){
-			return this._closeMenu.call(this);
-		},
-		/** Enable or disable the menu command. */
-		enableEntry: function(cmd, flag){
-			this._getMenuEntry(cmd, true).toggleClass("ui-state-disabled", (flag === false));
-		},
-		/** Redefine the whole menu. */
 		replaceMenu: function(data){
 			this._createUiMenu(data);
 		},
