@@ -34,13 +34,11 @@
 			create: $.noop,       // menu was initialized
 			createMenu: $.noop,   // menu was initialized (original UI Menu)
 			focus: $.noop,        // menu option got focus
-//			init: $.noop,         // ui-contextmenu was initialized
 			open: $.noop,         // menu was opened
 			select: $.noop        // menu option was selected; return `false` to prevent closing
 		},
 		/** Constructor */
 		_create: function () {
-//			console.log("_create()");
 			var eventNames, targetId,
 				opts = this.options;
 
@@ -77,12 +75,10 @@
 			if(opts.taphold){
 				eventNames += " taphold" + this.eventNamespace;
 			}
-//			console.log("_create() - element.delegate('" + this.eventNamespace + "')");
 			this.element.delegate(opts.delegate, eventNames, $.proxy(this._openMenu, this));
 		},
 		/** Destructor, called on $().contextmenu("destroy"). */
 		_destroy: function(){
-//			console.log("_destroy() element.undelegate('" + this.eventNamespace + "'), menu=", this.$menu);
 			this.element.undelegate(this.eventNamespace);
 
 			this._createUiMenu(null);
@@ -95,18 +91,14 @@
 		/** (Re)Create jQuery UI Menu. */
 		_createUiMenu: function(menuDef){
 			// Remove temporary <ul> if any
-//			console.log("_createUiMenu("+ menuDef + ")");
-
 			if(this.isOpen()){
 				// close without animation, to force async mode
 				this._closeMenu(true);
 			}
 
 			if(this.menuIsTemp){
-//				console.log("_createUiMenu - remove $menu", this.$menu);
 				this.$menu.remove(); // this will also destroy ui.menu
 			} else if(this.$menu){
-//				console.log("_createUiMenu - destroy $menu", this.$menu);
 				this.$menu.menu("destroy").hide();
 			}
 			this.$menu = null;
@@ -124,7 +116,6 @@
 				this.$menu = menuDef;
 			}
 			// Create - but hide - the jQuery UI Menu widget
-//			console.log("_createUiMenu - create $menu", this.$menu);
 			this.$menu
 				.hide()
 //				.addClass("moogle-contextmenu")
@@ -149,7 +140,6 @@
 		},
 		/** Open popup (called on 'contextmenu' event). */
 		_openMenu: function(event){
-//			console.log("_openMenu()");
 			var opts = this.options,
 				posOption = opts.position,
 				self = this,
@@ -164,7 +154,6 @@
 			}
 			ui.menu = this.$menu; // Might have changed in beforeOpen
 			// Register global event handlers that close the dropdown-menu
-//			console.log("_openMenu() - document.bind('" + this.eventNamespace + "')", this.menuIsTemp, this.$menu);
 			$(document).bind("keydown" + this.eventNamespace, function(event){
 				if( event.which === $.ui.keyCode.ESCAPE ){
 					self._closeMenu();
@@ -200,7 +189,6 @@
 
 			this._show(this.$menu, this.options.show, function(){
 				self._trigger.call(self, "open", event, ui);
-//				console.log("_openMenu() - done");
 			});
 		},
 		/** Close popup. */
@@ -208,7 +196,7 @@
 			var self = this,
 				hideOpts = immediately ? false : this.options.hide;
 
-//			console.log("_closeMenu() - document.unbind('" + this.eventNamespace + "')", this.menuIsTemp, this.$menu);
+			// Note: we don't want to unbind the 'contextmenu' event
 			$(document)
 				.unbind("mousedown" + this.eventNamespace)
 				.unbind("touchstart" + this.eventNamespace)
@@ -217,7 +205,6 @@
 			this._hide(this.$menu, hideOpts, function() {
 				self._trigger("close");
 				self.currentTarget = null;
-//				console.log("_closeMenu() - done");
 			});
 		},
 		/** Handle $().contextmenu("option", key, value) calls. */

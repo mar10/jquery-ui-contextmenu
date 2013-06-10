@@ -45,50 +45,9 @@ function TestHelpers() {
 	};
 }
 
-/** Create a profile wrapper */
-/*
-function profile(fn, flag, opts){
-	if( flag === false ){
-		return fn;
-	}
-	var start, elap,
-		count = 0,
-		level = 0,
-		maxLevel = 0,
-		name = fn.name,
-		min =  Math.pow(2, 32) - 1,
-		max = 0,
-		sum = 0,
-		printTime = opts.printTime !== false,
-		wrapper = function(){
-			count += 1;
-			level += 1;
-			if(printTime && level === 1){
-				console.time(name);
-			}
-
-			start = new Date().getTime();
-			fn.apply(this, arguments);
-			elap = new Date().getTime() - start;
-
-			min = Math.min(min, elap);
-			max = Math.max(max, elap);
-			maxLevel = Math.max(maxLevel, elap);
-			sum += elap;
-			if(printTime && level === 1){
-				console.timeEnd(name);
-			}
-			level -= 1;
-		};
-	wrapper.stats = function(){
-		return "count";
-	};
-	return wrapper;
-}
-*/
-
 
 // ****************************************************************************
+
 
 jQuery(document).ready(function(){
 
@@ -100,7 +59,9 @@ QUnit.log(function(data) {
 //        window.console.log(data.result + " :: " + data.message);
 	}
 });
+
 QUnit.config.requireExpects = true;
+
 
 var th = new TestHelpers(),
 	log = th.log,
@@ -182,6 +143,7 @@ function _createTest(menu){
 		  "Event sequence OK." );
 }
 
+
 test("create from UL", function(){
 	_createTest("ul#sampleMenu");
 });
@@ -199,7 +161,7 @@ module("open", lifecycle);
 function _openTest(menu){
 	var $ctx, $popup;
 
-	expect(11);
+	expect(18);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -211,22 +173,38 @@ function _openTest(menu){
 				   "beforeOpen: Got contextmenubeforeopen event" );
 			equal( ui.target.text(), "AAA",
 				  "beforeOpen: ui.target is set" );
-			ok( $popup.is(":hidden"), "beforeOpen: Menu is hidden" );
+			ok( $popup.is(":hidden"),
+				"beforeOpen: Menu is hidden" );
 			ok( ! entry($popup, 0).hasClass("ui-state-disabled"),
 				"beforeOpen: Entry 0 is enabled" );
 			ok( entry($popup, 2).hasClass("ui-state-disabled"),
 				"beforeOpen: Entry 2 is disabled" );
 
-			$("#container").contextmenu("enableEntry", "cut", false);
+			ok($ctx.contextmenu("isOpen"), "isOpen() false in beforeOpen event");
 
-			ok( entry($popup, 0).hasClass("ui-state-disabled"),
-				"beforeOpen: Entry 0 is disabled" );
+			$("#container").contextmenu("enableEntry", "cut", false);
+			$("#container").contextmenu("showEntry", "copy", false);
 		},
 		open: function(event){
 			log("open");
 
-			ok( $popup.is(":visible"), "open: Menu is visible" );
-			ok( entry($popup, 2).hasClass("ui-state-disabled"), "open: Entry is disabled" );
+			ok( $popup.is(":visible"),
+				"open: Menu is visible" );
+			ok( entry($popup, 2).hasClass("ui-state-disabled"),
+				"open: Entry is disabled" );
+
+			ok( $ctx.contextmenu("isOpen"),
+				"isOpen() true in open event");
+
+			ok( entry($popup, 0).is(":visible"),
+				"beforeOpen: Entry 0 is visible" );
+			ok( entry($popup, 0).hasClass("ui-state-disabled"),
+				"beforeOpen: Entry 0 is disabled: enableEntry(false) worked" );
+
+			ok( entry($popup, 1).is(":hidden"),
+				"beforeOpen: Entry 1 is hidden: showEntry(false) worked" );
+			ok( !entry($popup, 1).hasClass("ui-state-disabled"),
+				"beforeOpen: Entry 1 is enabled" );
 
 			equal(logOutput(), "open(),beforeOpen,after open(),open",
 				  "Event sequence OK.");
@@ -236,6 +214,9 @@ function _openTest(menu){
 
 	$ctx = $(":moogle-contextmenu");
 	$popup = $ctx.contextmenu("getMenu");
+
+	ok($popup, "getMenu() works");
+	ok(!$ctx.contextmenu("isOpen"), "menu initially closed");
 
 	equal( $ctx.length, 1, "widget created");
 	ok($popup.is(":hidden"), "Menu is hidden");
