@@ -8,6 +8,7 @@
  * Copyright (c) 2013, Martin Wendt (http://wwWendt.de). Licensed MIT.
  */
 ;(function($, window, document, undefined) {
+	"use strict";
 	var supportSelectstart = "onselectstart" in document.createElement("div");
 
 	/** Return command without leading '#' (default to ""). */
