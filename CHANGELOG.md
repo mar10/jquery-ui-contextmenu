@@ -1,4 +1,6 @@
-# 1.0.0 / Unreleased
+# 1.0.1 / Unreleased
+
+# 1.0.0 / 2013-06-12
 
 * [CHANGE] Removed `init` event, added `createMenu` event.
 * [CHANGE] Added unit tests.

@@ -279,6 +279,6 @@ Contributors in order of appearance:
 
 ~~~~
 
-![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mar10/jquery-contextmenu/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mar10/jquery-contextmenu/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 [jQueryUI menu]: http://jqueryui.com/menu/
