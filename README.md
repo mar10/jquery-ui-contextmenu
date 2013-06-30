@@ -1,4 +1,4 @@
-# jquery.ui-contextmenu [![Build Status](https://travis-ci.org/mar10/jquery-contextmenu.png?branch=master)](https://travis-ci.org/mar10/jquery-contextmenu)
+# jquery.ui-contextmenu [![Build Status](https://travis-ci.org/mar10/jquery-ui-contextmenu.png?branch=master)](https://travis-ci.org/mar10/jquery-ui-contextmenu)
 
 A jQuery plugin that provides a context menu (based on the standard [jQueryUI menu] widget).
 
@@ -292,7 +292,7 @@ Contributors in order of appearance:
 
 * [Jeffrey Dean Altemus](http://jeff.teamaltemus.net)
 
-~~~~
+----
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mar10/jquery-contextmenu/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
