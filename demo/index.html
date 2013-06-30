@@ -48,7 +48,7 @@ body{
 	font-size: .8em;
 }
 .ui-menu {
-	width: 120px;
+	width: 150px;
 }
 
 /* Define a custom icon */
@@ -75,7 +75,7 @@ $(function(){
 			{title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
 			{title: "----"},
 			{title: "More", children: [
-				{title: "Sub 1", cmd: "sub1"},
+				{title: "Sub 1 (using callback)", action: function(event, ui) { alert("action callback sub1");} },
 				{title: "Sub 2", cmd: "sub1"}
 				]}
 			],
@@ -162,6 +162,7 @@ $(function(){
 	<h3>Sample 1</h3>
 	<ul>
 		<li>Initialized using a command-array.
+		<li>Entry 'More - Sub1' uses the callback syntax.
 		<li>The menu is modified in the `beforeOpen` event (disabling an renaming entries).
 		<li>`preventSelect: true` prevents accidential selection of the menu
 			targets (i.e. 'AAA') when double-clicking or dragging the mouse.

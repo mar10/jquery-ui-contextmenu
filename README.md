@@ -57,12 +57,12 @@ $("#container").contextmenu({
 
 
 Instead of handling all menu commands in the `select` event, it is also possible
-to attach callbacks to single menu entries using the `action` property:
+to attach callbacks directly to menu entries:
 ```js
 $(document).contextmenu({
     delegate: ".hasmenu",
     menu: [
-        {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy", action: function(event, ui){
+        {title: "Copy", uiIcon: "ui-icon-copy", action: function(event, ui){
                 alert("Copy " + ui.target.text());
              }
          },
