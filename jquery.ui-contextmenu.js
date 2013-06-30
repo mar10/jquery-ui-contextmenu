@@ -18,7 +18,7 @@
 
 
 	$.widget("moogle.contextmenu", {
-		version: "1.0.0",
+		version: "1.1.0",
 		options: {
 			delegate: null,       // selector
 			hide: { effect: "fadeOut", duration: "fast"},
@@ -126,12 +126,20 @@
 					create: $.proxy(this.options.createMenu, this),
 					focus: $.proxy(this.options.focus, this),
 					select: $.proxy(function(event, ui){
-						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
-						ui.cmd = normCommand(ui.item.find(">a").attr("href"));
+						// User selected a menu entry
+						var retval,
+							isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0),
+							$a = ui.item.find(">a"),
+							actionHandler = $a.data("actionHandler");
+						ui.cmd = normCommand($a.attr("href"));
 						ui.target = $(this.currentTarget);
 						// ignore clicks, if they only open a sub-menu
 						if( !isParent || !this.options.ignoreParentSelect){
-							if( this._trigger.call(this, "select", event, ui) !== false ){
+							retval = this._trigger.call(this, "select", event, ui);
+							if( actionHandler ){
+								retval = actionHandler.call(this, event, ui);
+							}
+							if( retval !== false ){
 								this._closeMenu.call(this);
 							}
 							event.preventDefault();
@@ -289,6 +297,9 @@ $.extend($.moogle.contextmenu, {
 				text: "" + entry.title,
 				href: "#" + normCommand(entry.cmd)
 			}).appendTo($parentLi);
+			if( $.isFunction(entry.action) ){
+				$a.data("actionHandler", entry.action);
+			}
 			if(entry.uiIcon){
 				$a.append($("<span class='ui-icon'>").addClass(entry.uiIcon));
 			}

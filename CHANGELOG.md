@@ -1,4 +1,6 @@
-# 1.0.1 / Unreleased
+# 1.1.0 / 2013-06-30
+
+* [FEATURE] Added `action` option for menu entries.
 
 # 1.0.0 / 2013-06-12
 

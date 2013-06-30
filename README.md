@@ -43,7 +43,6 @@ $("#container").contextmenu({
 	delegate: ".hasmenu",
 	menu: [
 		{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
-		{title: "Paste", cmd: "paste", disabled: true },
 		{title: "----"},
 		{title: "More", children: [
 			{title: "Sub 1", cmd: "sub1"},
@@ -55,6 +54,22 @@ $("#container").contextmenu({
 	}
 });
 ```
+
+
+Instead of handling all menu commands in the `select` event, it is also possible
+to attach callbacks to single menu entries using the `action` property:
+```js
+$(document).contextmenu({
+    delegate: ".hasmenu",
+    menu: [
+        {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy", action: function(event, ui){
+                alert("Copy " + ui.target.text());
+             }
+         },
+        ...
+});
+```
+
 
 To attach menus to *all* elements on the page that have `class="hasmenu"`,
 we use `document` as context:
