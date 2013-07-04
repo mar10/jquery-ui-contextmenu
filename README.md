@@ -291,6 +291,7 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 Contributors in order of appearance:
 
 * [Jeffrey Dean Altemus](http://jeff.teamaltemus.net)
+* Francis Rath
 
 ----
 

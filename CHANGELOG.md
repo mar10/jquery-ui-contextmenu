@@ -1,6 +1,6 @@
 # 1.2.0 / 2013-07-04
 
-* [FEATURE] Added `data` option for menu entries.
+* [FEATURE] Added `data` option for menu entries (Francis Rath).
 
 # 1.1.0 / 2013-06-30
 
