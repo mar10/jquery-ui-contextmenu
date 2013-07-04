@@ -1,3 +1,7 @@
+# 1.2.0 / 2013-07-04
+
+* [FEATURE] Added `data` option for menu entries.
+
 # 1.1.0 / 2013-06-30
 
 * [FEATURE] Added `action` option for menu entries.
