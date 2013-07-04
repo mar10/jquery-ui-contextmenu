@@ -306,6 +306,11 @@ $.extend($.moogle.contextmenu, {
 			if(entry.disabled){
 				$parentLi.addClass("ui-state-disabled");
 			}
+			if(entry.data && $.isPlainObject(entry.data)){
+				$.each(entry.data, function (key, val) {
+					$a.data(key, val);
+				});
+			}
 		}
 		return $a;
 	},
