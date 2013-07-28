@@ -1,3 +1,7 @@
+# 1.2.2 / 2013-07-28
+
+* [CHANGE] Added ThemeRoller switcher to demo page.
+
 # 1.2.0 / 2013-07-04
 
 * [FEATURE] Added `data` option for menu entries (Francis Rath).
