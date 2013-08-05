@@ -226,7 +226,7 @@ structure (see [jQueryUI menu] for details):
 ### Events
 jquery-contextmenu exposes events from [jQueryUI menu]: `blur`, `create`, `focus`, `select`.
 However, since the `event.target` parameter contains the menu item, we additionally pass the element 
-that was right-clicked in `event.relatedTarget`.
+that was right-clicked in `ui.target`.
 
 Events may be handled by passing a handler callback option:
 ```js
