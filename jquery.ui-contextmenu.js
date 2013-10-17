@@ -295,7 +295,7 @@ $.extend($.moogle.contextmenu, {
 		}else{
 			$a = $("<a>", {
 				text: "" + entry.title,
-				href: "#" + normCommand(entry.cmd)
+				href: entry.href? entry.href :"#" + normCommand(entry.cmd)
 			}).appendTo($parentLi);
 			if( $.isFunction(entry.action) ){
 				$a.data("actionHandler", entry.action);
