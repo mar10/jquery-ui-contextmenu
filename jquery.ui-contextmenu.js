@@ -265,14 +265,20 @@
 				$entry = this._getMenuEntry(cmd, false);
 
 			if(typeof titleOrData === "string"){
-				// Replace <a> text without removing <span> child
-				$entry
-					.contents()
-					.filter(function(){ return this.nodeType === 3; })
-					.first()
-					.replaceWith(titleOrData);
+				if( $entry.children("span").length){
+					// Replace <a> text without removing <span> child
+					$entry
+						.contents()
+						.filter(function(){ return this.nodeType === 3; })
+						.first()
+						.replaceWith(titleOrData);
+				}else{
+					// <a> tag only contains text (above code doesn't work here)
+					$entry.text(titleOrData);
+				}
 			}else{
 				$parent = $entry.closest("li").empty();
+				titleOrData.cmd = titleOrData.cmd || cmd;
 				$.moogle.contextmenu.createEntryMarkup(titleOrData, $parent);
 			}
 		},
