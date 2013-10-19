@@ -296,7 +296,9 @@ $.extend($.moogle.contextmenu, {
 	createEntryMarkup: function(entry, $parentLi){
 		var $a = null;
 
-		if(entry.title.match(/^---/)){
+		// if(entry.title.match(/^---/)){
+		if( !/[^\-\u2014\u2013\s]/.test( entry.title ) ){
+			// hyphen, em dash, en dash: separator as defined by UI Menu 1.10
 			$parentLi.text(entry.title);
 		}else{
 			$a = $("<a>", {
