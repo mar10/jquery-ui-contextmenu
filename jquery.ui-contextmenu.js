@@ -256,6 +256,7 @@
 			var e = jQuery.Event("contextmenu", {target: target.get(0)});
 			return this.element.trigger(e);
 		},
+		/** Replace the menu altogether. */
 		replaceMenu: function(data){
 			this._createUiMenu(data);
 		},
