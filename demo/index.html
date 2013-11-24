@@ -3,8 +3,9 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 	<title>jquery.ui-contextmenu.js - Demo</title>
-	<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+	<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/start/jquery-ui.css" />
 	<!-- min requirements:
+	<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
 	<script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
 	<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js" type="text/javascript"></script>
 	 -->
@@ -13,6 +14,9 @@
 
 	<!-- Some custom library to enable 'taphold' events -->
 	<script src="jquery-taphold/taphold.js" type="text/javascript"></script>
+
+	<!-- Custom library to add a dynamic themeroller switcher -->
+	<script type="text/javascript" src="../lib/Super-Theme-Switcher/jquery.themeswitcher.js"></script>
 
 	<script src="../jquery.ui-contextmenu.js" type="text/javascript"></script>
 
@@ -48,7 +52,7 @@ body{
 	font-size: .8em;
 }
 .ui-menu {
-	width: 120px;
+	width: 150px;
 }
 
 /* Define a custom icon */
@@ -63,6 +67,13 @@ body{
 <script type="text/javascript">
 var CLIPBOARD = "";
 $(function(){
+	/* Enable a themeroller theme-switching using a combobox. */
+	$("#switcher").themeswitcher({
+		jqueryuiversion: "1",
+		imgpath: "../lib/Super-Theme-Switcher/images/",
+		loadTheme: "Smoothness"
+	});
+
 	/* Menu 1: init by passing an array of entries. */
 
 	$(document).contextmenu({
@@ -75,10 +86,11 @@ $(function(){
 			{title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
 			{title: "----"},
 			{title: "More", children: [
-				{title: "Sub 1", cmd: "sub1"},
+				{title: "Sub 1 (using callback)", action: function(event, ui) { alert("action callback sub1");} },
 				{title: "Sub 2", cmd: "sub1"}
 				]}
 			],
+		// Handle menu selection to implement a fake-clipboard
 		select: function(event, ui) {
 			var $target = ui.target;
 			switch(ui.cmd){
@@ -92,6 +104,7 @@ $(function(){
 			alert("select " + ui.cmd + " on " + $target.text());
 			// Optionally return false, to prevent closing the menu now
 		},
+		// Implement the beforeOpen callback to dynamically change the entries
 		beforeOpen: function(event, ui) {
 			var $menu = ui.menu,
 				$target = ui.target;
@@ -159,9 +172,17 @@ $(function(){
 
 	<p><a href="https://github.com/mar10/jquery-ui-contextmenu">View project on GitHub</a></p>
 
+	<div>
+		<label for="switcher">Theme:</label> <div id="switcher"></div>
+		<!--
+		<label for="skinswitcher">Skin:</label> <select id="skinswitcher"></select>
+		-->
+	</div>
+
 	<h3>Sample 1</h3>
 	<ul>
 		<li>Initialized using a command-array.
+		<li>Entry 'More - Sub1' uses the callback syntax.
 		<li>The menu is modified in the `beforeOpen` event (disabling an renaming entries).
 		<li>`preventSelect: true` prevents accidential selection of the menu
 			targets (i.e. 'AAA') when double-clicking or dragging the mouse.

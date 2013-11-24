@@ -1,4 +1,19 @@
-# 1.0.1 / Unreleased
+# 1.2.3 / 2013-10-19
+
+* [CHANGE] Detection of separators compliant with UI Menu 1.10
+* [BUGFIX] Fixed setEntry for entries that don't have icons and handlemissing `cmd` option.
+
+# 1.2.2 / 2013-07-28
+
+* [CHANGE] Added ThemeRoller switcher to demo page.
+
+# 1.2.0 / 2013-07-04
+
+* [FEATURE] Added `data` option for menu entries (Francis Rath).
+
+# 1.1.0 / 2013-06-30
+
+* [FEATURE] Added `action` option for menu entries.
 
 # 1.0.0 / 2013-06-12
 

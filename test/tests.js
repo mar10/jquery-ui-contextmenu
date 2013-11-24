@@ -87,7 +87,7 @@ var th = new TestHelpers(),
 		{title: "----"},
 		{title: "More", children: [
 			{title: "Sub Item 1", cmd: "sub1"},
-			{title: "Sub Item 2", cmd: "sub2"}
+			{title: "Sub Item 2", cmd: "sub2" }
 			]}
 		],
 	$ = jQuery;
@@ -316,6 +316,62 @@ asyncTest("Array menu", function(){
 asyncTest("UL menu", function(){
 	_clickTest("ul#sampleMenu");
 });
+
+
+// ****************************************************************************
+
+
+module("'action' option", lifecycle);
+
+asyncTest("Array menu", function(){
+	var $ctx, $popup,
+		menu  = [
+		   {title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors",
+			action: function(event, ui) {
+				log("cut action");
+				equal( ui.cmd, "cut", "action: ui.cmd is set" );
+				equal( ui.target.text(), "AAA", "action: ui.target is set" );
+			}
+		   },
+		   {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
+		   {title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
+		   ];
+
+	expect(5);
+
+	$("#container").contextmenu({
+		delegate: ".hasmenu",
+		menu: menu,
+		open: function(event){
+			log("open");
+			setTimeout(function(){
+				click($popup, 0);
+			}, 10);
+		},
+		select: function(event, ui){
+			var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
+			log("select(" + t + ")");
+			equal( ui.cmd, "cut", "select: ui.cmd is set" );
+			equal( ui.target.text(), "AAA", "select: ui.target is set" );
+		},
+		close: function(event){
+			log("close");
+		}
+	});
+
+   $ctx = $(":moogle-contextmenu");
+   $popup = $ctx.contextmenu("getMenu");
+
+   log("open()");
+   $ctx.contextmenu("open", $("span.hasmenu:first"));
+   log("after open()");
+
+   setTimeout(function(){
+	   equal(logOutput(), "open(),after open(),open,select(#cut),cut action,close",
+		   "Event sequence OK.");
+	   start();
+   }, 500);
+	});
 
 
 });

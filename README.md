@@ -1,4 +1,4 @@
-# jquery.ui-contextmenu [![Build Status](https://travis-ci.org/mar10/jquery-contextmenu.png?branch=master)](https://travis-ci.org/mar10/jquery-contextmenu)
+# jquery.ui-contextmenu [![Build Status](https://travis-ci.org/mar10/jquery-ui-contextmenu.png?branch=master)](https://travis-ci.org/mar10/jquery-ui-contextmenu)
 
 A jQuery plugin that provides a context menu (based on the standard [jQueryUI menu] widget).
 
@@ -43,7 +43,6 @@ $("#container").contextmenu({
 	delegate: ".hasmenu",
 	menu: [
 		{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
-		{title: "Paste", cmd: "paste", disabled: true },
 		{title: "----"},
 		{title: "More", children: [
 			{title: "Sub 1", cmd: "sub1"},
@@ -55,6 +54,22 @@ $("#container").contextmenu({
 	}
 });
 ```
+
+
+Instead of handling all menu commands in the `select` event, it is also possible
+to attach callbacks directly to menu entries:
+```js
+$(document).contextmenu({
+    delegate: ".hasmenu",
+    menu: [
+        {title: "Copy", uiIcon: "ui-icon-copy", action: function(event, ui){
+                alert("Copy " + ui.target.text());
+             }
+         },
+        ...
+});
+```
+
 
 To attach menus to *all* elements on the page that have `class="hasmenu"`,
 we use `document` as context:
@@ -211,7 +226,7 @@ structure (see [jQueryUI menu] for details):
 ### Events
 jquery-contextmenu exposes events from [jQueryUI menu]: `blur`, `create`, `focus`, `select`.
 However, since the `event.target` parameter contains the menu item, we additionally pass the element 
-that was right-clicked in `event.relatedTarget`.
+that was right-clicked in `ui.target`.
 
 Events may be handled by passing a handler callback option:
 ```js
@@ -276,8 +291,9 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 Contributors in order of appearance:
 
 * [Jeffrey Dean Altemus](http://jeff.teamaltemus.net)
+* Francis Rath
 
-~~~~
+----
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mar10/jquery-contextmenu/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

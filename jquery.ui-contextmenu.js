@@ -8,6 +8,7 @@
  * Copyright (c) 2013, Martin Wendt (http://wwWendt.de). Licensed MIT.
  */
 ;(function($, window, document, undefined) {
+	"use strict";
 	var supportSelectstart = "onselectstart" in document.createElement("div");
 
 	/** Return command without leading '#' (default to ""). */
@@ -17,7 +18,7 @@
 
 
 	$.widget("moogle.contextmenu", {
-		version: "1.0.0",
+		version: "1.2.2",
 		options: {
 			delegate: null,       // selector
 			hide: { effect: "fadeOut", duration: "fast"},
@@ -125,12 +126,20 @@
 					create: $.proxy(this.options.createMenu, this),
 					focus: $.proxy(this.options.focus, this),
 					select: $.proxy(function(event, ui){
-						var isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0);
-						ui.cmd = normCommand(ui.item.find(">a").attr("href"));
+						// User selected a menu entry
+						var retval,
+							isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0),
+							$a = ui.item.find(">a"),
+							actionHandler = $a.data("actionHandler");
+						ui.cmd = normCommand($a.attr("href"));
 						ui.target = $(this.currentTarget);
 						// ignore clicks, if they only open a sub-menu
 						if( !isParent || !this.options.ignoreParentSelect){
-							if( this._trigger.call(this, "select", event, ui) !== false ){
+							retval = this._trigger.call(this, "select", event, ui);
+							if( actionHandler ){
+								retval = actionHandler.call(this, event, ui);
+							}
+							if( retval !== false ){
 								this._closeMenu.call(this);
 							}
 							event.preventDefault();
@@ -247,6 +256,7 @@
 			var e = jQuery.Event("contextmenu", {target: target.get(0)});
 			return this.element.trigger(e);
 		},
+		/** Replace the menu altogether. */
 		replaceMenu: function(data){
 			this._createUiMenu(data);
 		},
@@ -256,14 +266,20 @@
 				$entry = this._getMenuEntry(cmd, false);
 
 			if(typeof titleOrData === "string"){
-				// Replace <a> text without removing <span> child
-				$entry
-					.contents()
-					.filter(function(){ return this.nodeType === 3; })
-					.first()
-					.replaceWith(titleOrData);
+				if( $entry.children("span").length){
+					// Replace <a> text without removing <span> child
+					$entry
+						.contents()
+						.filter(function(){ return this.nodeType === 3; })
+						.first()
+						.replaceWith(titleOrData);
+				}else{
+					// <a> tag only contains text (above code doesn't work here)
+					$entry.text(titleOrData);
+				}
 			}else{
 				$parent = $entry.closest("li").empty();
+				titleOrData.cmd = titleOrData.cmd || cmd;
 				$.moogle.contextmenu.createEntryMarkup(titleOrData, $parent);
 			}
 		},
@@ -281,18 +297,26 @@ $.extend($.moogle.contextmenu, {
 	createEntryMarkup: function(entry, $parentLi){
 		var $a = null;
 
-		if(entry.title.match(/^---/)){
+		// if(entry.title.match(/^---/)){
+		if( !/[^\-\u2014\u2013\s]/.test( entry.title ) ){
+			// hyphen, em dash, en dash: separator as defined by UI Menu 1.10
 			$parentLi.text(entry.title);
 		}else{
 			$a = $("<a>", {
 				text: "" + entry.title,
 				href: "#" + normCommand(entry.cmd)
 			}).appendTo($parentLi);
+			if( $.isFunction(entry.action) ){
+				$a.data("actionHandler", entry.action);
+			}
 			if(entry.uiIcon){
 				$a.append($("<span class='ui-icon'>").addClass(entry.uiIcon));
 			}
 			if(entry.disabled){
 				$parentLi.addClass("ui-state-disabled");
+			}
+			if($.isPlainObject(entry.data)){
+				$a.data(entry.data);
 			}
 		}
 		return $a;
