@@ -53,7 +53,7 @@
 				// If the contextmenu was bound to `document`, we apply the
 				// selector relative to the <body> tag instead
 				targetId = ($(this.element).is(document) ? $("body") : this.element).uniqueId().attr("id");
-				this.$headStyle = $("<style class='moogle-contextmenu-style'>")
+				this.$headStyle = $("<style class='moogle-contextmenu-style' />")
 					.prop("type", "text/css")
 					.html("#" + targetId + " " + opts.delegate + " { " +
 						"-webkit-user-select: none; " +
@@ -302,7 +302,7 @@ $.extend($.moogle.contextmenu, {
 			// hyphen, em dash, en dash: separator as defined by UI Menu 1.10
 			$parentLi.text(entry.title);
 		}else{
-			$a = $("<a>", {
+			$a = $("<a/>", {
 				text: "" + entry.title,
 				href: "#" + normCommand(entry.cmd)
 			}).appendTo($parentLi);
@@ -310,7 +310,7 @@ $.extend($.moogle.contextmenu, {
 				$a.data("actionHandler", entry.action);
 			}
 			if(entry.uiIcon){
-				$a.append($("<span class='ui-icon'>").addClass(entry.uiIcon));
+				$a.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
 			}
 			if(entry.disabled){
 				$parentLi.addClass("ui-state-disabled");
@@ -325,16 +325,16 @@ $.extend($.moogle.contextmenu, {
 	createMenuMarkup: function(options, $parentUl){
 		var i, menu, $ul, $li;
 		if( $parentUl == null ){
-			$parentUl = $("<ul class='ui-helper-hidden'>").appendTo("body");
+			$parentUl = $("<ul class='ui-helper-hidden' />").appendTo("body");
 		}
 		for(i = 0; i < options.length; i++){
 			menu = options[i];
-			$li = $("<li>").appendTo($parentUl);
+			$li = $("<li/>").appendTo($parentUl);
 
 			$.moogle.contextmenu.createEntryMarkup(menu, $li);
 
 			if( $.isArray(menu.children) ){
-				$ul = $("<ul>").appendTo($li);
+				$ul = $("<ul/>").appendTo($li);
 				$.moogle.contextmenu.createMenuMarkup(menu.children, $ul);
 			}
 		}

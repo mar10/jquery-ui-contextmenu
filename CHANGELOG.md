@@ -1,3 +1,7 @@
+# 1.2.4 / unreleased
+
+* [BUGFIX] Fixed #46 'Not working on XHTML page' (poofeg)
+
 # 1.2.3 / 2013-10-19
 
 * [CHANGE] Detection of separators compliant with UI Menu 1.10
