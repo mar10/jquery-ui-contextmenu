@@ -30,8 +30,10 @@ module.exports = function (grunt) {
 			},
 			sauce: {
 				options: {
+					hostname: "localhost",
 					port: 9999,
-					base: ""
+					base: "",
+					keepalive: false
 				}
 			}
 		},
@@ -63,20 +65,20 @@ module.exports = function (grunt) {
 		"saucelabs-qunit": {
 			all: {
 				options: {
-					urls: ["http://128.0.0.1:9999/test/index.html"],
+					urls: ["http://localhost:9999/test/index.html"],
 					// username: process.env.SAUCE_USERNAME,
 					// key: process.env.SAUCE_ACCESS_KEY,
 					tunnelTimeout: 5,
 					build: process.env.TRAVIS_JOB_ID,
 					concurrency: 3,
 					browsers: [
-						// { browserName: "safari", platform: "OS X 10.8"},
-						// { browserName: "firefox", platform: "Windows 7"},
-						// { browserName: "firefox", platform: "Windows XP"},
-						{ browserName: "firefox", platform: "Linux"}
-						// { browserName: "chrome", platform: "Windows 7"},
-						// { browserName: "internet explorer", platform: "Windows 8", version: "10" },
-						// { browserName: "internet explorer", platform: "Windows 7", version: "9" }
+						{ browserName: "safari", platform: "OS X 10.8"},
+						{ browserName: "firefox", platform: "Windows 7"},
+						{ browserName: "firefox", platform: "Windows XP"},
+						{ browserName: "firefox", platform: "Linux"},
+						{ browserName: "chrome", platform: "Windows 7"},
+						{ browserName: "internet explorer", platform: "Windows 8", version: "10" },
+						{ browserName: "internet explorer", platform: "Windows 7", version: "9" }
 					],
 					testname: "jquery.ui-contextmenu qunit tests"
 				}
