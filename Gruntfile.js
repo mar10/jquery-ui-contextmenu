@@ -72,13 +72,13 @@ module.exports = function (grunt) {
 					build: process.env.TRAVIS_JOB_ID,
 					concurrency: 3,
 					browsers: [
-						{ browserName: "safari", platform: "OS X 10.8"},
+						{ browserName: "chrome", platform: "Windows 7"},
 						{ browserName: "firefox", platform: "Windows 7"},
 						{ browserName: "firefox", platform: "Windows XP"},
 						{ browserName: "firefox", platform: "Linux"},
-						{ browserName: "chrome", platform: "Windows 7"},
-						{ browserName: "internet explorer", platform: "Windows 8", version: "10" },
-						{ browserName: "internet explorer", platform: "Windows 7", version: "9" }
+						{ browserName: "internet explorer", version: "9", platform: "Windows 7" },
+						{ browserName: "internet explorer", version: "10", platform: "Windows 8" },
+						{ browserName: "safari", platform: "OS X 10.8"}
 					],
 					testname: "jquery.ui-contextmenu qunit tests"
 				}
@@ -101,7 +101,7 @@ module.exports = function (grunt) {
 		}
 	});
 
-	// Loadi "grunt*" dependencies
+	// Load "grunt*" dependencies
 	for (var key in grunt.file.readJSON("package.json").devDependencies) {
 		if (key !== "grunt" && key.indexOf("grunt") === 0) {
 			grunt.loadNpmTasks(key);
@@ -115,7 +115,8 @@ module.exports = function (grunt) {
 	// See
 	// https://saucelabs.com/docs/javascript-unit-testing-tutorial
 	//
-	grunt.registerTask("saucelabs", ["connect:sauce",
+	grunt.registerTask("saucelabs", ["test",
+								     "connect:sauce",
 									 "saucelabs-qunit"]);
 
 	grunt.registerTask("travis", ["test"]);
