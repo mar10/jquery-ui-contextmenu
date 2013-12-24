@@ -116,7 +116,7 @@ module.exports = function (grunt) {
 	// https://saucelabs.com/docs/javascript-unit-testing-tutorial
 	//
 	grunt.registerTask("saucelabs", ["test",
-								     "connect:sauce",
+									 "connect:sauce",
 									 "saucelabs-qunit"]);
 
 	grunt.registerTask("travis", ["test"]);

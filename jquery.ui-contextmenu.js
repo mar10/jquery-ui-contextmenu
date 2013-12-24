@@ -210,10 +210,10 @@
 				.unbind("mousedown" + this.eventNamespace)
 				.unbind("touchstart" + this.eventNamespace)
 				.unbind("keydown" + this.eventNamespace);
+			self.currentTarget = null; // issue #44 after hide animation is too late
 
 			this._hide(this.$menu, hideOpts, function() {
 				self._trigger("close");
-				self.currentTarget = null;
 			});
 		},
 		/** Handle $().contextmenu("option", key, value) calls. */
