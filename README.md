@@ -18,6 +18,8 @@ The latest release is available for download at
 
 See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/master/CHANGELOG.md).
 
+Browser status matrix:
+
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/sauce-contextmenu.svg)](https://saucelabs.com/u/sauce-contextmenu)
 
 ## Demo
