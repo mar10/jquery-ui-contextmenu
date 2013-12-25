@@ -40,7 +40,7 @@
 		},
 		/** Constructor */
 		_create: function () {
-			var eventNames, targetId,
+			var cssText, eventNames, targetId,
 				opts = this.options;
 
 			this.$headStyle = null;
@@ -53,16 +53,24 @@
 				// If the contextmenu was bound to `document`, we apply the
 				// selector relative to the <body> tag instead
 				targetId = ($(this.element).is(document) ? $("body") : this.element).uniqueId().attr("id");
-				this.$headStyle = $("<style class='moogle-contextmenu-style' />")
-					.prop("type", "text/css")
-					.html("#" + targetId + " " + opts.delegate + " { " +
+				cssText = "#" + targetId + " " + opts.delegate + " { " +
 						"-webkit-user-select: none; " +
 						"-khtml-user-select: none; " +
 						"-moz-user-select: none; " +
 						"-ms-user-select: none; " +
 						"user-select: none; " +
-						"}")
+						"}";
+				this.$headStyle = $("<style class='moogle-contextmenu-style' />")
+					.prop("type", "text/css")
 					.appendTo("head");
+
+				try {
+					this.$headStyle.html(cssText);
+				} catch( e ) {
+					// issue #47: fix for IE 6-8
+					this.$headStyle[0].styleSheet.cssText = cssText;
+				}
+
 				// TODO: the selectstart is not supported by FF?
 				if(supportSelectstart){
 					this.element.delegate(opts.delegate, "selectstart" + this.eventNamespace, function(event){
