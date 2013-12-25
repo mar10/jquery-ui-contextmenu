@@ -119,7 +119,8 @@ module.exports = function (grunt) {
 									 "connect:sauce",
 									 "saucelabs-qunit"]);
 
-	grunt.registerTask("travis", ["test"]);
+	grunt.registerTask("travis", [//"test",
+								  "saucelabs"]);
 	grunt.registerTask("default", ["test"]);
 	grunt.registerTask("build", ["exec:tabfix",
 								 "test",

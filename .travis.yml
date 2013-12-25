@@ -6,5 +6,5 @@ before_script:
 script: grunt travis --verbose
 env:
   global:
-    - secure: DUhEjGprzxd3faSEcpVJKP+O2jOR0DOpUeZ/+uIiLFASrfAq0S9OUY8uc9Rbt5EhiIJVwygDVgPggSy4DSOLMH/JEIrSYGxIYfn8kAggIyCIX3tAapVAUCDheUQiNhCw85W+jTGx12dXwdHdNcStFd4oUPwuaCc8SyMS48Sx0+k=
-    - secure: VGqTl3ta0EhrJZ/UjUeuuc/vLRgOtr/qGDyKvIeH4+glZXm5a8645iLCp0+y3boFwWsPGrWEz6cSuovGlvip5Dro2YH7B5+vyfZR4w87BRYalCegE5vDE7rRERcEk49KAXBrrk8hbHLTzaosr5/6dtJy802hty2lkNeHcl3oBns=
+    - secure: QdXg1LAOIuO/zv0GXXUKPo+26iI1CeVJLLWsf2S0XkZVdfmCdbzGjd8qb919BmJK12u1xicA8Ib2zCgf73PRy7asFOKuD6jvM1WYGQO4ApyBzYtKnO02ozJNIt6DsaKkWxvbEQcta7cVwCFv21pkmMjLKnO1FrvngtR87TpnNYI=
+    - secure: JeSpDsx9D2FxI9tmU4Qf0cqCo/yTcWpAKur1tgR2Gq1jBV9mb6dT/A/EPjXdp61R1lM3auTyo0UR/bl/h/MQwyy6CqCBDx/TY0VbdQrSiDPO6CCRpAbchJpMoh+k/FRSPBwiSFQ2LqI1JxHItXztnnMxffDRCd+uCqtCSM6lEW8=
