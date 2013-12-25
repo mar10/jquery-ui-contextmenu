@@ -63,8 +63,12 @@ module.exports = function (grunt) {
 						{ browserName: "firefox", platform: "Windows 7"},
 						{ browserName: "firefox", platform: "Windows XP"},
 						{ browserName: "firefox", platform: "Linux"},
+						{ browserName: "internet explorer", version: "6", platform: "Windows XP" },
+						{ browserName: "internet explorer", version: "7", platform: "Windows XP" },
+						{ browserName: "internet explorer", version: "8", platform: "Windows XP" },
 						{ browserName: "internet explorer", version: "9", platform: "Windows 7" },
 						{ browserName: "internet explorer", version: "10", platform: "Windows 8" },
+						{ browserName: "internet explorer", version: "11", platform: "Windows 8.1" },
 						{ browserName: "safari", platform: "OS X 10.8"}
 					],
 					testname: "jquery.ui-contextmenu qunit tests"
