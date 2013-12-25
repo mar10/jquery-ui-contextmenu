@@ -18,7 +18,7 @@
 
 
 	$.widget("moogle.contextmenu", {
-		version: "1.2.4",
+		version: "1.2.5-1",
 		options: {
 			delegate: null,       // selector
 			hide: { effect: "fadeOut", duration: "fast"},
