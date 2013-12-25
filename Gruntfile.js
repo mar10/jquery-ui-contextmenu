@@ -6,19 +6,6 @@ module.exports = function (grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON("package.json"),
-		compare_size: {
-			files: [
-				"jquery.ui-contextmenu.min.js",
-				"jquery.ui-contextmenu.js"
-			],
-			options: {
-				compress: {
-					gz: function (fileContents) {
-							return require("gzip-js").zip(fileContents, {}).length;
-					}
-				}
-			}
-		},
 		connect: {
 			demo: {
 				options: {
@@ -110,23 +97,15 @@ module.exports = function (grunt) {
 	grunt.registerTask("server", ["connect:demo"]);
 	grunt.registerTask("test", ["jshint",
 								"qunit"]);
-
-	//
-	// See
-	// https://saucelabs.com/docs/javascript-unit-testing-tutorial
-	//
-	grunt.registerTask("saucelabs", ["test",
-									 "connect:sauce",
-									 "saucelabs-qunit"]);
-
-	grunt.registerTask("travis", [//"test",
-								  "saucelabs"]);
+	grunt.registerTask("sauce", ["connect:sauce",
+								 "saucelabs-qunit"]);
+	grunt.registerTask("travis", ["test",
+								  "sauce"]);
 	grunt.registerTask("default", ["test"]);
 	grunt.registerTask("build", ["exec:tabfix",
 								 "test",
-								 "uglify",
-								 "compare_size"
-								 // "saucelabs"
+								 // "sauce",
+								 "uglify"
 								 ]);
 	grunt.registerTask("upload", ["build",
 								  "exec:upload"]);

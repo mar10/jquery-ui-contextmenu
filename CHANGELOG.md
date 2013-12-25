@@ -1,6 +1,12 @@
-# 1.2.4 / unreleased
+# 1.2.5 / unreleased
 
+* 
+
+# 1.2.4 / 2013-12-25
+
+* [BUGFIX] Fixed #44 'Double click on .hasmenu currentTarget empy'
 * [BUGFIX] Fixed #46 'Not working on XHTML page' (poofeg)
+* Added test matrix for different platforms.
 
 # 1.2.3 / 2013-10-19
 
