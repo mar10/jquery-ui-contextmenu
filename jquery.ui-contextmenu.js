@@ -18,7 +18,7 @@
 
 
 	$.widget("moogle.contextmenu", {
-		version: "1.2.5-1",
+		version: "1.3.0-1",
 		options: {
 			delegate: null,       // selector
 			hide: { effect: "fadeOut", duration: "fast"},
@@ -160,7 +160,7 @@
 			var opts = this.options,
 				posOption = opts.position,
 				self = this,
-				ui = {menu: this.$menu, target: $(event.target)};
+				ui = {menu: this.$menu, target: $(event.target), extraData: event.extraData};
 			this.currentTarget = event.target;
 			// Prevent browser from opening the system context menu
 			event.preventDefault();
@@ -248,7 +248,6 @@
 		enableEntry: function(cmd, flag){
 			this._getMenuEntry(cmd, true).toggleClass("ui-state-disabled", (flag === false));
 		},
-		/** Redefine the whole menu. */
 		/** Return Menu element (UL). */
 		getMenu: function(){
 			return this.$menu;
@@ -258,10 +257,13 @@
 //            return this.$menu && this.$menu.is(":visible");
 			return !!this.$menu && !!this.currentTarget;
 		},
-		/** Open context menu on a specific target (must match options.delegate) */
-		open: function(target){
+		/** Open context menu on a specific target (must match options.delegate)
+		 *  Optional `extraData` is passed to event handlers as `ui.extraData`.
+		 */
+		open: function(target, extraData){
 			// Fake a 'contextmenu' event
-			var e = jQuery.Event("contextmenu", {target: target.get(0)});
+			extraData = extraData || {};
+			var e = jQuery.Event("contextmenu", {target: target.get(0), extraData: extraData});
 			return this.element.trigger(e);
 		},
 		/** Replace the menu altogether. */

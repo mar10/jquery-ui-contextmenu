@@ -202,10 +202,11 @@ structure (see [jQueryUI menu] for details):
 <dd>
     Return true if popup is visible.
 </dd>
-<dt>open(target)</dt>
+<dt>open(target[, extraData])</dt>
 <dd>
     Open context menu on a specific target (target must match the options.delegate filter).<br>
-    Call like <code>$(...).contextmenu("open", target);</code>.
+    Call like <code>$(...).contextmenu("open", target[, extraData]);</code>.
+    Optional `extraData` will be available in eventHandlers as <code>ui.extraData</code>.
 </dd>
 <dt>replaceMenu(menu)</dt>
 <dd>

@@ -107,7 +107,9 @@ $(function(){
 		// Implement the beforeOpen callback to dynamically change the entries
 		beforeOpen: function(event, ui) {
 			var $menu = ui.menu,
-				$target = ui.target;
+				$target = ui.target,
+				extraData = ui.extraData; // passed when menu was opened by call to open()
+			// console.log("beforeOpen", event, ui, event.originalEvent.type);
 			$(document)
 //				.contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}])
 //				.contextmenu("replaceMenu", "#options2")
@@ -158,7 +160,7 @@ $(function(){
 
 	$("#triggerPopup").click(function(){
 		// Trigger popup menu on the first target element
-		$(document).contextmenu("open", $(".hasmenu:first"));
+		$(document).contextmenu("open", $(".hasmenu:first"), {foo: "bar"});
 		setTimeout(function(){
 			$(document).contextmenu("close");
 		}, 2000);

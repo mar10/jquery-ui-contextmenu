@@ -1,6 +1,6 @@
-# 1.2.5 / unreleased
+# 1.3.0 / unreleased
 
-* 
+* [FEATURE] New optional parameter open(..., extraData)
 
 # 1.2.4 / 2013-12-25
 
