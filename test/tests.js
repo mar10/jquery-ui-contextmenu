@@ -304,7 +304,7 @@ function _clickTest(menu){
 		equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(#cut),close",
 				"Event sequence OK.");
 		start();
-	}, 500);
+	}, 1000);
 }
 
 
