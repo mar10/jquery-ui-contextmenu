@@ -206,7 +206,7 @@ structure (see [jQueryUI menu] for details):
 <dd>
     Open context menu on a specific target (target must match the options.delegate filter).<br>
     Call like <code>$(...).contextmenu("open", target[, extraData]);</code>.
-    Optional `extraData` will be available in eventHandlers as <code>ui.extraData</code>.
+    Optional `extraData` will be available in event handlers as <code>ui.extraData</code>.
 </dd>
 <dt>replaceMenu(menu)</dt>
 <dd>
