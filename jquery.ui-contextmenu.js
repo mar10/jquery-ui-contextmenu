@@ -18,7 +18,7 @@
 
 
 	$.widget("moogle.contextmenu", {
-		version: "1.3.0-1",
+		version: "1.3.0",
 		options: {
 			autoTrigger: true,    // open menu on browser's `contextmenu` event
 			delegate: null,       // selector

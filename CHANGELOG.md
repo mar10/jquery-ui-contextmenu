@@ -1,4 +1,4 @@
-# 1.3.0 / unreleased
+# 1.3.0 / 2014-03-09
 
 * [FEATURE] New optional parameter open(..., extraData).
 * [FEATURE] New option `autoTrigger: true` can be set to `false` to prevent opening menus on browser's `contextmenu` event 
