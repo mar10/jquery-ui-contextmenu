@@ -114,9 +114,56 @@ structure (see [jQueryUI menu] for details):
 ```
 
 
+### Modify the menu depending on the context
+
+The menu can be modified before display in order to reflect the current context.
+
+```js
+$(document).contextmenu({
+    delegate: ".hasmenu",
+    menu: [
+        {title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors"},
+        {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
+        {title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
+        ...
+        ],
+    beforeOpen: function(event, ui) {
+        var $menu = ui.menu,
+            $target = ui.target,
+            extraData = ui.extraData; // optionally passed when menu was opened by call to open()
+
+        // Optionally return false, to prevent opening the menu
+//      return false;
+
+        // En/disable single entries
+        $(document).contextmenu("enableEntry", "paste", false);
+        // Show/hide single entries
+        $(document).contextmenu("showEntry", "cut", false);
+        // Redefine the title of single entries
+        $(document).contextmenu("setEntry", "copy", "Copy '" + $target.text() + "'")
+        // Redefine all attributes of single entries
+        $(document).contextmenu("setEntry", "cut", {title: "Cuty", uiIcon: "ui-icon-heart", disabled: true});
+        // Redefine the whole menu
+        $(document).contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}, ...]);
+        // Redefine the whole menu from another HTML definition
+        $(document).contextmenu("replaceMenu", "#options2");
+    },
+    ...
+});
+```
+
+
 ## API documentation
 ### Options
 <dl>
+<dt>autoTrigger</dt>
+<dd>
+    Type: <code>Boolean</code>, 
+    default: <code>true</code><br>
+    Set `false` to prevent opening on a browser's `contextmenu` event, which is
+    normally triggered by a  mouse rightclick.<br>
+    The menu can still be opened by calling the `open()` method.
+</dd>
 <dt>delegate</dt>
 <dd>
     Type: <code>String</code><br>

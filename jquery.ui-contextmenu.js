@@ -20,6 +20,7 @@
 	$.widget("moogle.contextmenu", {
 		version: "1.3.0-1",
 		options: {
+			autoTrigger: true,    // open menu on browser's `contextmenu` event
 			delegate: null,       // selector
 			hide: { effect: "fadeOut", duration: "fast"},
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
@@ -160,8 +161,15 @@
 			var opts = this.options,
 				posOption = opts.position,
 				self = this,
-				ui = {menu: this.$menu, target: $(event.target), extraData: event.extraData};
+				manualTrigger = !!event.isTrigger,
+				ui = {menu: this.$menu, target: $(event.target), extraData: event.extraData, originalEvent: event};
+
+			if( !opts.autoTrigger && !manualTrigger ) {
+				// ignore browser's `contextmenu` events
+				return;
+			}
 			this.currentTarget = event.target;
+
 			// Prevent browser from opening the system context menu
 			event.preventDefault();
 
