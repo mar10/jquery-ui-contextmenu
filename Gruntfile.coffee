@@ -10,7 +10,11 @@ module.exports = (grunt) ->
           port: 8080
           base: "./"
           keepalive: true
-
+      dev: # pass on, so subsequent tastks (like watch) can start
+          options:
+              port: 8080
+              base: "./"
+              keepalive: false
       sauce:
         options:
           hostname: "localhost"
@@ -29,7 +33,7 @@ module.exports = (grunt) ->
         cmd: "pyftpsync --progress upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --omit dist,node_modules,.*,_* -x"
 
     jshint:
-      files: ["Gruntfile.js", "jquery.ui-contextmenu.js", "test/tests.js"]
+      files: ["jquery.ui-contextmenu.js", "test/tests.js"]
       options:
         jshintrc: ".jshintrc"
 
@@ -70,12 +74,19 @@ module.exports = (grunt) ->
         src: "jquery.ui-contextmenu.js"
         dest: "jquery.ui-contextmenu.min.js"
 
+    watch:
+      jshint:
+        options:
+          atBegin: true
+        files: ["jquery.ui-contextmenu.js"]
+        tasks: ["jshint"]
   
   # Load "grunt*" dependencies
   for key of grunt.file.readJSON("package.json").devDependencies
     grunt.loadNpmTasks key  if key isnt "grunt" and key.indexOf("grunt") is 0
     
   grunt.registerTask "server", ["connect:demo"]
+  grunt.registerTask "dev", ["connect:dev", "watch:jshint"]
   grunt.registerTask "test", ["jshint", "qunit"]
   grunt.registerTask "sauce", ["connect:sauce", "saucelabs-qunit"]
   if parseInt(process.env.TRAVIS_PULL_REQUEST, 10) > 0
