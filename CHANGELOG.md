@@ -1,6 +1,7 @@
 # 1.3.0 / unreleased
 
-* [FEATURE] New optional parameter open(..., extraData)
+* [FEATURE] New optional parameter open(..., extraData).
+* [CHANGE] `setEntry()` and `replaceMenu()` now allow to define titles with HTML markup.
 
 # 1.2.4 / 2013-12-25
 

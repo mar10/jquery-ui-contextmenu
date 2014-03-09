@@ -313,7 +313,8 @@ $.extend($.moogle.contextmenu, {
 			$parentLi.text(entry.title);
 		}else{
 			$a = $("<a/>", {
-				text: "" + entry.title,
+//				text: "" + entry.title,
+				html: "" + entry.title, // allow to pass HTML markup
 				href: "#" + normCommand(entry.cmd)
 			}).appendTo($parentLi);
 			if( $.isFunction(entry.action) ){
