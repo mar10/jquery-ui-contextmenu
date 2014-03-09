@@ -205,6 +205,12 @@ $(document).contextmenu({
             return {my: "left top", at: "left bottom", of: ui.target};
         }, ...</pre>
 </dd>
+<dt>preventContextMenuForPopup</dt>
+<dd>
+    Type: <code>Boolean</code>, default: <code>false</code><br>
+    Prevent that a right click inside an open popup menu will open the browser's 
+    system context menu.
+</dd>
 <dt>preventSelect</dt>
 <dd>
     Type: <code>Boolean</code>, default: <code>false</code><br>

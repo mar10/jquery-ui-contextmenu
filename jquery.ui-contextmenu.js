@@ -26,6 +26,7 @@
 			ignoreParentSelect: true, // Don't trigger 'select' for sub-menu parents
 			menu: null,           // selector or jQuery pointing to <UL>, or a definition hash
 			position: null,       // popup positon
+			preventContextMenuForPopup: false, // prevent opening the browser's system context menu on menu entries
 			preventSelect: false, // disable text selection of target
 			show: { effect: "slideDown", duration: "fast"},
 			taphold: false,       // open menu on taphold events (requires external plugins)
@@ -212,6 +213,11 @@
 				}).position(posOption)
 				.hide(); // hide again, so we can apply nice effects
 
+			if( opts.preventContextMenuForPopup ) {
+				this.$menu.bind("contextmenu" + this.eventNamespace, function(event){
+					event.preventDefault();
+				});
+			}
 			this._show(this.$menu, this.options.show, function(){
 				self._trigger.call(self, "open", event, ui);
 			});
@@ -226,6 +232,8 @@
 				.unbind("mousedown" + this.eventNamespace)
 				.unbind("touchstart" + this.eventNamespace)
 				.unbind("keydown" + this.eventNamespace);
+			this.$menu
+				.unbind("contextmenu" + this.eventNamespace);
 			self.currentTarget = null; // issue #44 after hide animation is too late
 
 			this._hide(this.$menu, hideOpts, function() {

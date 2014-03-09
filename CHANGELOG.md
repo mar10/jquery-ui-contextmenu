@@ -1,7 +1,9 @@
 # 1.3.0 / unreleased
 
 * [FEATURE] New optional parameter open(..., extraData).
-* [FEATURE] New option `autoTrigger: true` can be set to `false` to prevent opening on browser's `contextmenu` event.
+* [FEATURE] New option `autoTrigger: true` can be set to `false` to prevent opening menus on browser's `contextmenu` event 
+  (if you want to use the `open()` method instead).
+* [FEATURE] New option `preventContextMenuForPopup`to prevent opening the browser's system context menu on menu entries.
 * [CHANGE] `setEntry()` and `replaceMenu()` now allow to define titles with HTML markup.
 
 # 1.2.4 / 2013-12-25
