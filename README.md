@@ -342,9 +342,9 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 
 # Credits
 
-Contributors:
+Thanks to all contributors:
 
-  *  <https://github.com/mar10/fancytree/contributors>
+<https://github.com/mar10/jquery-ui-contextmenu/graphs/contributors>
 
 
 # Browser Status Matrix
