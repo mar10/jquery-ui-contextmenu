@@ -18,9 +18,6 @@ The latest release is available for download at
 
 See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/master/CHANGELOG.md).
 
-Browser status matrix:
-
-[![Selenium Test Status](https://saucelabs.com/browser-matrix/sauce-contextmenu.svg)](https://saucelabs.com/u/sauce-contextmenu)
 
 ## Demo
 
@@ -345,13 +342,14 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 
 # Credits
 
-Contributors in order of appearance:
+Contributors:
 
-* [Jeffrey Dean Altemus](http://jeff.teamaltemus.net)
-* Francis Rath
+  *  <https://github.com/mar10/fancytree/contributors>
 
-----
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mar10/jquery-contextmenu/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+# Browser Status Matrix
+
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/sauce-contextmenu.svg)](https://saucelabs.com/u/sauce-contextmenu)
+
 
 [jQueryUI menu]: http://jqueryui.com/menu/
