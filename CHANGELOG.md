@@ -1,4 +1,5 @@
 # 1.4.0 / Unreleased
+[BUGFIX] #58: 'replaceMenu' in beforeOpen causing select: to lose ui.target
 
 # 1.3.0 / 2014-03-09
 

@@ -101,10 +101,13 @@
 		},
 		/** (Re)Create jQuery UI Menu. */
 		_createUiMenu: function(menuDef){
+			var ct;
 			// Remove temporary <ul> if any
 			if(this.isOpen()){
+				ct = this.currentTarget; // #58: 'replaceMenu' in beforeOpen causing select: to lose ui.target
 				// close without animation, to force async mode
 				this._closeMenu(true);
+				this.currentTarget = ct;
 			}
 
 			if(this.menuIsTemp){
