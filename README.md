@@ -36,7 +36,7 @@ Say we have some HTML elements that we want to attach a popup menu to:
 </div>
 ```
 
-now we can enable a context menu like so:
+Now we can enable a context menu like so:
 
 ```js
 $("#container").contextmenu({
@@ -262,6 +262,7 @@ $(document).contextmenu({
 <dd>
     Replace the whole menu definition.<br>
     Call like <code>$(...).contextmenu("replaceMenu", "#menu2");</code>.
+    or <code>$(...).contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}, ...]);</code>.
 </dd>
 <dt>setEntry(cmd, data)</dt>
 <dd>
@@ -342,9 +343,7 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 
 # Credits
 
-Thanks to all contributors:
-
-<https://github.com/mar10/jquery-ui-contextmenu/graphs/contributors>
+Thanks to all [contributors](https://github.com/mar10/jquery-ui-contextmenu/contributors).
 
 
 # Browser Status Matrix
