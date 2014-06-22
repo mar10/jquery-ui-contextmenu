@@ -2,7 +2,9 @@
 "use strict"
 module.exports = (grunt) ->
   grunt.initConfig
-    pkg: grunt.file.readJSON("package.json")
+    pkg: 
+      grunt.file.readJSON("package.json")
+
     connect:
       demo:
         options:
@@ -80,7 +82,23 @@ module.exports = (grunt) ->
           atBegin: true
         files: ["jquery.ui-contextmenu.js"]
         tasks: ["jshint"]
-  
+
+    yabs:
+      release:
+        common: # defaults for all tools
+          manifests: ['package.json', 'bower.json', 'ui-contextmenu.jquery.json']
+        # The following tools are run in order:
+        check: { clean: true, branch: ['master'] }
+        run_test: { tasks: ['test'] }
+        bump: {} # 'bump' also uses the increment mode `yabs:release:MODE`
+        run_build: { tasks: ['build'] }
+        commit: {}
+        tag: {}
+        # push: {}
+        # bump_develop: { inc: 'prepatch' }
+        # commit_develop: { message: 'Bump for prerelease ({%= version %})' }
+
+
   # Load "grunt*" dependencies
   for key of grunt.file.readJSON("package.json").devDependencies
     grunt.loadNpmTasks key  if key isnt "grunt" and key.indexOf("grunt") is 0
