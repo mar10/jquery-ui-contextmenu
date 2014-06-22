@@ -1,40 +1,40 @@
 {
   "name": "ui-contextmenu",
-  "version": "1.4.1",
+  "version": "1.4.2-0",
   "title": "jQuery UI context menu plugin",
   "description": "Turn a jQuery UI Menu widget into a contextmenu.",
   "keywords": [
-	"context-menu",
-	"contextmenu",
-	"delegate",
-	"jquery-ui-menu",
-	"menu",
-	"navigation",
-	"popup",
-	"right-click",
-	"right-click-menu"
+    "context-menu",
+    "contextmenu",
+    "delegate",
+    "jquery-ui-menu",
+    "menu",
+    "navigation",
+    "popup",
+    "right-click",
+    "right-click-menu"
   ],
   "author": {
-	"name": "Martin Wendt",
-	"email": "jquery@wwwendt.de",
-	"url": "http://careers.stackoverflow.com/martin-wendt"
+    "name": "Martin Wendt",
+    "email": "jquery@wwwendt.de",
+    "url": "http://careers.stackoverflow.com/martin-wendt"
   },
   "repository": {
-	"type": "git",
-	"url": "https://github.com/mar10/jquery-ui-contextmenu"
+    "type": "git",
+    "url": "https://github.com/mar10/jquery-ui-contextmenu"
   },
   "homepage": "https://github.com/mar10/jquery-ui-contextmenu",
   "demo": "http://wwwendt.de/tech/demo/jquery-contextmenu/demo/",
   "docs": "https://github.com/mar10/jquery-ui-contextmenu/blob/master/README.md",
   "bugs": "https://github.com/mar10/jquery-ui-contextmenu/issues",
   "licenses": [
-	{
-	  "type": "MIT",
-	  "url": "https://github.com/mar10/jquery-ui-contextmenu/blob/master/MIT-LICENSE.txt"
-	}
+    {
+      "type": "MIT",
+      "url": "https://github.com/mar10/jquery-ui-contextmenu/blob/master/MIT-LICENSE.txt"
+    }
   ],
   "dependencies": {
-	"jquery": ">=1.7",
-	"jqueryui": ">=1.9"
+    "jquery": ">=1.7",
+    "jqueryui": ">=1.9"
   }
 }

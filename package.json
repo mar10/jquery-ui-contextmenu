@@ -46,7 +46,7 @@
     "grunt-exec": "~0.4.0",
     "grunt-saucelabs": "~4.1.2",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-yabs": "0.0.3"
+    "grunt-yabs": "0.0.4"
   },
   "scripts": {
     "test": "grunt ci --verbose"
