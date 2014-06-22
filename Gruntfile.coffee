@@ -92,11 +92,12 @@ module.exports = (grunt) ->
         run_test: { tasks: ['test'] }
         bump: {} # 'bump' also uses the increment mode `yabs:release:MODE`
         run_build: { tasks: ['build'] }
-        commit: {}
+        commit: { add: '.' }
         tag: {}
-        # push: {}
-        # bump_develop: { inc: 'prepatch' }
-        # commit_develop: { message: 'Bump for prerelease ({%= version %})' }
+        push: { tags: true }
+        bump_develop: { inc: 'prepatch' }
+        commit_develop: { message: 'Bump prerelease ({%= version %}) [ci skip]' }
+        push_develop: {}
 
 
   # Load "grunt*" dependencies

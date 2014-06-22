@@ -1,4 +1,6 @@
-# 1.4.0 / Unreleased
+# 1.4.1 / Unreleased
+
+# 1.4.0 / 2014-06-22
 * [FEATURE] Support bower.
 * [BUGFIX] #58: 'replaceMenu' in beforeOpen causing select: to lose ui.target
 
