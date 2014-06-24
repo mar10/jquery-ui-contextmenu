@@ -28,7 +28,7 @@ module.exports = (grunt) ->
       tabfix:
         # Cleanup whitespace according to http://contribute.jquery.org/style-guide/js/
         # (requires https://github.com/mar10/tabfix)
-        cmd: "tabfix -t -r -m *.js,*.css,*.html,*json,*.yaml -i node_modules ."
+        cmd: "tabfix -t -r -m *.js,*.css,*.html,*.yaml -i node_modules ."
 
       upload:
         # FTP upload the demo files (requires https://github.com/mar10/pyftpsync)
