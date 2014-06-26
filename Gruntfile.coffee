@@ -92,7 +92,8 @@ module.exports = (grunt) ->
         run_test: { tasks: ['test'] }
         bump: {} # 'bump' also uses the increment mode `yabs:release:MODE`
         run_build: { tasks: ['build'] }
-        commit: { add: '.' }
+        commit: {}
+        check_after_build: { clean: true } # Fails if new files found
         tag: {}
         push: { tags: true }
         bump_develop: { inc: 'prepatch' }
