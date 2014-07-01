@@ -11,12 +11,6 @@
 	"use strict";
 	var supportSelectstart = "onselectstart" in document.createElement("div");
 
-	/** Return command without leading '#' (default to ""). */
-	function normCommand(cmd){
-		return (cmd && cmd.match(/^#/)) ? cmd.substring(1) : (cmd || "");
-	}
-
-
 	$.widget("moogle.contextmenu", {
 		version: "1.4.0-1",
 		options: {
@@ -144,7 +138,7 @@
 							isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0),
 							$a = ui.item.find(">a"),
 							actionHandler = $a.data("actionHandler");
-						ui.cmd = normCommand($a.attr("href"));
+						ui.cmd = ui.item.attr("data-command");
 						ui.target = $(this.currentTarget);
 						// ignore clicks, if they only open a sub-menu
 						if( !isParent || !this.options.ignoreParentSelect){
@@ -254,7 +248,7 @@
 		},
 		/** Return ui-menu entry (<A> or <LI> tag). */
 		_getMenuEntry: function(cmd, wantLi){
-			var $entry = this.$menu.find("li a[href=#" + normCommand(cmd) + "]");
+			var $entry = this.$menu.find("li[data-command=" + cmd + "] a");
 			return wantLi ? $entry.closest("li") : $entry;
 		},
 		/** Close context menu. */
@@ -331,10 +325,11 @@ $.extend($.moogle.contextmenu, {
 			// hyphen, em dash, en dash: separator as defined by UI Menu 1.10
 			$parentLi.text(entry.title);
 		}else{
+			$parentLi.attr("data-command", entry.cmd);
 			$a = $("<a/>", {
 //				text: "" + entry.title,
 				html: "" + entry.title, // allow to pass HTML markup
-				href: "#" + normCommand(entry.cmd)
+				href: "#"
 			}).appendTo($parentLi);
 			if( $.isFunction(entry.action) ){
 				$a.data("actionHandler", entry.action);

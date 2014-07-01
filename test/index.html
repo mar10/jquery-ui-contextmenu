@@ -30,14 +30,14 @@
 	<!-- This element will be copied as #sampleMenu for every test: -->
 
 	<ul id="sampleMenuTemplate" style="display: none;">
-		<li><a href="#cut"><span class="ui-icon ui-icon-scissors"></span>Cut</a>
-		<li><a href="#copy"><span class="ui-icon ui-icon-copy"></span>Copy</a>
-		<li class="ui-state-disabled ui-icon-clipboard"><a href="#paste">Paste</a>
+		<li data-command="cut"><a href="#"><span class="ui-icon ui-icon-scissors"></span>Cut</a>
+		<li data-command="copy"><a href="#"><span class="ui-icon ui-icon-copy"></span>Copy</a>
+		<li data-command="paste" class="ui-state-disabled ui-icon-clipboard"><a href="#">Paste</a>
 		<li>----
 		<li><a>More</a>
 			<ul>
-				<li><a href="#sub1">Sub Item 1</a>
-				<li><a href="#sub2">Sub Item 2</a>
+				<li data-command="sub1"><a href="#">Sub Item 1</a>
+				<li data-command="sub2"><a href="#">Sub Item 2</a>
 			</ul>
 	</ul>
 </body>

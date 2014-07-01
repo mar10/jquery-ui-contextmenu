@@ -275,7 +275,7 @@ function _clickTest(menu){
 //		},
 		select: function(event, ui){
 //			window.console.log("select");
-			var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
+			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
 			equal( ui.cmd, "cut", "select: ui.cmd is set" );
 			equal( ui.target.text(), "AAA", "select: ui.target is set" );
@@ -301,7 +301,7 @@ function _clickTest(menu){
 
 	setTimeout(function(){
 		// TODO: why is focus() called twice?
-		equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(#cut),close",
+		equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
 				"Event sequence OK.");
 		start();
 	}, 1000);
@@ -349,7 +349,7 @@ asyncTest("Array menu", function(){
 			}, 10);
 		},
 		select: function(event, ui){
-			var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
+			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
 			equal( ui.cmd, "cut", "select: ui.cmd is set" );
 			equal( ui.target.text(), "AAA", "select: ui.target is set" );
@@ -367,7 +367,7 @@ asyncTest("Array menu", function(){
    log("after open()");
 
    setTimeout(function(){
-	   equal(logOutput(), "open(),after open(),open,select(#cut),cut action,close",
+	   equal(logOutput(), "open(),after open(),open,select(cut),cut action,close",
 		   "Event sequence OK.");
 	   start();
    }, 500);
