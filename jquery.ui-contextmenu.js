@@ -136,8 +136,7 @@
 						// User selected a menu entry
 						var retval,
 							isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0),
-							$a = ui.item.find(">a"),
-							actionHandler = $a.data("actionHandler");
+							actionHandler = ui.item.data("actionHandler");
 						ui.cmd = ui.item.attr("data-command");
 						ui.target = $(this.currentTarget);
 						// ignore clicks, if they only open a sub-menu
@@ -332,7 +331,7 @@ $.extend($.moogle.contextmenu, {
 				href: "#"
 			}).appendTo($parentLi);
 			if( $.isFunction(entry.action) ){
-				$a.data("actionHandler", entry.action);
+				$parentLi.data("actionHandler", entry.action);
 			}
 			if(entry.uiIcon){
 				$a.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
