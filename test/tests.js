@@ -67,11 +67,6 @@ jQuery(document).ready(function(){
 /*******************************************************************************
  * QUnit setup
  */
-QUnit.log(function(data) {
-	if (window.console && window.console.log) {
-//        window.console.log(data.result + " :: " + data.message);
-	}
-});
 
 QUnit.config.requireExpects = true;
 
@@ -103,10 +98,38 @@ var th = new TestHelpers(),
 			{title: "Sub Item 2", cmd: "sub2" }
 			]}
 		],
-	$ = jQuery;
+	$ = jQuery,
+	sauceLabsLog = [];
 
+// SauceLabs integration
+QUnit.testStart(function (testDetails) {
+	QUnit.log = function (details) {
+		if (!details.result) {
+			details.name = testDetails.name;
+			sauceLabsLog.push(details);
+		}
+	};
+});
 
+QUnit.done(function (testResults) {
+	var tests = [],
+		i, len, details;
+	for (i = 0, len = sauceLabsLog.length; i < len; i++) {
+		details = sauceLabsLog[i];
+		tests.push({
+			name: details.name,
+			result: details.result,
+			expected: details.expected,
+			actual: details.actual,
+			source: details.source
+		});
+	}
+	testResults.tests = tests;
 
+	/*jshint camelcase:false*/
+	window.global_test_results = testResults;
+	/*jshint camelcase:true*/
+});
 
 //---------------------------------------------------------------------------
 

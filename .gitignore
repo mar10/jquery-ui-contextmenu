@@ -4,3 +4,4 @@
 npm-debug.log
 .sizecache.json
 sauce_connect.log
+sc_*.log
