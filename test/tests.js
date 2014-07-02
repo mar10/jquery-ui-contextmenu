@@ -10,7 +10,12 @@ function TestHelpers() {
 
 	var lastItem = "",
 		log = [],
-		$ = jQuery;
+		$ = jQuery,
+		match = $.ui.menu.version.match(/^(\d)\.(\d+).*$/),
+		uiVersion = {
+			major: parseInt(match[1], 10),
+			minor: parseInt(match[2], 10)
+		};
 
 	return {
 		log: function( message, clear ) {
@@ -32,12 +37,20 @@ function TestHelpers() {
 		entryEvent: function( menu, item, type ) {
 			lastItem = item;
 //			window.console.log(type + ": ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
-			menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( type );
+			if ( uiVersion.major < 3 && uiVersion.minor < 11 ) {
+				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( type );
+			} else {
+				menu.children( ":eq(" + item + ")" ).trigger( type );
+			}
 		},
 		click: function( menu, item ) {
 			lastItem = item;
 //			window.console.log("clck: ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
-			menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( "click" );
+			if ( uiVersion.major < 3 && uiVersion.minor < 11 ) {
+				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( "click" );
+			} else {
+				menu.children( ":eq(" + item + ")" ).trigger( "click" );
+			}
 		},
 		entry: function( menu, item ) {
 			return menu.children( ":eq(" + item + ")" );

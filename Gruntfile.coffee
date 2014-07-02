@@ -40,12 +40,15 @@ module.exports = (grunt) ->
         jshintrc: ".jshintrc"
 
     qunit:
-      all: ["test/index.html"]
+      all: ["test/index.html", "test/index-jquery-ui-1-11.html"]
 
     "saucelabs-qunit":
       all:
         options:
-          urls: ["http://localhost:9999/test/index.html"]
+          urls: [
+            "http://localhost:9999/test/index.html",
+            "http://localhost:9999/test/index-jquery-ui-1-11.html"
+          ]
           
           # username: process.env.SAUCE_USERNAME,
           # key: process.env.SAUCE_ACCESS_KEY,
