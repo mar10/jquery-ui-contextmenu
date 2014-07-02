@@ -333,7 +333,7 @@ $.extend($.moogle.contextmenu, {
 	}
 });
 
-	match = $.ui.menu.version.match(/^(\d)\.(\d+).*$/);
+	match = $.ui.menu.version.match(/^(\d)\.(\d+)/);
 
 	uiVersion = {
 		major: parseInt(match[1], 10),
