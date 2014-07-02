@@ -37,7 +37,7 @@ function TestHelpers() {
 		entryEvent: function( menu, item, type ) {
 			lastItem = item;
 //			window.console.log(type + ": ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
-			if ( uiVersion.major < 3 && uiVersion.minor < 11 ) {
+			if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
 				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( type );
 			} else {
 				menu.children( ":eq(" + item + ")" ).trigger( type );
@@ -46,7 +46,7 @@ function TestHelpers() {
 		click: function( menu, item ) {
 			lastItem = item;
 //			window.console.log("clck: ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
-			if ( uiVersion.major < 3 && uiVersion.minor < 11 ) {
+			if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
 				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( "click" );
 			} else {
 				menu.children( ":eq(" + item + ")" ).trigger( "click" );

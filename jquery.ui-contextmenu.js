@@ -340,7 +340,7 @@ $.extend($.moogle.contextmenu, {
 		minor: parseInt(match[2], 10)
 	};
 
-	if ( uiVersion.major < 3 && uiVersion.minor < 11 ) {
+	if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
 		$.extend($.moogle.contextmenu, {
 			/** Convert a menu description into a into a <li> content. */
 			createEntryMarkup: function(entry, $parentLi){
