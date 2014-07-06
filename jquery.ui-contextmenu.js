@@ -9,13 +9,8 @@
  */
 ;(function($, window, document, undefined) {
 	"use strict";
-	var supportSelectstart = "onselectstart" in document.createElement("div");
-
-	/** Return command without leading '#' (default to ""). */
-	function normCommand(cmd){
-		return (cmd && cmd.match(/^#/)) ? cmd.substring(1) : (cmd || "");
-	}
-
+	var supportSelectstart = "onselectstart" in document.createElement("div"),
+		match, uiVersion;
 
 	$.widget("moogle.contextmenu", {
 		version: "1.4.0-1",
@@ -141,10 +136,9 @@
 					select: $.proxy(function(event, ui){
 						// User selected a menu entry
 						var retval,
-							isParent = (ui.item.has(">a[aria-haspopup='true']").length > 0),
-							$a = ui.item.find(">a"),
-							actionHandler = $a.data("actionHandler");
-						ui.cmd = normCommand($a.attr("href"));
+							isParent = $.moogle.contextmenu.isMenu(ui.item),
+							actionHandler = ui.item.data("actionHandler");
+						ui.cmd = ui.item.attr("data-command");
 						ui.target = $(this.currentTarget);
 						// ignore clicks, if they only open a sub-menu
 						if( !isParent || !this.options.ignoreParentSelect){
@@ -252,10 +246,9 @@
 			}
 			$.Widget.prototype._setOption.apply(this, arguments);
 		},
-		/** Return ui-menu entry (<A> or <LI> tag). */
-		_getMenuEntry: function(cmd, wantLi){
-			var $entry = this.$menu.find("li a[href=#" + normCommand(cmd) + "]");
-			return wantLi ? $entry.closest("li") : $entry;
+		/** Return ui-menu entry (<LI> tag). */
+		_getMenuEntry: function(cmd){
+			return this.$menu.find("li[data-command=" + cmd + "]");
 		},
 		/** Close context menu. */
 		close: function(){
@@ -265,7 +258,7 @@
 		},
 		/** Enable or disable the menu command. */
 		enableEntry: function(cmd, flag){
-			this._getMenuEntry(cmd, true).toggleClass("ui-state-disabled", (flag === false));
+			this._getMenuEntry(cmd).toggleClass("ui-state-disabled", (flag === false));
 		},
 		/** Return Menu element (UL). */
 		getMenu: function(){
@@ -291,30 +284,19 @@
 		},
 		/** Redefine menu entry (title or all of it). */
 		setEntry: function(cmd, titleOrData){
-			var $parent,
-				$entry = this._getMenuEntry(cmd, false);
+			var $entry = this._getMenuEntry(cmd);
 
 			if(typeof titleOrData === "string"){
-				if( $entry.children("span").length){
-					// Replace <a> text without removing <span> child
-					$entry
-						.contents()
-						.filter(function(){ return this.nodeType === 3; })
-						.first()
-						.replaceWith(titleOrData);
-				}else{
-					// <a> tag only contains text (above code doesn't work here)
-					$entry.text(titleOrData);
-				}
+				$.moogle.contextmenu.updateTitle($entry, titleOrData);
 			}else{
-				$parent = $entry.closest("li").empty();
+				$entry.empty();
 				titleOrData.cmd = titleOrData.cmd || cmd;
-				$.moogle.contextmenu.createEntryMarkup(titleOrData, $parent);
+				$.moogle.contextmenu.createEntryMarkup(titleOrData, $entry);
 			}
 		},
 		/** Show or hide the menu command. */
 		showEntry: function(cmd, flag){
-			this._getMenuEntry(cmd, true).toggle(flag !== false);
+			this._getMenuEntry(cmd).toggle(flag !== false);
 		}
 	});
 
@@ -322,35 +304,6 @@
  * Global functions
  */
 $.extend($.moogle.contextmenu, {
-	/** Convert a menu description into a into a <li> content. */
-	createEntryMarkup: function(entry, $parentLi){
-		var $a = null;
-
-		// if(entry.title.match(/^---/)){
-		if( !/[^\-\u2014\u2013\s]/.test( entry.title ) ){
-			// hyphen, em dash, en dash: separator as defined by UI Menu 1.10
-			$parentLi.text(entry.title);
-		}else{
-			$a = $("<a/>", {
-//				text: "" + entry.title,
-				html: "" + entry.title, // allow to pass HTML markup
-				href: "#" + normCommand(entry.cmd)
-			}).appendTo($parentLi);
-			if( $.isFunction(entry.action) ){
-				$a.data("actionHandler", entry.action);
-			}
-			if(entry.uiIcon){
-				$a.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
-			}
-			if(entry.disabled){
-				$parentLi.addClass("ui-state-disabled");
-			}
-			if($.isPlainObject(entry.data)){
-				$a.data(entry.data);
-			}
-		}
-		return $a;
-	},
 	/** Convert a nested array of command objects into a <ul> structure. */
 	createMenuMarkup: function(options, $parentUl){
 		var i, menu, $ul, $li;
@@ -369,7 +322,98 @@ $.extend($.moogle.contextmenu, {
 			}
 		}
 		return $parentUl;
+	},
+	/** Replaces the value of elem's first text node child*/
+	replaceFirstTextNodeChild: function(elem, text) {
+		elem
+			.contents()
+			.filter(function(){ return this.nodeType === 3; })
+			.first()
+			.replaceWith(text);
 	}
 });
+
+	match = $.ui.menu.version.match(/^(\d)\.(\d+)/);
+
+	uiVersion = {
+		major: parseInt(match[1], 10),
+		minor: parseInt(match[2], 10)
+	};
+
+	if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
+		$.extend($.moogle.contextmenu, {
+			/** Convert a menu description into a into a <li> content. */
+			createEntryMarkup: function(entry, $parentLi){
+				var $a = null;
+
+				// if(entry.title.match(/^---/)){
+				if( !/[^\-\u2014\u2013\s]/.test( entry.title ) ){
+					// hyphen, em dash, en dash: separator as defined by UI Menu 1.10
+					$parentLi.text(entry.title);
+				}else{
+					$parentLi.attr("data-command", entry.cmd);
+					$a = $("<a/>", {
+						html: "" + entry.title, // allow to pass HTML markup
+						href: "#"
+					}).appendTo($parentLi);
+					if( $.isFunction(entry.action) ){
+						$parentLi.data("actionHandler", entry.action);
+					}
+					if(entry.uiIcon){
+						$a.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
+					}
+					if(entry.disabled){
+						$parentLi.addClass("ui-state-disabled");
+					}
+					if($.isPlainObject(entry.data)){
+						$a.data(entry.data);
+					}
+				}
+			},
+			/** Returns true if the menu item has child menu items */
+			isMenu: function(item) {
+				return item.has(">a[aria-haspopup='true']").length > 0;
+			},
+			/** Updates the menu item's title */
+			updateTitle: function(item, title) {
+				$.moogle.contextmenu.replaceFirstTextNodeChild($("a", item), title);
+			}
+		});
+	} else {
+		$.extend($.moogle.contextmenu, {
+			/** Convert a menu description into a into a <li> content. */
+			createEntryMarkup: function(entry, $parentLi){
+				if( !/[^\-\u2014\u2013\s]/.test( entry.title ) ){
+					$parentLi.text(entry.title);
+				} else {
+					$parentLi
+						.attr("data-command", entry.cmd)
+						.html("" + entry.title);
+					if( $.isFunction(entry.action) ) {
+						$parentLi.data("actionHandler", entry.action);
+					}
+					if( entry.uiIcon ) {
+						$parentLi
+							.append($("<span class='ui-icon' />")
+							.addClass(entry.uiIcon));
+					}
+					if( entry.disabled ) {
+						$parentLi.addClass("ui-state-disabled");
+					}
+					if( $.isPlainObject(entry.data) ) {
+						$parentLi.data(entry.data);
+					}
+				}
+			},
+			/** Returns true if the menu item has child menu items */
+			isMenu: function(item) {
+				return item.is("[aria-haspopup='true']");
+			},
+			/** Updates the menu item's title */
+			updateTitle: function(item, title) {
+				$.moogle.contextmenu.replaceFirstTextNodeChild(item, title);
+			}
+		});
+	}
 
 }(jQuery, window, document));

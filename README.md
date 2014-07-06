@@ -95,18 +95,19 @@ $(document).contextmenu({
 });
 ```
 
-We also have to provide some HTML markup that defines the context menu 
-structure (see [jQueryUI menu] for details):
+We also have to provide some HTML markup that defines the context menu structure, see
+[jQueryUI menu] for details. jQuery UI 1.11 removed the requirement to use anchors in menu
+items, so the `<a>` tags should be omitted:
 
 ```html
 <ul id="options" class="ui-helper-hidden">
-    <li><a href="#copy"><span class="ui-icon ui-icon-copy"></span>Copy</a>
-    <li class="ui-state-disabled"><a href="#paste">Paste</a>
+    <li data-command="copy"><a href="#"><span class="ui-icon ui-icon-copy"></span>Copy</a>
+    <li data-command="paste" class="ui-state-disabled"><a href="#">Paste</a>
     <li>----
     <li><a>More</a>
         <ul>
-            <li><a href="#sub1">Sub 1</a>
-            <li><a href="#sub2">Sub 2</a>
+            <li data-command="sub1"><a href="#">Sub 1</a>
+            <li data-command="sub2"><a href="#">Sub 2</a>
         </ul>
 </ul>
 ```

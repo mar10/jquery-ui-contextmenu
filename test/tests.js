@@ -10,7 +10,12 @@ function TestHelpers() {
 
 	var lastItem = "",
 		log = [],
-		$ = jQuery;
+		$ = jQuery,
+		match = $.ui.menu.version.match(/^(\d)\.(\d+)/),
+		uiVersion = {
+			major: parseInt(match[1], 10),
+			minor: parseInt(match[2], 10)
+		};
 
 	return {
 		log: function( message, clear ) {
@@ -32,12 +37,20 @@ function TestHelpers() {
 		entryEvent: function( menu, item, type ) {
 			lastItem = item;
 //			window.console.log(type + ": ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
-			menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( type );
+			if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
+				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( type );
+			} else {
+				menu.children( ":eq(" + item + ")" ).trigger( type );
+			}
 		},
 		click: function( menu, item ) {
 			lastItem = item;
 //			window.console.log("clck: ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
-			menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( "click" );
+			if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
+				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( "click" );
+			} else {
+				menu.children( ":eq(" + item + ")" ).trigger( "click" );
+			}
 		},
 		entry: function( menu, item ) {
 			return menu.children( ":eq(" + item + ")" );
@@ -54,11 +67,6 @@ jQuery(document).ready(function(){
 /*******************************************************************************
  * QUnit setup
  */
-QUnit.log(function(data) {
-	if (window.console && window.console.log) {
-//        window.console.log(data.result + " :: " + data.message);
-	}
-});
 
 QUnit.config.requireExpects = true;
 
@@ -90,10 +98,38 @@ var th = new TestHelpers(),
 			{title: "Sub Item 2", cmd: "sub2" }
 			]}
 		],
-	$ = jQuery;
+	$ = jQuery,
+	sauceLabsLog = [];
 
+// SauceLabs integration
+QUnit.testStart(function (testDetails) {
+	QUnit.log = function (details) {
+		if (!details.result) {
+			details.name = testDetails.name;
+			sauceLabsLog.push(details);
+		}
+	};
+});
 
+QUnit.done(function (testResults) {
+	var tests = [],
+		i, len, details;
+	for (i = 0, len = sauceLabsLog.length; i < len; i++) {
+		details = sauceLabsLog[i];
+		tests.push({
+			name: details.name,
+			result: details.result,
+			expected: details.expected,
+			actual: details.actual,
+			source: details.source
+		});
+	}
+	testResults.tests = tests;
 
+	/*jshint camelcase:false*/
+	window.global_test_results = testResults;
+	/*jshint camelcase:true*/
+});
 
 //---------------------------------------------------------------------------
 
@@ -275,7 +311,7 @@ function _clickTest(menu){
 //		},
 		select: function(event, ui){
 //			window.console.log("select");
-			var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
+			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
 			equal( ui.cmd, "cut", "select: ui.cmd is set" );
 			equal( ui.target.text(), "AAA", "select: ui.target is set" );
@@ -301,7 +337,7 @@ function _clickTest(menu){
 
 	setTimeout(function(){
 		// TODO: why is focus() called twice?
-		equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(#cut),close",
+		equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
 				"Event sequence OK.");
 		start();
 	}, 1000);
@@ -349,7 +385,7 @@ asyncTest("Array menu", function(){
 			}, 10);
 		},
 		select: function(event, ui){
-			var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
+			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
 			equal( ui.cmd, "cut", "select: ui.cmd is set" );
 			equal( ui.target.text(), "AAA", "select: ui.target is set" );
@@ -367,7 +403,7 @@ asyncTest("Array menu", function(){
    log("after open()");
 
    setTimeout(function(){
-	   equal(logOutput(), "open(),after open(),open,select(#cut),cut action,close",
+	   equal(logOutput(), "open(),after open(),open,select(cut),cut action,close",
 		   "Event sequence OK.");
 	   start();
    }, 500);
