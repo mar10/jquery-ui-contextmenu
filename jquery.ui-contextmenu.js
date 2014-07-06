@@ -300,38 +300,38 @@
 		}
 	});
 
-/*
- * Global functions
- */
-$.extend($.moogle.contextmenu, {
-	/** Convert a nested array of command objects into a <ul> structure. */
-	createMenuMarkup: function(options, $parentUl){
-		var i, menu, $ul, $li;
-		if( $parentUl == null ){
-			$parentUl = $("<ul class='ui-helper-hidden' />").appendTo("body");
-		}
-		for(i = 0; i < options.length; i++){
-			menu = options[i];
-			$li = $("<li/>").appendTo($parentUl);
-
-			$.moogle.contextmenu.createEntryMarkup(menu, $li);
-
-			if( $.isArray(menu.children) ){
-				$ul = $("<ul/>").appendTo($li);
-				$.moogle.contextmenu.createMenuMarkup(menu.children, $ul);
+	/*
+	 * Global functions
+	 */
+	$.extend($.moogle.contextmenu, {
+		/** Convert a nested array of command objects into a <ul> structure. */
+		createMenuMarkup: function(options, $parentUl){
+			var i, menu, $ul, $li;
+			if( $parentUl == null ){
+				$parentUl = $("<ul class='ui-helper-hidden' />").appendTo("body");
 			}
+			for(i = 0; i < options.length; i++){
+				menu = options[i];
+				$li = $("<li/>").appendTo($parentUl);
+
+				$.moogle.contextmenu.createEntryMarkup(menu, $li);
+
+				if( $.isArray(menu.children) ){
+					$ul = $("<ul/>").appendTo($li);
+					$.moogle.contextmenu.createMenuMarkup(menu.children, $ul);
+				}
+			}
+			return $parentUl;
+		},
+		/** Replaces the value of elem's first text node child*/
+		replaceFirstTextNodeChild: function(elem, text) {
+			elem
+				.contents()
+				.filter(function(){ return this.nodeType === 3; })
+				.first()
+				.replaceWith(text);
 		}
-		return $parentUl;
-	},
-	/** Replaces the value of elem's first text node child*/
-	replaceFirstTextNodeChild: function(elem, text) {
-		elem
-			.contents()
-			.filter(function(){ return this.nodeType === 3; })
-			.first()
-			.replaceWith(text);
-	}
-});
+	});
 
 	match = $.ui.menu.version.match(/^(\d)\.(\d+)/);
 
