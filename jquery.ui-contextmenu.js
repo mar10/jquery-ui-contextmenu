@@ -13,7 +13,7 @@
 		match, uiVersion;
 
 	$.widget("moogle.contextmenu", {
-		version: "1.4.0-1",
+		version: "@VERSION",
 		options: {
 			autoTrigger: true,    // open menu on browser's `contextmenu` event
 			delegate: null,       // selector

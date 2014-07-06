@@ -42,6 +42,28 @@ module.exports = (grunt) ->
     qunit:
       all: ["test/index.html", "test/index-jquery-ui-1-11.html"]
 
+    # replace: # grunt-text-replace
+    #     production:
+    #         src: ["build/**/*.js"]
+    #         overwrite : true
+    #         replacements: [ {
+    #             from : /@DATE/g
+    #             to : "<%= grunt.template.today('yyyy-mm-dd\"T\"HH:MM') %>"
+    #         },{
+    #             from : /buildType:\s*\"[a-zA-Z]+\"/g
+    #             to : "buildType: \"production\""
+    #         },{
+    #             from : /debugLevel:\s*[0-9]/g
+    #             to : "debugLevel: 1"
+    #         } ]
+    #     release:
+    #         src: ["dist/**/*.js"]
+    #         overwrite : true
+    #         replacements: [ {
+    #             from : /@VERSION/g
+    #             to : "<%= pkg.version %>"
+    #         } ]
+
     "saucelabs-qunit":
       all:
         options:

@@ -1,4 +1,8 @@
-# 1.4.1 / Unreleased
+# 1.5.1 / Unreleased
+
+# 1.5.0 / 2014-07-06
+* [CHANGE] Use data-command="copy" instead of `<a href='...'>` to store command ids.
+* [FEATURE] Support jQuery UI 1.11.
 
 # 1.4.0 / 2014-06-22
 * [FEATURE] Support bower.
