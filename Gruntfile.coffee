@@ -75,7 +75,7 @@ module.exports = (grunt) ->
           # username: process.env.SAUCE_USERNAME,
           # key: process.env.SAUCE_ACCESS_KEY,
           build: process.env.TRAVIS_JOB_ID
-          throttled: 10
+          throttled: 11
           browsers: [
             { browserName: "chrome", platform: "Windows 7" }
             { browserName: "firefox", platform: "Windows 7" }
@@ -120,6 +120,9 @@ module.exports = (grunt) ->
         check_after_build: { clean: true } # Fails if new files found
         tag: {}
         push: { tags: true }
+        githubRelease:
+          repo: "mar10/jquery-ui-contextmenu"
+          draft: false
         bump_develop: { inc: 'prepatch' }
         commit_develop: { message: 'Bump prerelease ({%= version %}) [ci skip]' }
         push_develop: {}
