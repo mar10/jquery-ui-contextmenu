@@ -103,12 +103,12 @@ var th = new TestHelpers(),
 
 // SauceLabs integration
 QUnit.testStart(function (testDetails) {
-	QUnit.log = function (details) {
+	QUnit.log(function(details){
 		if (!details.result) {
 			details.name = testDetails.name;
 			sauceLabsLog.push(details);
 		}
-	};
+	});
 });
 
 QUnit.done(function (testResults) {
