@@ -5,7 +5,7 @@
  *
  * @see https://github.com/mar10/jquery-ui-contextmenu
  *
- * Copyright (c) 2013, Martin Wendt (http://wwWendt.de). Licensed MIT.
+ * Copyright (c) 2014, Martin Wendt (http://wwWendt.de). Licensed MIT.
  */
 ;(function($, window, document, undefined) {
 	"use strict";
