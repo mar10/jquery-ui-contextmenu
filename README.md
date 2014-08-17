@@ -231,7 +231,6 @@ $(document).contextmenu({
     which is especially useful for touch devices (but may require external 
     plugins to generate <code>taphold</code> events).
 </dd>
-</dl>
 <dt>uiMenuOptions</dt>
 <dd>
     Type: <code>Object</code>, default: <code>{}</code><br>
