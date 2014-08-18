@@ -1,7 +1,7 @@
 # 1.6.1 / Unreleased
 
-# 1.6.0 / 2014-08-18
-* [FEATURE] New option `uiMenuOptions` allows to pass custom options to UI Menu Widget.
+# 1.6.0 / Unreleased
+* [FEATURE] #27: New option `uiMenuOptions` allows to pass custom options to UI Menu Widget.
 
 # 1.5.0 / 2014-07-06
 * [CHANGE] Use data-command="copy" instead of `<a href='...'>` to store command ids.

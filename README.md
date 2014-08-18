@@ -231,6 +231,12 @@ $(document).contextmenu({
     which is especially useful for touch devices (but may require external 
     plugins to generate <code>taphold</code> events).
 </dd>
+<dt>uiMenuOptions</dt>
+<dd>
+    Type: <code>Object</code>, default: <code>{}</code><br>
+    Custom options passed to UI Menu, when the widget is created.<br>
+    Especially useful to tweak the <a href="http://api.jqueryui.com/menu/#option-position">position of submenus</a>.
+</dd>
 </dl>
 
 

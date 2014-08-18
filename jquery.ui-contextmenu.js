@@ -25,6 +25,7 @@
 			preventSelect: false, // disable text selection of target
 			show: { effect: "slideDown", duration: "fast"},
 			taphold: false,       // open menu on taphold events (requires external plugins)
+			uiMenuOptions: {},	  // Additional options, used when UI Menu is created
 			// Events:
 			beforeOpen: $.noop,   // menu about to open; return `false` to prevent opening
 			blur: $.noop,         // menu option lost focus
@@ -129,7 +130,7 @@
 				.hide()
 //				.addClass("moogle-contextmenu")
 				// Create a menu instance that delegates events to our widget
-				.menu({
+				.menu($.extend(true, {}, this.options.uiMenuOptions, {
 					blur: $.proxy(this.options.blur, this),
 					create: $.proxy(this.options.createMenu, this),
 					focus: $.proxy(this.options.focus, this),
@@ -152,7 +153,7 @@
 							event.preventDefault();
 						}
 					}, this)
-				});
+				}));
 		},
 		/** Open popup (called on 'contextmenu' event). */
 		_openMenu: function(event){

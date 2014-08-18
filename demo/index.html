@@ -129,15 +129,18 @@ $(function(){
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu2",
+		hide: { effect: "explode", duration: "slow" },
 		menu: "#options",
 //        position: {my: "left top", at: "left bottom"},
 		position: function(event, ui){
 			return {my: "left top", at: "left bottom", of: ui.target};
 		},
 		preventSelect: true,
-		taphold: true,
 		show: { effect: "fold", duration: "slow"},
-		hide: { effect: "explode", duration: "slow" },
+		taphold: true,
+		uiMenuOptions: { // Additional options, used when UI Menu is created
+			position: { my: "left top", at: "right+10 top+10" }
+		},
 		focus: function(event, ui) {
 			var menuId = ui.item.find(">a").attr("href");
 			$("#info").text("focus " + menuId);
@@ -214,7 +217,8 @@ $(function(){
 	<ul>
 		<li>Initialized by hidden &lt;ul> element.
 		<li>Use custom show/hide effects.
-		<li>Define custom position.
+		<li>Define custom position for initial popup.
+		<li>Define custom position for submenus.
 	</ul>
 	<div id="container">
 		<span class="hasmenu2">AAA</span>
