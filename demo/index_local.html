@@ -3,14 +3,10 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 	<title>jquery.ui-contextmenu.js - Demo</title>
-	<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/start/jquery-ui.min.css" />
-	<!-- min requirements:
-	<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
-	<script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
-	<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js" type="text/javascript"></script>
-	 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js" type="text/javascript"></script>
+
+	<link rel="stylesheet" href="../node_modules/jquery-ui/themes/base/jquery.ui.all.css">
+	<script src="../node_modules/jquery/dist/jquery.js"></script>
+	<script src="../node_modules/jquery-ui/ui/jquery-ui.js"></script>
 
 	<!-- Some custom library to enable 'taphold' events -->
 	<script src="jquery-taphold/taphold.js" type="text/javascript"></script>
@@ -22,8 +18,6 @@
 
 <style type="text/css">
 
-/* Some styling */
-
 body{
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 	font-size: .8em;
@@ -31,7 +25,7 @@ body{
 	   Note:
 	   If only the potential menu trigger elements should be protected, simply
 	   use the 'preventSelect: true' option.
-	   But we disable it more globally for table pcs, because the whole line
+	   But we disable it more globally for tablet PCs, because the whole line
 	   or paragraph will still be selected otherwise.
 	 */
 	-webkit-user-select: none;
@@ -112,6 +106,8 @@ $(function(){
 				extraData = ui.extraData; // passed when menu was opened by call to open()
 
 			// console.log("beforeOpen", event, ui, event.originalEvent.type);
+			console.log("beforeOpen", event, ui);
+			alert(JSON.stringify(extraData));
 
 			ui.menu.zIndex( $(event.target).zIndex() + 1);
 

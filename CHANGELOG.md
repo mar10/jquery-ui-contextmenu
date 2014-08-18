@@ -1,4 +1,7 @@
-# 1.5.1 / Unreleased
+# 1.6.1 / Unreleased
+
+# 1.6.0 / 2014-08-18
+* [FEATURE] New option `uiMenuOptions` allows to pass custom options to UI Menu Widget.
 
 # 1.5.0 / 2014-07-06
 * [CHANGE] Use data-command="copy" instead of `<a href='...'>` to store command ids.
@@ -6,7 +9,7 @@
 
 # 1.4.0 / 2014-06-22
 * [FEATURE] Support bower.
-* [BUGFIX] #58: 'replaceMenu' in beforeOpen causing select: to lose ui.target
+* [BUGFIX] #58: 'replaceMenu' in beforeOpen causing select event to lose ui.target
 
 # 1.3.0 / 2014-03-09
 
@@ -25,7 +28,7 @@
 # 1.2.3 / 2013-10-19
 
 * [CHANGE] Detection of separators compliant with UI Menu 1.10
-* [BUGFIX] Fixed setEntry for entries that don't have icons and handlemissing `cmd` option.
+* [BUGFIX] Fixed setEntry for entries that don't have icons and handle missing `cmd` option.
 
 # 1.2.2 / 2013-07-28
 
