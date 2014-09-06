@@ -7,7 +7,17 @@
  *
  * Copyright (c) 2014, Martin Wendt (http://wwWendt.de). Licensed MIT.
  */
-;(function($, window, document, undefined) {
+
+(function( factory ) {
+	"use strict";
+	if ( typeof define === "function" && define.amd ) {
+		// AMD. Register as an anonymous module.
+		define([ "jquery" ], factory );
+	} else {
+		// Browser globals
+		factory( jQuery );
+	}
+}(function( $ ) {
 	"use strict";
 	var supportSelectstart = "onselectstart" in document.createElement("div"),
 		match, uiVersion;
@@ -417,4 +427,4 @@
 		});
 	}
 
-}(jQuery, window, document));
+}));
