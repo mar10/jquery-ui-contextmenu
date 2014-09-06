@@ -1,6 +1,8 @@
-# 1.6.1 / Unreleased
+# 1.6.2 / Unreleased
+* [FEATURE] AMD support (topolm).
+* [FEATURE] CDN support (http://www.jsdelivr.com/#!jquery.ui-contextmenu).
 
-# 1.6.0 / Unreleased
+# 1.6.1 / 2014-08-18
 * [FEATURE] #27: New option `uiMenuOptions` allows to pass custom options to UI Menu Widget.
 
 # 1.5.0 / 2014-07-06
