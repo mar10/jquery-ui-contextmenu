@@ -50,7 +50,10 @@ body{
 	font-size: .8em;
 }
 .ui-menu {
-	width: 150px;
+	width: 220px;
+}
+.ui-menu kbd {
+	float: right;
 }
 
 /* Define a custom icon */
@@ -86,7 +89,8 @@ $(function(){
 			{title: "----"},
 			{title: "More", children: [
 				{title: "Sub 1 (using callback)", action: function(event, ui) { alert("action callback sub1");} },
-				{title: "Sub 2", cmd: "sub1"}
+				{title: "Sub 2 with a long title<kbd>[F2]</kbd>", cmd: "sub2"},
+				{title: "Sub 3 <label>Please select: <input type='checkbox' name='sub2'></label>", cmd: "sub3"}
 				]}
 			],
 		// Handle menu selection to implement a fake-clipboard
