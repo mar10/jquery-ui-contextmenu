@@ -2,25 +2,22 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-	<title>jquery.ui-contextmenu.js - Demo</title>
-	<!-- min requirements:
-	<script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
-	<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js" type="text/javascript"></script>
-	-->
-	<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/start/jquery-ui.min.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js" type="text/javascript"></script>
-	<!-- Some custom library to enable 'taphold' events -->
+	<title>jquery.ui-contextmenu.js - Demo</title>‚
+
+	<link href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
+	<script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
+
+	<!-- Optional custom library to enable 'taphold' events -->
 	<script src="jquery-taphold/taphold.js" type="text/javascript"></script>
 
-	<!-- Custom library to add a dynamic themeroller switcher -->
+	<!-- Just for this demo: Custom library to add a dynamic themeroller switcher -->
 	<script type="text/javascript" src="../lib/Super-Theme-Switcher/jquery.themeswitcher.js"></script>
 
+	<!-- Finally this plugin itself -->
 	<script src="../jquery.ui-contextmenu.js" type="text/javascript"></script>
 
 <style type="text/css">
-
-/* Some styling */
 
 body{
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
@@ -29,7 +26,7 @@ body{
 	   Note:
 	   If only the potential menu trigger elements should be protected, simply
 	   use the 'preventSelect: true' option.
-	   But we disable it more globally for table pcs, because the whole line
+	   But we disable it more globally for tablet pc's, because the whole line
 	   or paragraph will still be selected otherwise.
 	 */
 	-webkit-user-select: none;
@@ -39,6 +36,7 @@ body{
 	user-select: none;
 }
 
+/* Only for the demo */
 .hasmenu, .hasmenu2 {
 	border: 1px solid #008;
 	margin: 3px;
@@ -46,15 +44,24 @@ body{
 	width: 30px;
 }
 
-.ui-widget{
-	font-size: .8em;
-}
+/* Optionally define a fixed width for menus */
 .ui-menu {
-	width: 150px;
+	width: 220px;
+<<<<<<< HEAD
+=======
+}
+.ui-menu kbd {
+	float: right;
+>>>>>>> FETCH_HEAD
+}
+
+/* Allow to use <kbd> elements inside the title to define shortcut hints. */
+.ui-menu kbd {
+	padding-left: 1em;
+	float: right;
 }
 
 /* Define a custom icon */
-
 .ui-icon.custom-icon-firefox {
 	background-image: url(application_firefox.gif);
 	background-position: 0 0;
@@ -67,7 +74,8 @@ var CLIPBOARD = "";
 $(function(){
 	/* Enable a themeroller theme-switching using a combobox. */
 	$("#switcher").themeswitcher({
-		jqueryuiversion: "1",
+		jqueryuiversion: "1.11.1",
+		themepath: "//code.jquery.com/ui/",
 		imgpath: "../lib/Super-Theme-Switcher/images/",
 		loadTheme: "Smoothness"
 	});
@@ -80,13 +88,14 @@ $(function(){
 		preventSelect: true,
 		taphold: true,
 		menu: [
-			{title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors"},
-			{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
-			{title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
+			{title: "Cut <kbd>Ctrl+X</kbd>", cmd: "cut", uiIcon: "ui-icon-scissors"},
+			{title: "Copy <kbd>Ctrl+C</kbd>", cmd: "copy", uiIcon: "ui-icon-copy"},
+			{title: "Paste <kbd>Ctrl+V</kbd>", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
 			{title: "----"},
 			{title: "More", children: [
 				{title: "Sub 1 (using callback)", action: function(event, ui) { alert("action callback sub1");} },
-				{title: "Sub 2", cmd: "sub1"}
+				{title: "Sub 2 with a long title<kbd>[F2]</kbd>", cmd: "sub2"},
+				{title: "Sub 3 <label>Please select: <input type='checkbox' name='sub2'></label>", cmd: "sub3"}
 				]}
 			],
 		// Handle menu selection to implement a fake-clipboard
@@ -179,13 +188,9 @@ $(function(){
 	<h1>jquery.ui-contextmenu.js</h1>
 
 	<p>
-	<!--
-		<a href="https://github.com/mar10/jquery-ui-contextmenu">View project on GitHub</a>
+		<b>Demo with jQuery UI 1.11</b>
 		&mdash;
-	-->
-		<a href="index.html">Demo with jQuery UI 1.10</a>
-		&mdash;
-		<a href="index-1-11.html">Demo with jQuery UI 1.11.0</a>
+		<a href="index-1-10.html">Demo with jQuery UI 1.10</a>
 	</p>
 
 	<div>
@@ -227,20 +232,21 @@ $(function(){
 	</div>
 
 	<ul id="options" style="display: none;">
-		<li data-command="action1"><a href="#"><span class="ui-icon custom-icon-firefox"></span>Action 1</a>
-		<li data-command="action2"><a href="#"><span class="ui-icon ui-icon-heart"></span>Action 2</a>
-		<li data-command="action3" class="ui-state-disabled"><a href="#">Action 3</a>
-		<li>----
-		<li><a>Extra</a>
+		<li data-command="action1"><span class="ui-icon custom-icon-firefox"></span>Action 1</li>
+		<li data-command="action2"><span class="ui-icon ui-icon-heart"></span>Action 2</li>
+		<li data-command="action3" class="ui-state-disabled">Action 3</li>
+		<li>----</li>
+		<li>Extra
 			<ul>
-				<li data-command="action4"><a href="#">sub4</a>
-				<li data-command="action5"><a href="#">sub5</a>
+				<li data-command="action4">sub4</li>
+				<li data-command="action5">sub5</li>
 			</ul>
+		</li>
 	</ul>
 
 	<ul id="options2" class="ui-helper-hidden">
-		<li data-command="action2"><a href="#action2"><span class="ui-icon ui-icon-heart"></span>Action 2</a>
-		<li data-command="action3" class="ui-state-disabled"><a href="#">Action 3</a>
+		<li data-command="action2"><span class="ui-icon ui-icon-heart"></span>Action 2
+		<li data-command="action3" class="ui-state-disabled">Action 3
 	</ul>
 
 	<h3>Sample 3</h3>

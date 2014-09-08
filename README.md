@@ -7,7 +7,6 @@ A jQuery plugin that provides a context menu (based on the standard [jQueryUI me
   * Themable using [jQuery ThemeRoller](http://jqueryui.com/themeroller/).
   * Supports delegation (i.e. can be bound to elements that don't exist at the
     time the context menu is initialized).
-  * Exposes events from [jQueryUI menu]: `blur`, `create`, `focus`, `select`.
   * Optional support for touch devices.
 
 
@@ -27,7 +26,22 @@ See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/ma
 
 ## Example
 
-Say we have some HTML elements that we want to attach a popup menu to:
+First, include dependencies, i.e. 
+
+* jQuery 1.7+ (1.10 recommended)
+* jQuery UI 1.9+ (at least core, widhet, menu), 1.11 recommended
+* One of the ThemeRoller CSS themes or a custom one
+* jquery.ui-contextmenu.js (also [available as CDN](http://www.jsdelivr.com/#!jquery.ui-contextmenu))
+
+```html
+<head>
+    <link href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
+    <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="assets/jquery.ui-contextmenu.min.js"></script>
+```
+
+We have some HTML elements that we want to attach a popup menu to:
 
 ```html
 <div id="container">
@@ -56,7 +70,6 @@ $("#container").contextmenu({
 });
 ```
 
-
 Instead of handling all menu commands in the `select` event, it is also possible
 to attach callbacks directly to menu entries:
 ```js
@@ -71,15 +84,16 @@ $(document).contextmenu({
 });
 ```
 
-
 To attach menus to *all* elements on the page that have `class="hasmenu"`,
-we use `document` as context:
+we may use `document` as context:
 ```js
 $(document).contextmenu({
     delegate: ".hasmenu",
     ...
 });
 ```
+**Note:** only one contextmenu widget instance can be bound to one element.
+
 
 ### Initialize menu from an existing `<ul>` element
 
@@ -94,21 +108,27 @@ $(document).contextmenu({
     }
 });
 ```
-
-We also have to provide some HTML markup that defines the context menu structure, see
-[jQueryUI menu] for details. jQuery UI 1.11 removed the requirement to use anchors in menu
-items, so the `<a>` tags should be omitted:
+We also have to provide some HTML markup that defines the context menu structure, 
+see [jQueryUI menu] for details:
 
 ```html
 <ul id="options" class="ui-helper-hidden">
-    <li data-command="copy"><a href="#"><span class="ui-icon ui-icon-copy"></span>Copy</a>
-    <li data-command="paste" class="ui-state-disabled"><a href="#">Paste</a>
-    <li>----
-    <li><a>More</a>
+    <li data-command="copy"><span class="ui-icon ui-icon-copy"></span>Copy</li>
+    <li data-command="paste" class="ui-state-disabled">Paste</li>
+    <li>----</li>
+    <li>More
         <ul>
-            <li data-command="sub1"><a href="#">Sub 1</a>
-            <li data-command="sub2"><a href="#">Sub 2</a>
+            <li data-command="sub1">Sub 1</li>
+            <li data-command="sub2">Sub 2</li>
         </ul>
+    </li>
+</ul>
+```
+
+**Note:** until jQuery UI 1.10 the use of anchors (`<a>`) in menu items was required:
+```html
+<ul id="options" class="ui-helper-hidden">
+    <li data-command="copy"><a href="#"><span class="ui-icon ui-icon-copy"></span>Copy</a>
 </ul>
 ```
 
@@ -347,6 +367,26 @@ $("#container").bind("contextmenuselect", function(event, ui) {
     Return <code>false</code> to prevent closing the menu.
 </dd>
 </dl>
+
+
+# Tips and Tricks
+### Add right-aligned shortcut hints
+
+Simply add a tag of your choice to the title (for example `<kbd>`)
+```js
+$(document).contextmenu({
+    delegate: ".hasmenu",
+    menu: [
+        {title: "Edit title<kbd>[F2]</kbd>", cmd: "rename"}, 
+        {title: "Copy <kbd>[Ctrl+C]</kbd>", cmd: "copy"}, ...
+        ],
+```
+and make it right aligned via CSS:
+```css
+.ui-menu kbd {
+    float: right;
+}
+```
 
 
 # Credits
