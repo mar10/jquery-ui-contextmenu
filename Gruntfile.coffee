@@ -112,7 +112,7 @@ module.exports = (grunt) ->
         common: # defaults for all tools
           manifests: ['package.json', 'bower.json', 'ui-contextmenu.jquery.json']
         # The following tools are run in order:
-        check: { clean: true, branch: ['master'] }
+        check: { clean: true, branch: ['master'], canPush: true }
         run_test: { tasks: ['test'] }
         bump: {} # 'bump' also uses the increment mode `yabs:release:MODE`
         run_build: { tasks: ['build'] }
