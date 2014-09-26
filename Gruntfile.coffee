@@ -112,14 +112,14 @@ module.exports = (grunt) ->
         common: # defaults for all tools
           manifests: ['package.json', 'bower.json', 'ui-contextmenu.jquery.json']
         # The following tools are run in order:
-        check: { clean: true, branch: ['master'], canPush: true }
+        check: { branch: ['master'], canPush: true, clean: true, cmpVersion: 'gte' }
         run_test: { tasks: ['test'] }
         bump: {} # 'bump' also uses the increment mode `yabs:release:MODE`
         run_build: { tasks: ['build'] }
         commit: {}
         check_after_build: { clean: true } # Fails if new files found
         tag: {}
-        push: { tags: true }
+        push: { tags: true, useFollowTags: true }
         githubRelease:
           repo: "mar10/jquery-ui-contextmenu"
           draft: false
