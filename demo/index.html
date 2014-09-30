@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-	<title>jquery.ui-contextmenu.js - Demo</title>‚
+	<title>jquery.ui-contextmenu.js - Demo</title>
 
 	<link href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
 	<script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -86,9 +86,8 @@ $(function(){
 			{title: "Paste <kbd>Ctrl+V</kbd>", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
 			{title: "----"},
 			{title: "More", children: [
-				{title: "Sub 1 (using callback)", action: function(event, ui) { alert("action callback sub1");} },
-				{title: "Sub 2 with a long title<kbd>[F2]</kbd>", cmd: "sub2"},
-				{title: "Sub 3 <label>Please select: <input type='checkbox' name='sub2'></label>", cmd: "sub3"}
+				{title: "Sub 1 (callback)", action: function(event, ui) { alert("action callback sub1");} },
+				{title: "Edit <kbd>[F2]</kbd>", cmd: "sub2"},
 				]}
 			],
 		// Handle menu selection to implement a fake-clipboard
@@ -188,9 +187,6 @@ $(function(){
 
 	<div>
 		<label for="switcher">Theme:</label> <div id="switcher"></div>
-		<!--
-		<label for="skinswitcher">Skin:</label> <select id="skinswitcher"></select>
-		-->
 	</div>
 
 	<h3>Sample 1</h3>

@@ -1,4 +1,7 @@
-# 1.6.2 / Unreleased
+# 1.7.1-0 / Unreleased
+* 
+
+# 1.7.0 / 2014-09-09
 * [FEATURE] AMD support (topolm).
 * [FEATURE] CDN support (http://www.jsdelivr.com/#!jquery.ui-contextmenu).
 
