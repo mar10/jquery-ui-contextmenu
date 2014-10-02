@@ -1,5 +1,5 @@
 # 1.7.1-0 / Unreleased
-* 
+* Use jscs
 
 # 1.7.0 / 2014-09-09
 * [FEATURE] AMD support (topolm).

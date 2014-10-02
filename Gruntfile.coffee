@@ -34,6 +34,12 @@ module.exports = (grunt) ->
         # FTP upload the demo files (requires https://github.com/mar10/pyftpsync)
         cmd: "pyftpsync --progress upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --omit dist,node_modules,.*,_* -x"
 
+    jscs:
+      src: ["jquery.ui-contextmenu.js", "test/tests.js"]
+      options:
+        config: ".jscsrc"
+        force: true
+
     jshint:
       files: ["jquery.ui-contextmenu.js", "test/tests.js"]
       options:
@@ -101,11 +107,16 @@ module.exports = (grunt) ->
         dest: "jquery.ui-contextmenu.min.js"
 
     watch:
-      jshint:
+      dev:
         options:
           atBegin: true
-        files: ["jquery.ui-contextmenu.js"]
-        tasks: ["jshint"]
+        files: ["jquery.ui-contextmenu.js", "test/tests.js"]
+        tasks: ["jshint", "jscs"]
+      # jshint:
+      #   options:
+      #     atBegin: true
+      #   files: ["jquery.ui-contextmenu.js"]
+      #   tasks: ["jshint"]
 
     yabs:
       release:
@@ -133,8 +144,8 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks key  if key isnt "grunt" and key.indexOf("grunt") is 0
     
   grunt.registerTask "server", ["connect:demo"]
-  grunt.registerTask "dev", ["connect:dev", "watch:jshint"]
-  grunt.registerTask "test", ["jshint", "qunit"]
+  grunt.registerTask "dev", ["connect:dev", "watch:dev"]
+  grunt.registerTask "test", ["jshint", "jscs", "qunit"]
   grunt.registerTask "sauce", ["connect:sauce", "saucelabs-qunit"]
   if parseInt(process.env.TRAVIS_PULL_REQUEST, 10) > 0
       # saucelab keys do not work on forks

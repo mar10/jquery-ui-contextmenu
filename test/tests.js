@@ -1,5 +1,6 @@
  // jQUnit defines:
- // asyncTest,deepEqual,equal,expect,module,notDeepEqual,notEqual,notStrictEqual,ok,QUnit,raises,start,stop,strictEqual,test
+ // asyncTest,deepEqual,equal,expect,module,notDeepEqual,notEqual,notStrictEqual,
+ // ok,QUnit,raises,start,stop,strictEqual,test
 
  /*globals asyncTest,equal,expect,module,ok,QUnit,start,test */
 
@@ -36,7 +37,6 @@ function TestHelpers() {
 		},
 		entryEvent: function( menu, item, type ) {
 			lastItem = item;
-//			window.console.log(type + ": ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
 			if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
 				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( type );
 			} else {
@@ -45,7 +45,6 @@ function TestHelpers() {
 		},
 		click: function( menu, item ) {
 			lastItem = item;
-//			window.console.log("clck: ", menu.children( ":eq(" + item + ")" ).find( "a:first" ).length);
 			if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
 				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( "click" );
 			} else {
@@ -58,18 +57,15 @@ function TestHelpers() {
 	};
 }
 
-
 // ****************************************************************************
 
-
-jQuery(document).ready(function(){
+jQuery(document).ready(function() {
 
 /*******************************************************************************
  * QUnit setup
  */
 
 QUnit.config.requireExpects = true;
-
 
 var th = new TestHelpers(),
 	log = th.log,
@@ -78,32 +74,32 @@ var th = new TestHelpers(),
 	entryEvent = th.entryEvent,
 	entry = th.entry,
 	lifecycle = {
-		setup: function () {
+		setup: function() {
 			th.clearLog();
 			// Always create a fresh copy of the menu <UL> definition
 			$("#sampleMenuTemplate").clone().attr("id", "sampleMenu").appendTo("body");
 		},
-		teardown: function () {
+		teardown: function() {
 			$(":moogle-contextmenu").contextmenu("destroy");
 			$("#sampleMenu").remove();
 		}
 	},
 	SAMPLE_MENU = [
-		{title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors"},
-		{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
-		{title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
-		{title: "----"},
-		{title: "More", children: [
-			{title: "Sub Item 1", cmd: "sub1"},
-			{title: "Sub Item 2", cmd: "sub2" }
-			]}
+		{ title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors" },
+		{ title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
+		{ title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
+		{ title: "----" },
+		{ title: "More", children: [
+			{ title: "Sub Item 1", cmd: "sub1" },
+			{ title: "Sub Item 2", cmd: "sub2" }
+			] }
 		],
 	$ = jQuery,
 	sauceLabsLog = [];
 
 // SauceLabs integration
-QUnit.testStart(function (testDetails) {
-	QUnit.log(function(details){
+QUnit.testStart(function(testDetails) {
+	QUnit.log(function(details) {
 		if (!details.result) {
 			details.name = testDetails.name;
 			sauceLabsLog.push(details);
@@ -111,7 +107,7 @@ QUnit.testStart(function (testDetails) {
 	});
 });
 
-QUnit.done(function (testResults) {
+QUnit.done(function(testResults) {
 	var tests = [],
 		i, len, details;
 	for (i = 0, len = sauceLabsLog.length; i < len; i++) {
@@ -126,27 +122,26 @@ QUnit.done(function (testResults) {
 	}
 	testResults.tests = tests;
 
-	/*jshint camelcase:false*/
-	window.global_test_results = testResults;
-	/*jshint camelcase:true*/
+	/*jshint camelcase:false*/ // jscs: disable
+	window.global_test_results = testResults; // used by saucelabs
+	/*jshint camelcase:true*/ // jscs: enable
 });
 
 //---------------------------------------------------------------------------
 
 module("prototype", lifecycle);
 
-test("globals", function(){
+test("globals", function() {
 	expect(2);
 	ok( !!$.moogle.contextmenu, "exists in ui namnespace");
 	ok( !!$.moogle.contextmenu.version, "has version number");
 });
 
-
 // ---------------------------------------------------------------------------
 
 module("create", lifecycle);
 
-function _createTest(menu){
+function _createTest(menu) {
 	var $ctx;
 
 	expect(5);
@@ -156,10 +151,10 @@ function _createTest(menu){
 		delegate: ".hasmenu",
 		menu: menu,
 		preventSelect: true,
-		create: function(){
+		create: function() {
 			log("create");
 		},
-		createMenu: function(){
+		createMenu: function() {
 			log("createMenu");
 		}
 	});
@@ -172,29 +167,27 @@ function _createTest(menu){
 	$ctx.contextmenu("destroy");
 
 	equal( $(":moogle-contextmenu").length, 0, "widget destroyed");
-//    ok( ! $("#sampleMenu").hasClass( "moogle-contextmenu" ), "Class removed from menu definition");
+//    ok( !$("#sampleMenu").hasClass("moogle-contextmenu"),
+//           "Class removed from menu definition");
 	equal( $("head style.moogle-contextmenu-style").length, 0, "global stylesheet removed");
 
 	equal(logOutput(), "constructor,createMenu,create,afterConstructor",
 		  "Event sequence OK." );
 }
 
-
-test("create from UL", function(){
+test("create from UL", function() {
 	_createTest("ul#sampleMenu");
 });
 
-
-test("create from array", function(){
+test("create from array", function() {
 	_createTest(SAMPLE_MENU);
 });
-
 
 //---------------------------------------------------------------------------
 
 module("open", lifecycle);
 
-function _openTest(menu){
+function _openTest(menu) {
 	var $ctx, $popup;
 
 	expect(18);
@@ -202,7 +195,7 @@ function _openTest(menu){
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
 		menu: menu,
-		beforeOpen: function(event, ui){
+		beforeOpen: function(event, ui) {
 			log("beforeOpen");
 
 			equal( event.type, "contextmenubeforeopen",
@@ -211,7 +204,7 @@ function _openTest(menu){
 				  "beforeOpen: ui.target is set" );
 			ok( $popup.is(":hidden"),
 				"beforeOpen: Menu is hidden" );
-			ok( ! entry($popup, 0).hasClass("ui-state-disabled"),
+			ok( !entry($popup, 0).hasClass("ui-state-disabled"),
 				"beforeOpen: Entry 0 is enabled" );
 			ok( entry($popup, 2).hasClass("ui-state-disabled"),
 				"beforeOpen: Entry 2 is disabled" );
@@ -221,7 +214,7 @@ function _openTest(menu){
 			$("#container").contextmenu("enableEntry", "cut", false);
 			$("#container").contextmenu("showEntry", "copy", false);
 		},
-		open: function(event){
+		open: function(event) {
 			log("open");
 
 			ok( $popup.is(":visible"),
@@ -261,22 +254,19 @@ function _openTest(menu){
 	log("after open()");
 }
 
-
-asyncTest("UL menu", function(){
+asyncTest("UL menu", function() {
 	_openTest("ul#sampleMenu");
 });
 
-
-asyncTest("Array menu", function(){
+asyncTest("Array menu", function() {
 	_openTest(SAMPLE_MENU);
 });
-
 
 //---------------------------------------------------------------------------
 
 module("click event sequence", lifecycle);
 
-function _clickTest(menu){
+function _clickTest(menu) {
 	var $ctx, $popup;
 
 	expect(3);
@@ -286,44 +276,44 @@ function _clickTest(menu){
 		menu: menu,
 //        show: false,
 //        hide: false,
-		beforeOpen: function(event, ui){
+		beforeOpen: function(event, ui) {
 			log("beforeOpen(" + ui.target.text() + ")");
 		},
-		create: function(event, ui){
+		create: function(event, ui) {
 			log("create");
 		},
-		createMenu: function(event, ui){
+		createMenu: function(event, ui) {
 			log("createMenu");
 		},
 		/*TODO: Seems that focus gets called twice in Safary, but nod PhantomJS */
-//        focus: function(event, ui){
+//        focus: function(event, ui) {
 //            var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
 //            log("focus(" + t + ")");
 ////            equal( ui.cmd, "cut", "focus: ui.cmd is set" );
 ////            ok( !ui.target || ui.target.text() === "AAA", "focus: ui.target is set" );
 //        },
 //        /* blur seems always to have ui.item === null. Also called twice in Safari? */
-//		blur: function(event, ui){
+//		blur: function(event, ui) {
 //		    var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
 //			log("blur(" + t + ")");
 ////            equal( ui.cmd, "cut", "blur: ui.cmd is set" );
 ////            equal( ui.target && ui.target.text(), "AAA", "blur: ui.target is set" );
 //		},
-		select: function(event, ui){
+		select: function(event, ui) {
 //			window.console.log("select");
 			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
 			equal( ui.cmd, "cut", "select: ui.cmd is set" );
 			equal( ui.target.text(), "AAA", "select: ui.target is set" );
 		},
-		open: function(event){
+		open: function(event) {
 			log("open");
-			setTimeout(function(){
+			setTimeout(function() {
 				entryEvent($popup, 0, "mouseenter");
 				click($popup, 0);
 			}, 10);
 		},
-		close: function(event){
+		close: function(event) {
 			log("close");
 		}
 	});
@@ -335,42 +325,39 @@ function _clickTest(menu){
 	$ctx.contextmenu("open", $("span.hasmenu:first"));
 	log("after open()");
 
-	setTimeout(function(){
+	setTimeout(function() {
 		// TODO: why is focus() called twice?
-		equal(logOutput(), "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
-				"Event sequence OK.");
+		equal(logOutput(),
+			  "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
+			  "Event sequence OK.");
 		start();
 	}, 1000);
 }
 
-
-asyncTest("Array menu", function(){
+asyncTest("Array menu", function() {
 	_clickTest(SAMPLE_MENU);
 });
 
-
-asyncTest("UL menu", function(){
+asyncTest("UL menu", function() {
 	_clickTest("ul#sampleMenu");
 });
 
-
 // ****************************************************************************
-
 
 module("'action' option", lifecycle);
 
-asyncTest("Array menu", function(){
+asyncTest("Array menu", function() {
 	var $ctx, $popup,
 		menu  = [
-		   {title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors",
+		   { title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors",
 			action: function(event, ui) {
 				log("cut action");
 				equal( ui.cmd, "cut", "action: ui.cmd is set" );
 				equal( ui.target.text(), "AAA", "action: ui.target is set" );
 			}
 		   },
-		   {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
-		   {title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
+		   { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
+		   { title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
 		   ];
 
 	expect(5);
@@ -378,19 +365,19 @@ asyncTest("Array menu", function(){
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
 		menu: menu,
-		open: function(event){
+		open: function(event) {
 			log("open");
-			setTimeout(function(){
+			setTimeout(function() {
 				click($popup, 0);
 			}, 10);
 		},
-		select: function(event, ui){
+		select: function(event, ui) {
 			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
 			equal( ui.cmd, "cut", "select: ui.cmd is set" );
 			equal( ui.target.text(), "AAA", "select: ui.target is set" );
 		},
-		close: function(event){
+		close: function(event) {
 			log("close");
 		}
 	});
@@ -402,12 +389,11 @@ asyncTest("Array menu", function(){
    $ctx.contextmenu("open", $("span.hasmenu:first"));
    log("after open()");
 
-   setTimeout(function(){
+   setTimeout(function() {
 	   equal(logOutput(), "open(),after open(),open,select(cut),cut action,close",
 		   "Event sequence OK.");
 	   start();
    }, 500);
 	});
-
 
 });
