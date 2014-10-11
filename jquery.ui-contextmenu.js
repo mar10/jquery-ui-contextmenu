@@ -384,7 +384,7 @@ if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
 					$parentLi.addClass("ui-state-disabled");
 				}
 				if ($.isPlainObject(entry.data)) {
-					$a.data(entry.data);
+					$parentLi.data(entry.data);
 				}
 			}
 		},
