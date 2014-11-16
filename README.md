@@ -28,16 +28,16 @@ See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/ma
 
 First, include dependencies, i.e. 
 
-* jQuery 1.7+ (1.10 recommended)
-* jQuery UI 1.9+ (at least core, widhet, menu), 1.11 recommended
+* jQuery 1.7+ (1.10 or later recommended)
+* jQuery UI 1.9+ (at least core, widget, menu), 1.11 recommended
 * One of the ThemeRoller CSS themes or a custom one
 * jquery.ui-contextmenu.js (also [available as CDN](http://www.jsdelivr.com/#!jquery.ui-contextmenu))
 
 ```html
 <head>
-    <link href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
+    <link href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
     <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
-    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
     <script src="assets/jquery.ui-contextmenu.min.js"></script>
 ```
 

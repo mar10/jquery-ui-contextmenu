@@ -5,7 +5,7 @@
  *
  * @see https://github.com/mar10/jquery-ui-contextmenu
  *
- * Copyright (c) 2014, Martin Wendt (http://wwWendt.de). Licensed MIT.
+ * Copyright (c) 2013-2014, Martin Wendt (http://wwWendt.de). Licensed MIT.
  */
 
 (function( factory ) {
@@ -301,15 +301,21 @@ $.widget("moogle.contextmenu", {
 		this._createUiMenu(data);
 	},
 	/** Redefine menu entry (title or all of it). */
-	setEntry: function(cmd, titleOrData) {
-		var $entry = this._getMenuEntry(cmd);
+	setEntry: function(cmd, entry) {
+		var $ul,
+			$entryLi = this._getMenuEntry(cmd);
 
-		if (typeof titleOrData === "string") {
-			$.moogle.contextmenu.updateTitle($entry, titleOrData);
+		if (typeof entry === "string") {
+			$.moogle.contextmenu.updateTitle($entryLi, entry);
 		} else {
-			$entry.empty();
-			titleOrData.cmd = titleOrData.cmd || cmd;
-			$.moogle.contextmenu.createEntryMarkup(titleOrData, $entry);
+			$entryLi.empty();
+			entry.cmd = entry.cmd || cmd;
+			$.moogle.contextmenu.createEntryMarkup(entry, $entryLi);
+			if ($.isArray(entry.children)) {
+				$ul = $("<ul/>").appendTo($entryLi);
+				$.moogle.contextmenu.createMenuMarkup(entry.children, $ul);
+			}
+			this.getMenu().menu("refresh");
 		}
 	},
 	/** Show or hide the menu command. */
@@ -341,7 +347,7 @@ $.extend($.moogle.contextmenu, {
 		}
 		return $parentUl;
 	},
-	/** Replaces the value of elem's first text node child*/
+	/** Replaces the value of elem's first text node child */
 	replaceFirstTextNodeChild: function(elem, text) {
 		elem
 			.contents()

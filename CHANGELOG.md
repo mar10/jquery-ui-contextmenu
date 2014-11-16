@@ -1,4 +1,6 @@
 # 1.7.1-0 / Unreleased
+* [FEATURE] #80 setEntry() supports creating nested menus
+* [BUGFIX] entry data attached to parentLi instead of `<a>`
 * Use jscs
 
 # 1.7.0 / 2014-09-09
