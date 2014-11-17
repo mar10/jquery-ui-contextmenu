@@ -370,7 +370,7 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 
 
 # Tips and Tricks
-### Add right-aligned shortcut hints
+### [Howto] Add right-aligned shortcut hints
 
 Simply add a tag of your choice to the title (for example `<kbd>`)
 ```js
@@ -386,6 +386,55 @@ and make it right aligned via CSS:
 .ui-menu kbd {
     float: right;
 }
+```
+
+
+### [Howto] Modify the menu using an asynchronous request
+
+
+```js
+$(document).contextmenu({
+    ...
+    beforeOpen: function(event, ui) {
+        // Immediate menu changes
+        $(document).contextmenu("setEntry", "test", "(loading...)");
+        // Menu opens, then we submit a request and wait for the resonse
+        $.ajax({
+            ...
+        }).done(function(data) {
+            // Modify the menu from the ajax response. The menu will updated
+            // while open
+            $(document).contextmenu("setEntry", "test", {
+                title: "New entry", cmd: "test", 
+                children: [ ... ]
+                });
+        });
+    },
+```
+
+Alternively we can delay the opening until the response arrives:
+```js
+$(document).contextmenu({
+    ...
+    beforeOpen: function(event, ui) {
+        var dfd = new $.Deferred();
+
+        $.ajax({
+            ...
+        }).done(function(data) {
+            // Modify the menu from the ajax response. The menu will be opened
+            // afterwards
+            $(document).contextmenu("setEntry", "test", {
+                title: "New entry", cmd: "test", 
+                children: [ ... ]
+                });
+            dfd.resolve(); // Notify about finished response
+        });
+
+        // Return a promise to delay opening until an async response becomes
+        // available
+        ui.result = dfd.promise();
+    },
 ```
 
 

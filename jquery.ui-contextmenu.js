@@ -171,28 +171,43 @@ $.widget("moogle.contextmenu", {
 			}));
 	},
 	/** Open popup (called on 'contextmenu' event). */
-	_openMenu: function(event) {
-		var opts = this.options,
+	_openMenu: function(event, recursive) {
+		var res, promise,
+			opts = this.options,
 			posOption = opts.position,
 			self = this,
 			manualTrigger = !!event.isTrigger,
 			ui = { menu: this.$menu, target: $(event.target),
-				   extraData: event.extraData, originalEvent: event };
+				   extraData: event.extraData, originalEvent: event,
+				   result: null };
 
 		if ( !opts.autoTrigger && !manualTrigger ) {
 			// ignore browser's `contextmenu` events
 			return;
 		}
-		this.currentTarget = event.target;
 
 		// Prevent browser from opening the system context menu
 		event.preventDefault();
 
-		if ( this._trigger("beforeOpen", event, ui) === false ) {
-			this.currentTarget = null;
-			return false;
+		if ( !recursive ) {
+			res = this._trigger("beforeOpen", event, ui);
+			promise = (ui.result && $.isFunction(ui.result.promise)) ? ui.result : null;
+			ui.result = null;
+			if ( res === false ) {
+				// this.currentTarget = null;
+				return false;
+			} else if ( promise ) {
+				// Handler returned a Deferred or Promise. Delay menu open until
+				// the promise is resolved
+				promise.done(function() {
+					self._openMenu(event, true);
+				});
+				return false;
+			}
+			ui.menu = this.$menu; // Might have changed in beforeOpen
 		}
-		ui.menu = this.$menu; // Might have changed in beforeOpen
+		this.currentTarget = event.target;
+
 		// Register global event handlers that close the dropdown-menu
 		$(document).bind("keydown" + this.eventNamespace, function(event) {
 			if ( event.which === $.ui.keyCode.ESCAPE ) {

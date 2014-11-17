@@ -1,5 +1,6 @@
 # 1.7.1-0 / Unreleased
 * [FEATURE] #80 setEntry() supports creating nested menus
+* [FEATURE] #81 beforeOpen event accepts deferred as return value
 * [BUGFIX] entry data attached to parentLi instead of `<a>`
 * Use jscs
 
