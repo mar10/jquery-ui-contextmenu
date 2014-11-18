@@ -16,6 +16,13 @@ function TestHelpers() {
 		uiVersion = {
 			major: parseInt(match[1], 10),
 			minor: parseInt(match[2], 10)
+		},
+		uiVersionBefore11 = ( uiVersion.major < 2 && uiVersion.minor < 11 ),
+		findEntry = function( menu, indexOrCommand ) {
+			if ( typeof indexOrCommand === "number" ) {
+				return menu.children( ":eq(" + indexOrCommand + ")" );
+			}
+			return menu.find("li[data-command=" + indexOrCommand + "]");
 		};
 
 	return {
@@ -37,22 +44,32 @@ function TestHelpers() {
 		},
 		entryEvent: function( menu, item, type ) {
 			lastItem = item;
-			if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
-				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( type );
+			if ( uiVersionBefore11 ) {
+				findEntry(menu, item).find( "a:first" ).trigger( type );
 			} else {
-				menu.children( ":eq(" + item + ")" ).trigger( type );
+				findEntry(menu, item).trigger( type );
 			}
 		},
 		click: function( menu, item ) {
 			lastItem = item;
-			if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
-				menu.children( ":eq(" + item + ")" ).find( "a:first" ).trigger( "click" );
+			if ( uiVersionBefore11 ) {
+				findEntry(menu, item).find( "a:first" ).trigger( "click" );
 			} else {
-				menu.children( ":eq(" + item + ")" ).trigger( "click" );
+				findEntry(menu, item).trigger( "click" );
 			}
 		},
-		entry: function( menu, item ) {
-			return menu.children( ":eq(" + item + ")" );
+		entry: findEntry,
+		entryTitle: function( menu, item ) {
+			// return the plain text (without sub-elements)
+			if ( uiVersionBefore11 ) {
+				return findEntry(menu, item).find( "a:first" ).contents().filter(function() {
+					return this.nodeType === 3;
+				})[0].nodeValue;
+			} else {
+			return findEntry(menu, item).contents().filter(function() {
+					return this.nodeType === 3;
+				})[0].nodeValue;
+			}
 		}
 	};
 }
@@ -72,6 +89,7 @@ var th = new TestHelpers(),
 	logOutput = th.logOutput,
 	click = th.click,
 	entryEvent = th.entryEvent,
+	entryTitle = th.entryTitle,
 	entry = th.entry,
 	lifecycle = {
 		setup: function() {
@@ -394,6 +412,96 @@ asyncTest("Array menu", function() {
 		   "Event sequence OK.");
 	   start();
    }, 500);
+});
+
+// ****************************************************************************
+
+module("'beforeOpen' event", lifecycle);
+
+asyncTest("modify on open", function() {
+	var $ctx, $popup,
+		menu  = [
+		   { title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors" },
+		   { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
+		   { title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
+		   ];
+
+	expect(9);
+
+	$("#container").contextmenu({
+		delegate: ".hasmenu",
+		menu: menu,
+		beforeOpen: function(event, ui) {
+			log("beforeOpen");
+			$ctx
+				.contextmenu("setEntry", "cut", "Cut - changed")
+				.contextmenu("setEntry", "copy", { title: "Copy - changed", cmd: "copy2" })
+				.contextmenu("setEntry", "paste", {
+					title: "Paste - changed", cmd: "paste",
+					children: [
+						{ title: "Sub 1", cmd: "sub_1" },
+						{ title: "Sub 2", cmd: "sub_2", disabled: true }
+						]
+					} );
+		},
+		open: function(event) {
+			log("open");
+			equal(entryTitle($popup, "cut"), "Cut - changed",
+				"setEntry(string)");
+			equal(entry($popup, "copy").length, 0,
+				"setEntry(object) change command id");
+			equal(entryTitle($popup, "copy2"), "Copy - changed",
+				"setEntry(object) set title");
+			equal(entryTitle($popup, "paste"), "Paste - changed",
+				"setEntry(object) set nested title");
+			equal(entryTitle($popup, "sub_1"), "Sub 1",
+				"setEntry(object) created nested entry");
+			ok(entry($popup, "sub_2").hasClass("ui-state-disabled"),
+				"setEntry(object) created nested disabled entry");
+			// ok( entry($popup, 2).hasClass("ui-state-disabled"),
+			// 	"open: Entry is disabled" );
+
+			// ok( $ctx.contextmenu("isOpen"),
+			// 	"isOpen() true in open event");
+
+			// ok( entry($popup, 0).is(":visible"),
+			// 	"beforeOpen: Entry 0 is visible" );
+			// ok( entry($popup, 0).hasClass("ui-state-disabled"),
+			// 	"beforeOpen: Entry 0 is disabled: enableEntry(false) worked" );
+
+			// ok( entry($popup, 1).is(":hidden"),
+			// 	"beforeOpen: Entry 1 is hidden: showEntry(false) worked" );
+			// ok( !entry($popup, 1).hasClass("ui-state-disabled"),
+			// 	"beforeOpen: Entry 1 is enabled" );
+
+			setTimeout(function() {
+				click($popup, "cut");
+			}, 10);
+		},
+		select: function(event, ui) {
+			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
+			log("select(" + t + ")");
+			equal( ui.cmd, "cut", "select: ui.cmd is set" );
+			equal( ui.target.text(), "AAA", "select: ui.target is set" );
+		},
+		close: function(event) {
+			log("close");
+		}
 	});
+
+   $ctx = $(":moogle-contextmenu");
+   $popup = $ctx.contextmenu("getMenu");
+
+   log("open()");
+   $ctx.contextmenu("open", $("span.hasmenu:first"));
+   log("after open()");
+
+   setTimeout(function() {
+	   equal(logOutput(), "open(),beforeOpen,after open(),open,select(cut),close",
+		   "Event sequence OK.");
+	   start();
+   }, 500);
+
+});
 
 });

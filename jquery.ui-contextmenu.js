@@ -189,12 +189,14 @@ $.widget("moogle.contextmenu", {
 		// Prevent browser from opening the system context menu
 		event.preventDefault();
 
+		this.currentTarget = event.target;
+
 		if ( !recursive ) {
 			res = this._trigger("beforeOpen", event, ui);
 			promise = (ui.result && $.isFunction(ui.result.promise)) ? ui.result : null;
 			ui.result = null;
 			if ( res === false ) {
-				// this.currentTarget = null;
+				this.currentTarget = null;
 				return false;
 			} else if ( promise ) {
 				// Handler returned a Deferred or Promise. Delay menu open until
@@ -202,11 +204,11 @@ $.widget("moogle.contextmenu", {
 				promise.done(function() {
 					self._openMenu(event, true);
 				});
+				this.currentTarget = null;
 				return false;
 			}
 			ui.menu = this.$menu; // Might have changed in beforeOpen
 		}
-		this.currentTarget = event.target;
 
 		// Register global event handlers that close the dropdown-menu
 		$(document).bind("keydown" + this.eventNamespace, function(event) {
