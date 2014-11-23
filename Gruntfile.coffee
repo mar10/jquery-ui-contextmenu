@@ -75,7 +75,7 @@ module.exports = (grunt) ->
         options:
           urls: [
             "http://localhost:9999/test/index.html",
-            "http://localhost:9999/test/index-jquery-ui-1-11.html"
+            "http://localhost:9999/test/index-jquery-ui-1-10.html"
           ]
           
           # username: process.env.SAUCE_USERNAME,
@@ -85,7 +85,7 @@ module.exports = (grunt) ->
           browsers: [
             { browserName: "chrome", platform: "Windows 7" }
             { browserName: "firefox", platform: "Windows 7" }
-            { browserName: "firefox", platform: "Windows XP" }
+            # { browserName: "firefox", platform: "Windows XP" }
             { browserName: "firefox", platform: "Linux" }
             { browserName: "internet explorer", version: "6", platform: "Windows XP" }
             { browserName: "internet explorer", version: "7", platform: "Windows XP" }

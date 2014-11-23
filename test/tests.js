@@ -458,21 +458,6 @@ asyncTest("modify on open", function() {
 				"setEntry(object) created nested entry");
 			ok(entry($popup, "sub_2").hasClass("ui-state-disabled"),
 				"setEntry(object) created nested disabled entry");
-			// ok( entry($popup, 2).hasClass("ui-state-disabled"),
-			// 	"open: Entry is disabled" );
-
-			// ok( $ctx.contextmenu("isOpen"),
-			// 	"isOpen() true in open event");
-
-			// ok( entry($popup, 0).is(":visible"),
-			// 	"beforeOpen: Entry 0 is visible" );
-			// ok( entry($popup, 0).hasClass("ui-state-disabled"),
-			// 	"beforeOpen: Entry 0 is disabled: enableEntry(false) worked" );
-
-			// ok( entry($popup, 1).is(":hidden"),
-			// 	"beforeOpen: Entry 1 is hidden: showEntry(false) worked" );
-			// ok( !entry($popup, 1).hasClass("ui-state-disabled"),
-			// 	"beforeOpen: Entry 1 is enabled" );
 
 			setTimeout(function() {
 				click($popup, "cut");
