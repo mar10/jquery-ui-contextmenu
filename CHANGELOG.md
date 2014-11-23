@@ -1,4 +1,6 @@
-# 1.7.1-0 / Unreleased
+# 1.8.1-0 / Unreleased
+
+# 1.8.0 / 2014-11-23
 * [FEATURE] #80 setEntry() supports creating nested menus
 * [FEATURE] #81 beforeOpen event accepts deferred as return value
 * [BUGFIX] entry data attached to parentLi instead of `<a>`
