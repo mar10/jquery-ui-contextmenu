@@ -12,8 +12,10 @@ A jQuery plugin that provides a context menu (based on the standard [jQueryUI me
 
 ## Status
 
-The latest release is available for download at 
-[The jQuery Plugin Registry](http://plugins.jquery.com/ui-contextmenu/).
+The latest release is available at [npm Registry](https://www.npmjs.org/package/ui-contextmenu):
+```shell
+$ npm install ui-contextmenu
+```
 
 [![GitHub version](https://badge.fury.io/gh/mar10%2Fjquery-ui-contextmenu.svg)](https://github.com/mar10/jquery-ui-contextmenu/releases/latest)
 See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/master/CHANGELOG.md).
@@ -402,7 +404,7 @@ $(document).contextmenu({
         $.ajax({
             ...
         }).done(function(data) {
-            // Modify the menu from the ajax response. The menu will updated
+            // Modify the menu from the ajax response. The menu will be updated
             // while open
             $(document).contextmenu("setEntry", "test", {
                 title: "New entry", cmd: "test", 
@@ -412,7 +414,7 @@ $(document).contextmenu({
     },
 ```
 
-Alternively we can delay the opening until the response arrives:
+Alternatively we can delay the opening until the response arrives:
 ```js
 $(document).contextmenu({
     ...

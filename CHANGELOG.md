@@ -1,4 +1,5 @@
 # 1.8.1-0 / Unreleased
+* Publish on npm Registry
 
 # 1.8.0 / 2014-11-23
 * [FEATURE] #80 setEntry() supports creating nested menus

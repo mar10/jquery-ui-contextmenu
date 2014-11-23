@@ -134,8 +134,9 @@ module.exports = (grunt) ->
         tag: {}
         push: { tags: true, useFollowTags: true }
         githubRelease:
-          repo: "mar10/jquery-ui-contextmenu"
+          repo: 'mar10/jquery-ui-contextmenu'
           draft: false
+        npmPublish: {}
         bump_develop: { inc: 'prepatch' }
         commit_develop: { message: 'Bump prerelease ({%= version %}) [ci skip]' }
         push_develop: {}
