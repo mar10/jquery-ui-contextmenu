@@ -71,17 +71,17 @@ module.exports = (grunt) ->
     #         } ]
 
     "saucelabs-qunit":
-      all:
+      ui_10:
         options:
           urls: [
-            "http://localhost:9999/test/index.html",
+            # "http://localhost:9999/test/index.html",
             "http://localhost:9999/test/index-jquery-ui-1-10.html"
           ]
           
           # username: process.env.SAUCE_USERNAME,
           # key: process.env.SAUCE_ACCESS_KEY,
           build: process.env.TRAVIS_JOB_ID
-          throttled: 12
+          # throttled: 12
           browsers: [
             { browserName: "chrome", platform: "Windows 7" }
             { browserName: "firefox", platform: "Windows 7" }
@@ -97,7 +97,34 @@ module.exports = (grunt) ->
             { browserName: "safari", version: "7", platform: "OS X 10.9" }
             { browserName: "safari", version: "8", platform: "OS X 10.10" }
           ]
-          testname: "jquery.ui-contextmenu qunit tests"
+          testname: "jquery.ui-contextmenu qunit tests (jQuery UI 10)"
+      ui: # UI Menu 11+ dropped support for IE7
+        options:
+          urls: [
+            "http://localhost:9999/test/index.html",
+            # "http://localhost:9999/test/index-jquery-ui-1-10.html"
+          ]
+          
+          # username: process.env.SAUCE_USERNAME,
+          # key: process.env.SAUCE_ACCESS_KEY,
+          build: process.env.TRAVIS_JOB_ID
+          # throttled: 12
+          browsers: [
+            { browserName: "chrome", platform: "Windows 7" }
+            { browserName: "firefox", platform: "Windows 7" }
+            { browserName: "firefox", platform: "Windows XP" }
+            { browserName: "firefox", platform: "Linux" }
+            # { browserName: "internet explorer", version: "6", platform: "Windows XP" }
+            # { browserName: "internet explorer", version: "7", platform: "Windows XP" }
+            { browserName: "internet explorer", version: "8", platform: "Windows 7" }
+            { browserName: "internet explorer", version: "9", platform: "Windows 7" }
+            { browserName: "internet explorer", version: "10", platform: "Windows 8" }
+            { browserName: "internet explorer", version: "11", platform: "Windows 8.1" }
+            { browserName: "safari", version: "6", platform: "OS X 10.8" }
+            { browserName: "safari", version: "7", platform: "OS X 10.9" }
+            { browserName: "safari", version: "8", platform: "OS X 10.10" }
+          ]
+          testname: "jquery.ui-contextmenu qunit tests (jQuery UI 11+)"
 
     uglify:
       options:
@@ -149,7 +176,7 @@ module.exports = (grunt) ->
   grunt.registerTask "server", ["connect:demo"]
   grunt.registerTask "dev", ["connect:dev", "watch:dev"]
   grunt.registerTask "test", ["jshint", "jscs", "qunit"]
-  grunt.registerTask "sauce", ["connect:sauce", "saucelabs-qunit"]
+  grunt.registerTask "sauce", ["connect:sauce", "saucelabs-qunit:ui", "saucelabs-qunit:ui_10"]
   if parseInt(process.env.TRAVIS_PULL_REQUEST, 10) > 0
       # saucelab keys do not work on forks
       # http://support.saucelabs.com/entries/25614798
