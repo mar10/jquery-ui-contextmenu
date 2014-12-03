@@ -132,6 +132,8 @@ module.exports = (grunt) ->
         report: "gzip"
 
       build:
+        options:
+          sourceMap: true
         src: "jquery.ui-contextmenu.js"
         dest: "jquery.ui-contextmenu.min.js"
 
