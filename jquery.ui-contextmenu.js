@@ -27,6 +27,7 @@ var supportSelectstart = "onselectstart" in document.createElement("div"),
 $.widget("moogle.contextmenu", {
 	version: "@VERSION",
 	options: {
+		addClass: "ui-contextmenu",  // Add this class to the outer <ul>
 		autoTrigger: true,    // open menu on browser's `contextmenu` event
 		delegate: null,       // selector
 		hide: { effect: "fadeOut", duration: "fast" },
@@ -111,7 +112,9 @@ $.widget("moogle.contextmenu", {
 	},
 	/** (Re)Create jQuery UI Menu. */
 	_createUiMenu: function(menuDef) {
-		var ct;
+		var ct,
+			opts = this.options;
+
 		// Remove temporary <ul> if any
 		if (this.isOpen()) {
 			// #58: 'replaceMenu' in beforeOpen causing select: to lose ui.target
@@ -120,11 +123,13 @@ $.widget("moogle.contextmenu", {
 			this._closeMenu(true);
 			this.currentTarget = ct;
 		}
-
 		if (this.menuIsTemp) {
 			this.$menu.remove(); // this will also destroy ui.menu
 		} else if (this.$menu) {
-			this.$menu.menu("destroy").hide();
+			this.$menu
+				.menu("destroy")
+				.removeClass(this.options.addClass)
+				.hide();
 		}
 		this.$menu = null;
 		this.menuIsTemp = false;
@@ -143,21 +148,22 @@ $.widget("moogle.contextmenu", {
 		// Create - but hide - the jQuery UI Menu widget
 		this.$menu
 			.hide()
-//				.addClass("moogle-contextmenu")
+			.addClass(opts.addClass)
 			// Create a menu instance that delegates events to our widget
-			.menu($.extend(true, {}, this.options.uiMenuOptions, {
-				blur: $.proxy(this.options.blur, this),
-				create: $.proxy(this.options.createMenu, this),
-				focus: $.proxy(this.options.focus, this),
+			.menu($.extend(true, {}, opts.uiMenuOptions, {
+				blur: $.proxy(opts.blur, this),
+				create: $.proxy(opts.createMenu, this),
+				focus: $.proxy(opts.focus, this),
 				select: $.proxy(function(event, ui) {
 					// User selected a menu entry
 					var retval,
 						isParent = $.moogle.contextmenu.isMenu(ui.item),
 						actionHandler = ui.item.data("actionHandler");
+
 					ui.cmd = ui.item.attr("data-command");
 					ui.target = $(this.currentTarget);
 					// ignore clicks, if they only open a sub-menu
-					if ( !isParent || !this.options.ignoreParentSelect) {
+					if ( !isParent || !opts.ignoreParentSelect) {
 						retval = this._trigger.call(this, "select", event, ui);
 						if ( actionHandler ) {
 							retval = actionHandler.call(this, event, ui);

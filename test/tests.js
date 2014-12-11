@@ -179,14 +179,15 @@ function _createTest(menu) {
 	log( "afterConstructor");
 	$ctx = $(":moogle-contextmenu");
 	equal( $ctx.length, 1, "widget created");
-//    ok($("#sampleMenu").hasClass( "moogle-contextmenu" ), "Class set to menu definition");
+	// equal( $("#sampleMenu").hasClass( "ui-contextmenu" ), true,
+	// 	"Class set to menu definition");
 	equal( $("head style.moogle-contextmenu-style").length, 1, "global stylesheet created");
 
 	$ctx.contextmenu("destroy");
 
 	equal( $(":moogle-contextmenu").length, 0, "widget destroyed");
-//    ok( !$("#sampleMenu").hasClass("moogle-contextmenu"),
-//           "Class removed from menu definition");
+  //   equal( $("#sampleMenu").hasClass("ui-contextmenu"), false,
+		// "Class removed from menu definition");
 	equal( $("head style.moogle-contextmenu-style").length, 0, "global stylesheet removed");
 
 	equal(logOutput(), "constructor,createMenu,create,afterConstructor",
@@ -208,7 +209,7 @@ module("open", lifecycle);
 function _openTest(menu) {
 	var $ctx, $popup;
 
-	expect(18);
+	expect(19);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -237,6 +238,8 @@ function _openTest(menu) {
 
 			ok( $popup.is(":visible"),
 				"open: Menu is visible" );
+			ok( $popup.hasClass("ui-contextmenu"),
+				"Class removed from menu definition");
 			ok( entry($popup, 2).hasClass("ui-state-disabled"),
 				"open: Entry is disabled" );
 

@@ -177,6 +177,12 @@ $(document).contextmenu({
 ## API documentation
 ### Options
 <dl>
+<dt>addClass</dt>
+<dd>
+    Type: <code>String</code>, 
+    default: <code>"ui-contextmenu"</code><br>
+    This class is added to the outer ul element.
+</dd>
 <dt>autoTrigger</dt>
 <dd>
     Type: <code>Boolean</code>, 
@@ -193,7 +199,7 @@ $(document).contextmenu({
 <dt>hide</dt>
 <dd>
     Type: <code> Boolean | Number | String | Object</code>, 
-    default: <code>{ effect: "fadeOut", duration: "fast"}</code><br>
+    default: <code>{ effect: "fadeOut", duration: "fast" }</code><br>
     Effect applied when hiding the popup.<br>
     See <a href="http://api.jqueryui.com/jQuery.widget/#option-show">sample</a> 
     for possible option values.

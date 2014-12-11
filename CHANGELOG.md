@@ -1,7 +1,8 @@
 # 1.8.1-0 / Unreleased
-* [FEATURE] Publish on npm Registry.
-* [FEATURE] Publish on cdnjs.
-* [FEATURE] Include a source map file.
+* [FEATURE] Publish on npm Registry
+* [FEATURE] Publish on cdnjs
+* [FEATURE] Include a source map file
+* [FEATURE] New option `addClass`, defaults to "ui-contextmenu"
 
 # 1.8.0 / 2014-11-23
 * [FEATURE] #80 setEntry() supports creating nested menus
