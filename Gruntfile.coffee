@@ -81,7 +81,7 @@ module.exports = (grunt) ->
           # username: process.env.SAUCE_USERNAME,
           # key: process.env.SAUCE_ACCESS_KEY,
           build: process.env.TRAVIS_JOB_ID
-          # throttled: 12
+          throttled: 8
           browsers: [
             { browserName: "chrome", platform: "Windows 7" }
             { browserName: "firefox", platform: "Windows 7" }

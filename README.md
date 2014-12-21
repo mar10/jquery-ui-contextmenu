@@ -33,7 +33,9 @@ First, include dependencies, i.e.
 * jQuery 1.7+ (1.10 or later recommended)
 * jQuery UI 1.9+ (at least core, widget, menu), 1.11 recommended
 * One of the ThemeRoller CSS themes or a custom one
-* jquery.ui-contextmenu.js (also [available as CDN](http://www.jsdelivr.com/#!jquery.ui-contextmenu))
+* jquery.ui-contextmenu.js (also available as CDN on 
+  [jsdelivr](http://www.jsdelivr.com/#!jquery.ui-contextmenu)
+  or [cdnjs](https://cdnjs.com/libraries/jquery.ui-contextmenu))
 
 ```html
 <head>

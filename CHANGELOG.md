@@ -1,27 +1,36 @@
-# 1.8.1-0 / Unreleased
+# 1.8.2-0 / Unreleased
+*
+
+# 1.8.1 / 2014-12-21
+
 * [FEATURE] Publish on npm Registry
-* [FEATURE] Publish on cdnjs
+* [FEATURE] Publish on [cdnjs](https://cdnjs.com/libraries/jquery.ui-contextmenu)
 * [FEATURE] Include a source map file
 * [FEATURE] New option `addClass`, defaults to "ui-contextmenu"
 
 # 1.8.0 / 2014-11-23
+
 * [FEATURE] #80 setEntry() supports creating nested menus
 * [FEATURE] #81 beforeOpen event accepts deferred as return value
 * [BUGFIX] entry data attached to parentLi instead of `<a>`
 * Use jscs
 
 # 1.7.0 / 2014-09-09
+
 * [FEATURE] AMD support (topolm).
 * [FEATURE] CDN support (http://www.jsdelivr.com/#!jquery.ui-contextmenu).
 
 # 1.6.1 / 2014-08-18
+
 * [FEATURE] #27: New option `uiMenuOptions` allows to pass custom options to UI Menu Widget.
 
 # 1.5.0 / 2014-07-06
+
 * [CHANGE] Use data-command="copy" instead of `<a href='...'>` to store command ids.
 * [FEATURE] Support jQuery UI 1.11.
 
 # 1.4.0 / 2014-06-22
+
 * [FEATURE] Support bower.
 * [BUGFIX] #58: 'replaceMenu' in beforeOpen causing select event to lose ui.target
 
