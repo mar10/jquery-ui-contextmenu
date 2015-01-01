@@ -373,9 +373,77 @@ $("#container").bind("contextmenuselect", function(event, ui) {
 <dt>select(event, ui)</dt>
 <dd>
     Triggered when a menu item is selected.<br>
-    <code>ui.cmd</code> contains thecommand id.
+    <code>ui.cmd</code> contains the command id.
     Return <code>false</code> to prevent closing the menu.
 </dd>
+</dl>
+
+
+### Menu Entry Definition
+
+The menu structure is defined as (nested) list of plain objects:
+```js
+$(...).contextmenu({
+    ...
+    menu: [
+        {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
+        {title: "----"},
+        {title: "More", children: [
+            {title: "Sub 1", cmd: "sub1"},
+            {title: "Sub 2", cmd: "sub1"}
+            ]}
+        ],
+    ...
+});
+```
+
+Follwing a list of available menu definition properties:
+<dl>
+<dt>action</dt>
+<dd>
+    Type: <code>Function</code>, default: n.a.<br>
+    Optional callback that will be executed when the entry is selected.
+</dd>
+<dt>addClass</dt>
+<dd>
+    Type: <code>String</code>, default: ""<br>
+    Additional class to be added to the entries html element. Separate multiple 
+    classes with space.<br>
+    Custom CSS may be applied like <code>.ui-menu .my-class { color: red; }</code>.
+</dd>
+<dt>cmd</dt>
+<dd>
+    Type: <code>String</code>, default: ""<br>
+    Optional identifier associated with the menu entry.
+    It can later be accessed in the *select* event by <code>ui.cmd</code>.
+</dd>
+<dt>data</dt>
+<dd>
+    Type: <code>Object</code>, default: {}<br>
+    Optional hash of additional properties that will be added to the entries *data*
+    attribute.<br>
+    It can later be accessed in the *select* event by <code>ui.item.data()</code>.
+</dd>
+<dt>disabled</dt>
+<dd>
+    Type: <code>Boolean</code>, default: false<br>
+    Pass <i>true</i> to disable the entry.
+</dd>
+<dt>title</dt>
+<dd>
+    Type: <code>String</code>, default: <code>""</code><br>
+    The displayed name of the menu entry. Use <code>"---"</code> to define a 
+    separator.
+</dd>
+<dt>uiIcon</dt>
+<dd>
+    Type: <code>String</code>, default: ""<br>
+    If defined, an icon is added to the menu entry. For example passing 
+    <code>"ui-icon-copy"</code> will generate this element: 
+    <code>&lt;span class='ui-icon ui-icon-copy' /></code>.<br>
+    See also [Icon Overview](http://api.jqueryui.com/theming/icons/).
+</dd>
+
 </dl>
 
 
@@ -400,7 +468,6 @@ and make it right aligned via CSS:
 
 
 ### [Howto] Modify the menu using an asynchronous request
-
 
 ```js
 $(document).contextmenu({

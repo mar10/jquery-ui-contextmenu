@@ -406,13 +406,16 @@ if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
 				if ( $.isFunction(entry.action) ) {
 					$parentLi.data("actionHandler", entry.action);
 				}
-				if (entry.uiIcon) {
+				if ( entry.uiIcon ) {
 					$a.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
 				}
-				if (entry.disabled) {
+				if ( entry.disabled ) {
 					$parentLi.addClass("ui-state-disabled");
 				}
-				if ($.isPlainObject(entry.data)) {
+				if ( entry.addClass ) {
+					$parentLi.addClass(entry.addClass);
+				}
+				if ( $.isPlainObject(entry.data) ) {
 					$parentLi.data(entry.data);
 				}
 			}
@@ -446,6 +449,9 @@ if ( uiVersion.major < 2 && uiVersion.minor < 11 ) {
 				}
 				if ( entry.disabled ) {
 					$parentLi.addClass("ui-state-disabled");
+				}
+				if ( entry.addClass ) {
+					$parentLi.addClass(entry.addClass);
 				}
 				if ( $.isPlainObject(entry.data) ) {
 					$parentLi.data(entry.data);

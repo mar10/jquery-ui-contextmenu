@@ -1,6 +1,7 @@
 # 1.8.2-0 / Unreleased
 
-* [CHANGE ] #82 Add "jquery-ui/menu" as AMD dependency
+* [CHANGE] #82 Add "jquery-ui/menu" as AMD dependency
+* [FEATURE] #85 Allow custom classes per entry
 
 # 1.8.1 / 2014-12-21
 
