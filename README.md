@@ -23,7 +23,7 @@ See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/ma
 
 ## Demo
 
-[Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/):
+[Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/):<br>
 [ ![sample](demo/teaser.png?raw=true) ](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/ "Live demo")
 
 
@@ -130,17 +130,19 @@ see [jQueryUI menu] for details:
 </ul>
 ```
 
-**Note:** until jQuery UI 1.10 the use of anchors (`<a>`) in menu items was required:
+**Note:** until and including jQuery UI 1.10 the use of anchors (`<a>`) in menu items was required:
 ```html
 <ul id="options" class="ui-helper-hidden">
     <li data-command="copy"><a href="#"><span class="ui-icon ui-icon-copy"></span>Copy</a>
+    ...
 </ul>
 ```
 
 
 ### Modify the menu depending on the context
 
-The menu can be modified before display in order to reflect the current context.
+Often we need to modify the menu before it is displayed, in order to reflect the current context.
+This can be done in the `beforeOpen` event:
 
 ```js
 $(document).contextmenu({
@@ -398,7 +400,8 @@ $(...).contextmenu({
 });
 ```
 
-Follwing a list of available menu definition properties:
+Following a list of available menu definition properties:
+
 <dl>
 <dt>action</dt>
 <dd>
@@ -408,7 +411,7 @@ Follwing a list of available menu definition properties:
 <dt>addClass</dt>
 <dd>
     Type: <code>String</code>, default: <code>""</code><br>
-    Additional class name(s) to be added to the entries &ltli> element.
+    Additional class name(s) to be added to the entries &lt;li> element.
     Separate multiple class names with a space.<br>
     Custom CSS may be applied like <code>.ui-menu .my-class { color: red; }</code>.
 </dd>
@@ -438,11 +441,11 @@ Follwing a list of available menu definition properties:
 </dd>
 <dt>uiIcon</dt>
 <dd>
-    Type: <code>String</code>, default: ""<br>
+    Type: <code>String</code>, default: <code>""</code><br>
     If defined, an icon is added to the menu entry. For example passing 
     <code>"ui-icon-copy"</code> will generate this element: 
     <code>&lt;span class='ui-icon ui-icon-copy' /></code>.<br>
-    See also <a href="http://api.jqueryui.com/theming/icons/">Icon Overview</a>.
+    See also the <a href="http://api.jqueryui.com/theming/icons/">Icon Overview</a>.
 </dd>
 
 </dl>
