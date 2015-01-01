@@ -371,17 +371,20 @@ asyncTest("Array menu", function() {
 	var $ctx, $popup,
 		menu  = [
 		   { title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors",
+		    data: { foo: "bar" }, addClass: "custom-class-1",
 			action: function(event, ui) {
 				log("cut action");
 				equal( ui.cmd, "cut", "action: ui.cmd is set" );
 				equal( ui.target.text(), "AAA", "action: ui.target is set" );
+				equal( ui.item.data().foo, "bar", "action: ui.item.data() is set" );
+				ok( ui.item.hasClass("custom-class-1"), "action: addClass property works" );
 			}
 		   },
 		   { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
 		   { title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
 		   ];
 
-	expect(5);
+	expect(9);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -397,6 +400,8 @@ asyncTest("Array menu", function() {
 			log("select(" + t + ")");
 			equal( ui.cmd, "cut", "select: ui.cmd is set" );
 			equal( ui.target.text(), "AAA", "select: ui.target is set" );
+			equal( ui.item.data().foo, "bar", "ui.item.data() is set" );
+			ok( ui.item.hasClass("custom-class-1"), "addClass property works" );
 		},
 		close: function(event) {
 			log("close");
