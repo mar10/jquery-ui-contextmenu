@@ -371,7 +371,7 @@ asyncTest("Array menu", function() {
 	var $ctx, $popup,
 		menu  = [
 		   { title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors",
-		    data: { foo: "bar" }, addClass: "custom-class-1",
+			data: { foo: "bar" }, addClass: "custom-class-1",
 			action: function(event, ui) {
 				log("cut action");
 				equal( ui.cmd, "cut", "action: ui.cmd is set" );
