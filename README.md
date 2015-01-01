@@ -23,7 +23,8 @@ See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/ma
 
 ## Demo
 
-[Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/).
+[Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/):
+[ ![sample](doc/teaser.png?raw=true) ](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/ "Live demo")
 
 
 ## Example
