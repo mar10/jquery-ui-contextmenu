@@ -24,7 +24,7 @@ See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/ma
 ## Demo
 
 [Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/):
-[ ![sample](doc/teaser.png?raw=true) ](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/ "Live demo")
+[ ![sample](demo/teaser.png?raw=true) ](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/ "Live demo")
 
 
 ## Example
@@ -407,27 +407,27 @@ Follwing a list of available menu definition properties:
 </dd>
 <dt>addClass</dt>
 <dd>
-    Type: <code>String</code>, default: ""<br>
-    Additional class to be added to the entries html element. Separate multiple 
-    classes with space.<br>
+    Type: <code>String</code>, default: <code>""</code><br>
+    Additional class name(s) to be added to the entries &ltli> element.
+    Separate multiple class names with a space.<br>
     Custom CSS may be applied like <code>.ui-menu .my-class { color: red; }</code>.
 </dd>
 <dt>cmd</dt>
 <dd>
-    Type: <code>String</code>, default: ""<br>
+    Type: <code>String</code>, default: <code>""</code><br>
     Optional identifier associated with the menu entry.
-    It can later be accessed in the *select* event by <code>ui.cmd</code>.
+    It can later be accessed in the <i>select</i> event by <code>ui.cmd</code>.
 </dd>
 <dt>data</dt>
 <dd>
-    Type: <code>Object</code>, default: {}<br>
-    Optional hash of additional properties that will be added to the entries *data*
-    attribute.<br>
-    It can later be accessed in the *select* event by <code>ui.item.data()</code>.
+    Type: <code>Object</code>, default: <code>{}</code><br>
+    Optional hash of additional properties that will be added to the entry's 
+    <i>data</i> attribute.<br>
+    It can later be accessed in the <i>select</i> event as <code>ui.item.data()</code>.
 </dd>
 <dt>disabled</dt>
 <dd>
-    Type: <code>Boolean</code>, default: false<br>
+    Type: <code>Boolean</code>, default: <code>false</code><br>
     Pass <i>true</i> to disable the entry.
 </dd>
 <dt>title</dt>
@@ -442,7 +442,7 @@ Follwing a list of available menu definition properties:
     If defined, an icon is added to the menu entry. For example passing 
     <code>"ui-icon-copy"</code> will generate this element: 
     <code>&lt;span class='ui-icon ui-icon-copy' /></code>.<br>
-    See also [Icon Overview](http://api.jqueryui.com/theming/icons/).
+    See also <<a href="http://api.jqueryui.com/theming/icons/">Icon Overview</a>.
 </dd>
 
 </dl>
