@@ -442,7 +442,7 @@ Follwing a list of available menu definition properties:
     If defined, an icon is added to the menu entry. For example passing 
     <code>"ui-icon-copy"</code> will generate this element: 
     <code>&lt;span class='ui-icon ui-icon-copy' /></code>.<br>
-    See also <<a href="http://api.jqueryui.com/theming/icons/">Icon Overview</a>.
+    See also <a href="http://api.jqueryui.com/theming/icons/">Icon Overview</a>.
 </dd>
 
 </dl>
