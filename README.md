@@ -27,12 +27,12 @@ See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/ma
 [ ![sample](demo/teaser.png?raw=true) ](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/ "Live demo")
 
 
-## Example
+## Tutorial
 
-First, include dependencies, i.e. 
+First, include dependencies:
 
 * jQuery 1.7+ (1.10 or later recommended)
-* jQuery UI 1.9+ (at least core, widget, menu), 1.11 recommended
+* jQuery UI 1.9+ (at least core, widget, menu), 1.11+ recommended
 * One of the ThemeRoller CSS themes or a custom one
 * jquery.ui-contextmenu.js (also available as CDN on 
   [jsdelivr](http://www.jsdelivr.com/#!jquery.ui-contextmenu)
@@ -40,13 +40,14 @@ First, include dependencies, i.e.
 
 ```html
 <head>
-    <link href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
+    <link href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" 
+        type="text/css" rel="stylesheet" />
     <script src="//code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
     <script src="assets/jquery.ui-contextmenu.min.js"></script>
 ```
 
-We have some HTML elements that we want to attach a popup menu to:
+Assume we have some HTML elements that we want to attach a popup menu to:
 
 ```html
 <div id="container">
@@ -75,6 +76,67 @@ $("#container").contextmenu({
 });
 ```
 
+The `delegate` option defines a CSS selector, which is evaluated for all
+elements inside the context element (`#container` in our example).<br>
+In order to attach menus to *all* matching elements on the page that have 
+`class="hasmenu"`, we may use `document` as context:
+```js
+$(document).contextmenu({
+    delegate: ".hasmenu",
+    ...
+});
+```
+**Note:** only one contextmenu widget instance can be bound to one element.
+
+The `menu` options may contain a (nested) array of entry defiitions.
+Following a list of available properties:
+<dl>
+<dt>action</dt>
+<dd>
+    Type: <code>Function</code>, default: n.a.<br>
+    Optional callback that will be executed when the entry is selected.
+</dd>
+<dt>addClass</dt>
+<dd>
+    Type: <code>String</code>, default: <code>""</code><br>
+    Additional class name(s) to be added to the entries &lt;li> element.
+    Separate multiple class names with a space.<br>
+    Custom CSS may be applied like <code>.ui-menu .my-class { color: red; }</code>.
+</dd>
+<dt>cmd</dt>
+<dd>
+    Type: <code>String</code>, default: <code>""</code><br>
+    Optional identifier associated with the menu entry.
+    It can later be accessed in the <i>select</i> event as <code>ui.cmd</code>.
+</dd>
+<dt>data</dt>
+<dd>
+    Type: <code>Object</code>, default: <code>{}</code><br>
+    Optional hash of additional properties that will be added to the entry's 
+    <i>data</i> attribute.<br>
+    It can later be accessed in the <i>select</i> event as <code>ui.item.data()</code>.
+</dd>
+<dt>disabled</dt>
+<dd>
+    Type: <code>Boolean</code>, default: <code>false</code><br>
+    Pass <i>true</i> to disable the entry.
+</dd>
+<dt>title</dt>
+<dd>
+    Type: <code>String</code>, default: <code>""</code><br>
+    The displayed name of the menu entry. Use dashes (<code>"---"</code>) to 
+    define a separator.
+</dd>
+<dt>uiIcon</dt>
+<dd>
+    Type: <code>String</code>, default: ""<br>
+    If defined, an icon is added to the menu entry. For example passing 
+    <code>"ui-icon-copy"</code> will generate this element: 
+    <code>&lt;span class='ui-icon ui-icon-copy' /></code>.<br>
+    See also <<a href="http://api.jqueryui.com/theming/icons/">Icon Overview</a>.
+</dd>
+</dl>
+
 Instead of handling all menu commands in the `select` event, it is also possible
 to attach callbacks directly to menu entries:
 ```js
@@ -88,17 +150,6 @@ $(document).contextmenu({
         ...
 });
 ```
-
-To attach menus to *all* elements on the page that have `class="hasmenu"`,
-we may use `document` as context:
-```js
-$(document).contextmenu({
-    delegate: ".hasmenu",
-    ...
-});
-```
-**Note:** only one contextmenu widget instance can be bound to one element.
-
 
 ### Initialize menu from an existing `<ul>` element
 
@@ -130,7 +181,8 @@ see [jQueryUI menu] for details:
 </ul>
 ```
 
-**Note:** until and including jQuery UI 1.10 the use of anchors (`<a>`) in menu items was required:
+**Note:** until and including jQuery UI 1.10 the use of anchors (`<a>`) in menu 
+items was required:
 ```html
 <ul id="options" class="ui-helper-hidden">
     <li data-command="copy"><a href="#"><span class="ui-icon ui-icon-copy"></span>Copy</a>
@@ -141,7 +193,8 @@ see [jQueryUI menu] for details:
 
 ### Modify the menu depending on the context
 
-Often we need to modify the menu before it is displayed, in order to reflect the current context.
+Often we need to modify the menu before it is displayed, in order to reflect the 
+current context.
 This can be done in the `beforeOpen` event:
 
 ```js
@@ -181,6 +234,7 @@ $(document).contextmenu({
 
 ## API documentation
 ### Options
+
 <dl>
 <dt>addClass</dt>
 <dd>
@@ -274,6 +328,7 @@ $(document).contextmenu({
 
 
 ### Methods
+
 <dl>
 <dt>close()</dt>
 <dd>
@@ -320,6 +375,7 @@ $(document).contextmenu({
 
 
 ### Events
+
 jquery-contextmenu exposes events from [jQueryUI menu]: `blur`, `create`, `focus`, `select`.
 However, since the `event.target` parameter contains the menu item, we additionally pass the element 
 that was right-clicked in `ui.target`.
@@ -379,75 +435,6 @@ $("#container").bind("contextmenuselect", function(event, ui) {
     <code>ui.cmd</code> contains the command id.
     Return <code>false</code> to prevent closing the menu.
 </dd>
-</dl>
-
-
-### Menu Entry Definition
-
-The menu structure is defined as (nested) list of plain objects:
-```js
-$(...).contextmenu({
-    ...
-    menu: [
-        {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
-        {title: "----"},
-        {title: "More", children: [
-            {title: "Sub 1", cmd: "sub1"},
-            {title: "Sub 2", cmd: "sub1"}
-            ]}
-        ],
-    ...
-});
-```
-
-Following a list of available menu definition properties:
-
-<dl>
-<dt>action</dt>
-<dd>
-    Type: <code>Function</code>, default: n.a.<br>
-    Optional callback that will be executed when the entry is selected.
-</dd>
-<dt>addClass</dt>
-<dd>
-    Type: <code>String</code>, default: <code>""</code><br>
-    Additional class name(s) to be added to the entries &lt;li> element.
-    Separate multiple class names with a space.<br>
-    Custom CSS may be applied like <code>.ui-menu .my-class { color: red; }</code>.
-</dd>
-<dt>cmd</dt>
-<dd>
-    Type: <code>String</code>, default: <code>""</code><br>
-    Optional identifier associated with the menu entry.
-    It can later be accessed in the <i>select</i> event by <code>ui.cmd</code>.
-</dd>
-<dt>data</dt>
-<dd>
-    Type: <code>Object</code>, default: <code>{}</code><br>
-    Optional hash of additional properties that will be added to the entry's 
-    <i>data</i> attribute.<br>
-    It can later be accessed in the <i>select</i> event as <code>ui.item.data()</code>.
-</dd>
-<dt>disabled</dt>
-<dd>
-    Type: <code>Boolean</code>, default: <code>false</code><br>
-    Pass <i>true</i> to disable the entry.
-</dd>
-<dt>title</dt>
-<dd>
-    Type: <code>String</code>, default: <code>""</code><br>
-    The displayed name of the menu entry. Use <code>"---"</code> to define a 
-    separator.
-</dd>
-<dt>uiIcon</dt>
-<dd>
-    Type: <code>String</code>, default: <code>""</code><br>
-    If defined, an icon is added to the menu entry. For example passing 
-    <code>"ui-icon-copy"</code> will generate this element: 
-    <code>&lt;span class='ui-icon ui-icon-copy' /></code>.<br>
-    See also the <a href="http://api.jqueryui.com/theming/icons/">Icon Overview</a>.
-</dd>
-
 </dl>
 
 
