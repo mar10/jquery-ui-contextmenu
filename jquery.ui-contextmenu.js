@@ -402,6 +402,9 @@ $.extend($.moogle.contextmenu, {
 			if ( $.isPlainObject(entry.data) ) {
 				$parentLi.data(entry.data);
 			}
+			if (entry.isMenuTitle) {
+				$parentLi.addClass("ui-state-disabled").css({ 'font-weight': 'bold', 'opacity': '1.0', 'padding-left': '5px' });
+			}
 		}
 	},
 	/** Convert a nested array of command objects into a <ul> structure. */
