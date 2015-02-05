@@ -275,13 +275,17 @@ $.widget("moogle.contextmenu", {
 			.unbind("mousedown" + this.eventNamespace)
 			.unbind("touchstart" + this.eventNamespace)
 			.unbind("keydown" + this.eventNamespace);
-		this.$menu
-			.unbind("contextmenu" + this.eventNamespace);
+		
 		self.currentTarget = null; // issue #44 after hide animation is too late
-
-		this._hide(this.$menu, hideOpts, function() {
+		if( this.$menu ) { // #88: widget might have been destroyed already
+			this.$menu
+				.unbind("contextmenu" + this.eventNamespace);
+			this._hide(this.$menu, hideOpts, function() {
+				self._trigger("close");
+			});
+		} else {
 			self._trigger("close");
-		});
+		}
 	},
 	/** Handle $().contextmenu("option", key, value) calls. */
 	_setOption: function(key, value) {

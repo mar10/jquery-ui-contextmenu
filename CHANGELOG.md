@@ -2,6 +2,7 @@
 
 * [CHANGE] #82 Add "jquery-ui/menu" as AMD dependency
 * [FEATURE] #85 Allow custom classes per entry
+* [BUGFIX] #88 Exception when target element is deleted in select event
 
 # 1.8.1 / 2014-12-21
 
