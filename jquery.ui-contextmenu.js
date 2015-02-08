@@ -275,9 +275,9 @@ $.widget("moogle.contextmenu", {
 			.unbind("mousedown" + this.eventNamespace)
 			.unbind("touchstart" + this.eventNamespace)
 			.unbind("keydown" + this.eventNamespace);
-		
+
 		self.currentTarget = null; // issue #44 after hide animation is too late
-		if( this.$menu ) { // #88: widget might have been destroyed already
+		if ( this.$menu ) { // #88: widget might have been destroyed already
 			this.$menu
 				.unbind("contextmenu" + this.eventNamespace);
 			this._hide(this.$menu, hideOpts, function() {
