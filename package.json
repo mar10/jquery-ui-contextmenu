@@ -8,6 +8,7 @@
     "context-menu",
     "contextmenu",
     "delegate",
+    "ecosystem:jquery",
     "jquery-plugin",
     "jquery-ui-menu",
     "menu",
