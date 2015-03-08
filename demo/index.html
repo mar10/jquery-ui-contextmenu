@@ -77,6 +77,7 @@ $(function(){
 
 	$(document).contextmenu({
 		delegate: ".hasmenu",
+		autoFocus: true,
 		preventContextMenuForPopup: true,
 		preventSelect: true,
 		taphold: true,
@@ -206,9 +207,9 @@ $(function(){
 	</ul>
 	<p>Right-click in an element to open the context menu:</p>
 	<div>
-		<span class="hasmenu">AAA</span>
-		<span class="hasmenu">BBB</span>
-		<span class="hasmenu">CCC</span>
+		<span class="hasmenu" tabindex="0">AAA</span>
+		<span class="hasmenu" tabindex="0">BBB</span>
+		<span class="hasmenu" tabindex="0">CCC</span>
 	</div>
 
 	<h3>Sample 2</h3>

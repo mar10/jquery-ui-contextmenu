@@ -1,4 +1,5 @@
 # 1.8.3-0 / Unreleased
+* [FEATURE] New option `autoFocus`, defaults to *false*
 
 # 1.8.2 / 2015-02-08
 

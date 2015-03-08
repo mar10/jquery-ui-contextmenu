@@ -242,6 +242,12 @@ $(document).contextmenu({
     default: <code>"ui-contextmenu"</code><br>
     This class is added to the outer ul element.
 </dd>
+<dt>autoFocus</dt>
+<dd>
+    Type: <code>Boolean</code>, 
+    default: <code>false</code><br>
+    Set keyboard focus to first menu entry on open.
+</dd>
 <dt>autoTrigger</dt>
 <dd>
     Type: <code>Boolean</code>, 
@@ -456,6 +462,13 @@ and make it right aligned via CSS:
     float: right;
 }
 ```
+
+### [Howto] Enable keyboard control
+
+In order open a context menu with the keyboard, make sure the target elements
+are tabbable, for example by adding a `tabindex="0"` attribute.
+Also make sure the `autoFocus: true` option is set.
+This will allow to Use <kbd>Tab</key> and the Windows <key>Menu</key> keys.
 
 
 ### [Howto] Modify the menu using an asynchronous request

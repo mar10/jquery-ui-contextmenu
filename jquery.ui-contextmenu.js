@@ -33,6 +33,7 @@ $.widget("moogle.contextmenu", {
 	version: "@VERSION",
 	options: {
 		addClass: "ui-contextmenu",  // Add this class to the outer <ul>
+		autoFocus: false,      // Set keyboard focus to first entry on open
 		autoTrigger: true,    // open menu on browser's `contextmenu` event
 		delegate: null,       // selector
 		hide: { effect: "fadeOut", duration: "fast" },
@@ -64,6 +65,7 @@ $.widget("moogle.contextmenu", {
 		this.$menu = null;
 		this.menuIsTemp = false;
 		this.currentTarget = null;
+		this.previousFocus = null;
 
 		if (opts.preventSelect) {
 			// Create a global style for all potential menu targets
@@ -261,7 +263,14 @@ $.widget("moogle.contextmenu", {
 				event.preventDefault();
 			});
 		}
-		this._show(this.$menu, this.options.show, function() {
+		this._show(this.$menu, opts.show, function() {
+			// Set focus to first active menu entry
+			if ( opts.autoFocus ) {
+				// var $first = self.$menu.children(".ui-menu-item:enabled:first");
+				// self.$menu.menu("focus", event, $first).focus();
+				self.$menu.focus();
+				self.previousFocus = $(event.target);
+			}
 			self._trigger.call(self, "open", event, ui);
 		});
 	},
@@ -281,6 +290,10 @@ $.widget("moogle.contextmenu", {
 			this.$menu
 				.unbind("contextmenu" + this.eventNamespace);
 			this._hide(this.$menu, hideOpts, function() {
+				if ( self.previousFocus ) {
+					self.previousFocus.focus();
+					self.previousFocus = null;
+				}
 				self._trigger("close");
 			});
 		} else {
