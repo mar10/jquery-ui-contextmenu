@@ -12,7 +12,7 @@
 	"use strict";
 	if ( typeof define === "function" && define.amd ) {
 		// AMD. Register as an anonymous module.
-		define([ "jquery-ui/menu" ], factory );
+		define([ "jquery", "jquery-ui/menu" ], factory );
 	} else {
 		// Browser globals
 		factory( jQuery );

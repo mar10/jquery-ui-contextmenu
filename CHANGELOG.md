@@ -1,5 +1,6 @@
 # 1.8.3-0 / Unreleased
 * [FEATURE] New option `autoFocus`, defaults to *false*
+* [BUGFIX] #82 Fixed AMD dependencies
 
 # 1.8.2 / 2015-02-08
 
