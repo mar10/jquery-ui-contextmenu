@@ -7,3 +7,5 @@ sauce_connect.log
 sc_*.log
 
 demo/.pyftpsync-meta.json
+
+.pyftpsync-meta.json

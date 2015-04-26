@@ -468,7 +468,7 @@ and make it right aligned via CSS:
 In order open a context menu with the keyboard, make sure the target elements
 are tabbable, for example by adding a `tabindex="0"` attribute.
 Also make sure the `autoFocus: true` option is set.
-This will allow to Use <kbd>Tab</key> and the Windows <key>Menu</key> keys.
+This will allow to Use <kbd>Tab</kbd> and the Windows <kbd>Menu</kbd> keys.
 
 
 ### [Howto] Modify the menu using an asynchronous request
