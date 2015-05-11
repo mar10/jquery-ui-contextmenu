@@ -324,6 +324,12 @@ $(document).contextmenu({
     which is especially useful for touch devices (but may require external 
     plugins to generate <code>taphold</code> events).
 </dd>
+<dt>tooltip</dt>
+<dd>
+    Type: <code>String</code>, optional<br>
+    Add a <code>title</code> attribute to the menu markup, which will be displayed
+    as tooltip by most browser (or external plugins).
+</dd>
 <dt>uiMenuOptions</dt>
 <dd>
     Type: <code>Object</code>, default: <code>{}</code><br>

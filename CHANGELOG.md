@@ -1,6 +1,9 @@
 # 1.9.1-0 / Unreleased
 
+* [FEATURE] New option `tooltip`,  adds a `title` attribute to the menu markup
+
 # 1.9.0 / 2015-04-20
+
 * [FEATURE] New option `autoFocus`, defaults to *false*
 * [BUGFIX] #82 Fixed AMD dependencies
 

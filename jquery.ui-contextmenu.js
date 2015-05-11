@@ -419,6 +419,9 @@ $.extend($.moogle.contextmenu, {
 			if ( $.isPlainObject(entry.data) ) {
 				$parentLi.data(entry.data);
 			}
+			if ( entry.tooltip != null ) {
+				$parentLi.attr("title", entry.tooltip);
+			}
 		}
 	},
 	/** Convert a nested array of command objects into a <ul> structure. */
