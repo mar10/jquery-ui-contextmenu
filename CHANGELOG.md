@@ -1,4 +1,6 @@
-# 1.9.1-0 / Unreleased
+# 1.10.1-0 / Unreleased
+
+# 1.10.0 / 2015-06-27
 
 * [FEATURE] New option `tooltip`,  adds a `title` attribute to the menu markup
 
@@ -49,7 +51,7 @@
 # 1.3.0 / 2014-03-09
 
 * [FEATURE] New optional parameter open(..., extraData).
-* [FEATURE] New option `autoTrigger: true` can be set to `false` to prevent opening menus on browser's `contextmenu` event 
+* [FEATURE] New option `autoTrigger: true` can be set to `false` to prevent opening menus on browser's `contextmenu` event
   (if you want to use the `open()` method instead).
 * [FEATURE] New option `preventContextMenuForPopup`to prevent opening the browser's system context menu on menu entries.
 * [CHANGE] `setEntry()` and `replaceMenu()` now allow to define titles with HTML markup.
