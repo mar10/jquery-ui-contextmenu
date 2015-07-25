@@ -1,5 +1,7 @@
 # 1.10.1-0 / Unreleased
 
+* [FEATURE] #94 Add `main` field to package.json
+
 # 1.10.0 / 2015-06-27
 
 * [FEATURE] New option `tooltip`,  adds a `title` attribute to the menu markup
@@ -32,7 +34,7 @@
 # 1.7.0 / 2014-09-09
 
 * [FEATURE] AMD support (topolm).
-* [FEATURE] CDN support (http://www.jsdelivr.com/#!jquery.ui-contextmenu).
+* [FEATURE] CDN support on [jsDelivr](http://www.jsdelivr.com/#!jquery.ui-contextmenu).
 
 # 1.6.1 / 2014-08-18
 
