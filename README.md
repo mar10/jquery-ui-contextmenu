@@ -406,7 +406,7 @@ Alternatively a handler may be bound, so this is equivalent:
 ```js
 $("#container").bind("contextmenuselect", function(event, ui) {
     alert("select " + ui.cmd + " on " + ui.target.text());
-}
+});
 ```
 
 <dl>
@@ -522,6 +522,43 @@ $(document).contextmenu({
         // available
         ui.result = dfd.promise();
     },
+```
+
+
+### [Howto] Bind different contextmenus to the same DOM element
+
+This is especially useful if we want to bind contextmenus for different selectors
+to the `document` element, in order to make them global:
+
+```js
+$(document).contextmenu({
+    delegate: ".hasmenu",
+    menu: ...,
+    select: function(event, ui) {
+        alert("select contextmenu 1" + ui.cmd + " on " + ui.target.text());
+    }
+});
+```
+
+Another call to `$(document).contextmenu({...})` would destroy the previous
+instance, because the [jQuery Widget Factory](https://learn.jquery.com/jquery-ui/widget-factory/)
+only allows one instance per element.
+
+The soulution is to create new widget with another name but identical functionality:
+
+```js
+// 1. Create and register another widget that inherits directly from 
+//    jquery-ui-contextmenu:
+$.widget("moogle.contextmenu2", $.moogle.contextmenu, {});
+// 2. Now we can bind this new widget to the same DOM element without
+//    destroying a previous widget.
+$(document).contextmenu2({
+    delegate: ".hasmenu2",
+    menu: ...,
+    select: function(event, ui) {
+        alert("select contextmenu2" + ui.cmd + " on " + ui.target.text());
+    }
+});
 ```
 
 
