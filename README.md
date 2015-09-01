@@ -87,6 +87,7 @@ $(document).contextmenu({
 });
 ```
 **Note:** only one contextmenu widget instance can be bound to one element.
+See the *Howto* below for a solution to this problem.
 
 The `menu` options may contain a (nested) array of entry defiitions.
 Following a list of available properties:

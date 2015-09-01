@@ -377,13 +377,14 @@ $.extend($.moogle.contextmenu, {
 	createEntryMarkup: function(entry, $parentLi) {
 		var $a = null;
 
+		$parentLi.attr("data-command", entry.cmd);
+
 		if ( !/[^\-\u2014\u2013\s]/.test( entry.title ) ) {
 			// hyphen, em dash, en dash: separator as defined by UI Menu 1.10
 			$parentLi.text(entry.title);
 		} else {
 			if ( isLTE110 ) {
 				// jQuery UI Menu 1.10 or before required an `<a>` tag
-				$parentLi.attr("data-command", entry.cmd);
 				$a = $("<a/>", {
 						html: "" + entry.title,
 						href: "#"
@@ -395,9 +396,7 @@ $.extend($.moogle.contextmenu, {
 
 			} else {
 				// jQuery UI Menu 1.11+ preferes to avoid `<a>` tags
-				$parentLi
-					.attr("data-command", entry.cmd)
-					.html("" + entry.title);
+				$parentLi.html("" + entry.title);
 				if ( $.isFunction(entry.action) ) {
 					$parentLi.data("actionHandler", entry.action);
 				}

@@ -1,6 +1,7 @@
 # 1.10.1-0 / Unreleased
 
 * [FEATURE] #94 Add `main` field to package.json
+* [CHANGE] #98 Allow to show/hide separators
 
 # 1.10.0 / 2015-06-27
 
