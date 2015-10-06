@@ -82,7 +82,8 @@ For more information:
     [API Reference](https://github.com/mar10/jquery-ui-contextmenu/wiki/ApiRef)
   * Have a look at the [Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/)
   * Ask questions on [Stackoverflow](http://stackoverflow.com/questions/tagged/jquery-ui-contextmenu)
-  * [Play with the jsFiddle](http://jsfiddle.net/mar10/6o3u8a88/)
+  * Play with [jsFiddle](http://jsfiddle.net/mar10/6o3u8a88/) or 
+    [Plunkr ^](http://plnkr.co/edit/Bbcoqy?p=preview)
 
 
 # Credits
