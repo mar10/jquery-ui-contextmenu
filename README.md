@@ -83,7 +83,7 @@ For more information:
   * Have a look at the [Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/)
   * Ask questions on [Stackoverflow](http://stackoverflow.com/questions/tagged/jquery-ui-contextmenu)
   * Play with [jsFiddle](http://jsfiddle.net/mar10/6o3u8a88/) or 
-    [Plunkr ^](http://plnkr.co/edit/Bbcoqy?p=preview)
+    [Plunker](http://plnkr.co/edit/Bbcoqy?p=preview)
 
 
 # Credits
