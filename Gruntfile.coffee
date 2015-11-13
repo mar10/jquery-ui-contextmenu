@@ -96,7 +96,7 @@ module.exports = (grunt) ->
             # { browserName: "safari", version: "6", platform: "OS X 10.8" }
             # { browserName: "safari", version: "7", platform: "OS X 10.9" }
             # { browserName: "safari", version: "8", platform: "OS X 10.10" }
-            { browserName: "safari", version: "8.1", platform: "OS X 10.11" }
+            { browserName: "safari", version: "9", platform: "OS X 10.11" }
           ]
           testname: "jquery.ui-contextmenu qunit tests (jQuery UI 10)"
       ui: # UI Menu 11+ dropped support for IE7
@@ -126,7 +126,7 @@ module.exports = (grunt) ->
             { browserName: "safari", version: "6", platform: "OS X 10.8" }
             { browserName: "safari", version: "7", platform: "OS X 10.9" }
             { browserName: "safari", version: "8", platform: "OS X 10.10" }
-            { browserName: "safari", version: "8.1", platform: "OS X 10.11" }
+            { browserName: "safari", version: "9", platform: "OS X 10.11" }
           ]
           testname: "jquery.ui-contextmenu qunit tests (jQuery UI 11+)"
 

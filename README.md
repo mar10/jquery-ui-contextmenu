@@ -44,7 +44,7 @@ First, include dependencies:
         type="text/css" rel="stylesheet" />
     <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="assets/jquery.ui-contextmenu.min.js"></script>
+    <script src="assets/jquery.ui-contextmenu.min.js" type="text/javascript"></script>
 ```
 
 Assume we have some HTML elements that we want to attach a popup menu to:
