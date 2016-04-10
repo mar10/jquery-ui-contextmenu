@@ -190,6 +190,7 @@ module.exports = (grunt) ->
   else
       grunt.registerTask "travis", ["test", "sauce"]
   grunt.registerTask "default", ["test"]
+  grunt.registerTask "ci", ["test"]  # Called by 'npm test'
   
   # "sauce",
   grunt.registerTask "build", ["exec:tabfix", "test", "uglify"]
