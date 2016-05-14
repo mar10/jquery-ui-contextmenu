@@ -5,6 +5,7 @@
   "main": [
     "jquery.ui-contextmenu.js"
   ],
+  "moduleType": "globals",
   "license": "MIT",
   "ignore": [
     "**/.*",
