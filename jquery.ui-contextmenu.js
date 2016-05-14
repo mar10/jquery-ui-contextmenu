@@ -159,6 +159,7 @@ $.widget("moogle.contextmenu", {
 			.addClass(opts.addClass)
 			// Create a menu instance that delegates events to our widget
 			.menu($.extend(true, {}, opts.uiMenuOptions, {
+				items: "> :not(.ui-widget-header)",
 				blur: $.proxy(opts.blur, this),
 				create: $.proxy(opts.createMenu, this),
 				focus: $.proxy(opts.focus, this),
@@ -421,6 +422,9 @@ $.extend($.moogle.contextmenu, {
 			}
 			if ( entry.disabled ) {
 				$parentLi.addClass("ui-state-disabled");
+			}
+			if ( entry.isHeader ) {
+				$parentLi.addClass("ui-widget-header");
 			}
 			if ( entry.addClass ) {
 				$parentLi.addClass(entry.addClass);
