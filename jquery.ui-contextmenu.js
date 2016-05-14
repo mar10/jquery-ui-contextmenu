@@ -27,7 +27,8 @@ var supportSelectstart = "onselectstart" in document.createElement("div"),
 		major: parseInt(match[1], 10),
 		minor: parseInt(match[2], 10)
 	},
-	isLTE110 = ( uiVersion.major < 2 && uiVersion.minor < 11 );
+	isLTE110 = ( uiVersion.major < 2 && uiVersion.minor <= 10 ),
+	isLTE111 = ( uiVersion.major < 2 && uiVersion.minor <= 11 );
 
 $.widget("moogle.contextmenu", {
 	version: "@VERSION",
@@ -375,7 +376,7 @@ $.widget("moogle.contextmenu", {
 $.extend($.moogle.contextmenu, {
 	/** Convert a menu description into a into a <li> content. */
 	createEntryMarkup: function(entry, $parentLi) {
-		var $a = null;
+		var $wrapper = null;
 
 		$parentLi.attr("data-command", entry.cmd);
 
@@ -385,17 +386,17 @@ $.extend($.moogle.contextmenu, {
 		} else {
 			if ( isLTE110 ) {
 				// jQuery UI Menu 1.10 or before required an `<a>` tag
-				$a = $("<a/>", {
+				$wrapper = $("<a/>", {
 						html: "" + entry.title,
 						href: "#"
 					}).appendTo($parentLi);
 
 				if ( entry.uiIcon ) {
-					$a.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
+					$wrapper.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
 				}
 
-			} else {
-				// jQuery UI Menu 1.11+ preferes to avoid `<a>` tags
+			} else if ( isLTE111 ) {
+				// jQuery UI Menu 1.11 preferes to avoid `<a>` tags
 				$parentLi.html("" + entry.title);
 				if ( $.isFunction(entry.action) ) {
 					$parentLi.data("actionHandler", entry.action);
@@ -404,6 +405,15 @@ $.extend($.moogle.contextmenu, {
 					$parentLi
 						.append($("<span class='ui-icon' />")
 						.addClass(entry.uiIcon));
+				}
+
+			} else {
+				// jQuery UI Menu 1.12 introduced `<div>` wrappers
+				$wrapper = $("<div/>", {
+						html: "" + entry.title
+					}).appendTo($parentLi);
+				if ( entry.uiIcon ) {
+					$wrapper.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
 				}
 			}
 			if ( $.isFunction(entry.action) ) {
@@ -446,8 +456,10 @@ $.extend($.moogle.contextmenu, {
 	isMenu: function(item) {
 		if ( isLTE110 ) {
 			return item.has(">a[aria-haspopup='true']").length > 0;
-		} else {
+		} else if ( isLTE111 ) {  // jQuery UI 1.11 used no tag wrappers
 			return item.is("[aria-haspopup='true']");
+		} else {
+			return item.has(">div[aria-haspopup='true']").length > 0;
 		}
 	},
 	/** Replaces the value of elem's first text node child */
@@ -460,10 +472,12 @@ $.extend($.moogle.contextmenu, {
 	},
 	/** Updates the menu item's title */
 	updateTitle: function(item, title) {
-		if ( isLTE110 ) {
+		if ( isLTE110 ) {  // jQuery UI 1.10 and before used <a> tags
 			$.moogle.contextmenu.replaceFirstTextNodeChild($("a", item), title);
-		} else {
+		} else if ( isLTE111 ) {  // jQuery UI 1.11 used no tag wrappers
 			$.moogle.contextmenu.replaceFirstTextNodeChild(item, title);
+		} else {  // jQuery UI 1.12+ introduced <div> tag wrappers
+			$.moogle.contextmenu.replaceFirstTextNodeChild($("div", item), title);
 		}
 	}
 });

@@ -1,6 +1,7 @@
 # 1.11.1-0 / Unreleased
 
- *
+ * [FEATURE] Support jQuery UI 1.12 (wrap menu items in separate `<div>` tags)
+ * Add jQuery Ui 1.12 sample with new 'Base' theme
 
 # 1.11.0 / 2015-09-10
 
