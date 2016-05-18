@@ -1,4 +1,8 @@
-# 1.11.1-0 / Unreleased
+# 1.12.1-0 / Unreleased
+
+ * 
+
+# 1.12.0 / 2016-05-18
 
  * [FEATURE] Support jQuery UI 1.12 (wrap menu items in separate `<div>` tags)
  * [FEATURE] #100 new menu option `isHeader` for category headers.

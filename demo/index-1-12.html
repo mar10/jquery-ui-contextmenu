@@ -2,20 +2,20 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-	<title>jquery.ui-contextmenu.js - Demo</title>
+	<title>jquery.ui-contextmenu.js - Demo (jQuery UI 1.12)</title>
 
-	<link href="//code.jquery.com/ui/1.12.0-rc.2/themes/base/jquery-ui.css" type="text/css" rel="stylesheet" />
-	<script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
-	<script src="//code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" type="text/javascript"></script>
+	<link href="//code.jquery.com/ui/1.12.0-rc.2/themes/base/jquery-ui.css" rel="stylesheet" />
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="//code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>
 
 	<!-- Optional custom library to enable 'taphold' events -->
-	<script src="jquery-taphold/taphold.js" type="text/javascript"></script>
+	<script src="jquery-taphold/taphold.js"></script>
 
 	<!-- Just for this demo: Custom library to add a dynamic themeroller switcher -->
-	<script type="text/javascript" src="../lib/Super-Theme-Switcher/jquery.themeswitcher.js"></script>
+	<script src="../lib/Super-Theme-Switcher/jquery.themeswitcher.js"></script>
 
 	<!-- Finally this plugin itself -->
-	<script src="../jquery.ui-contextmenu.js" type="text/javascript"></script>
+	<script src="../jquery.ui-contextmenu.js"></script>
 
 <style type="text/css">
 
@@ -82,7 +82,7 @@ $(function(){
 		preventSelect: true,
 		taphold: true,
 		menu: [
-			{title: "Menu Header", isHeader: true},
+			{title: "Menu Header", cmd: "cat1", isHeader: true},
 			{title: "Cut <kbd>Ctrl+X</kbd>", cmd: "cut", uiIcon: "ui-icon-scissors"},
 			{title: "Copy <kbd>Ctrl+C</kbd>", cmd: "copy", uiIcon: "ui-icon-copy"},
 			{title: "Paste <kbd>Ctrl+V</kbd>", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
