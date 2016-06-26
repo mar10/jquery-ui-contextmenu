@@ -1,6 +1,6 @@
 # 1.12.1-0 / Unreleased
 
- * 
+ * [FEATURE] Test with jQuery 3
 
 # 1.12.0 / 2016-05-18
 

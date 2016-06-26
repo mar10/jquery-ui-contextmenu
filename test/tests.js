@@ -18,11 +18,26 @@ function TestHelpers() {
 			minor: parseInt(match[2], 10)
 		},
 		uiVersionBefore11 = ( uiVersion.major < 2 && uiVersion.minor < 11 ),
+		uiVersionBefore12 = ( uiVersion.major < 2 && uiVersion.minor < 12 ),
 		findEntry = function( menu, indexOrCommand ) {
 			if ( typeof indexOrCommand === "number" ) {
 				return menu.children( ":eq(" + indexOrCommand + ")" );
 			}
 			return menu.find("li[data-command=" + indexOrCommand + "]");
+		},
+		findEntryInner = function( menu, indexOrCommand ) {
+			if ( uiVersionBefore11 ) {
+				// jQuery UI <= 1.10 used `<a>` tags
+				return findEntry(menu, indexOrCommand).find( "a:first" );
+			} else if ( uiVersionBefore12 ) {
+				// jQuery UI == 1.11 prefered to avoid `<a>` tags
+				return findEntry(menu, indexOrCommand);
+			} else {
+				// jQuery UI 1.12+ introduced `<div>` wrappers
+				// console.log("findEntryInner", menu, indexOrCommand, findEntry(menu, indexOrCommand).find( ">div:first" ));
+				return findEntry(menu, indexOrCommand).find( ">div:first" );
+				// return findEntry(menu, indexOrCommand).children( ".ui-menu-item-wrapper" );
+			}
 		};
 
 	return {
@@ -44,32 +59,19 @@ function TestHelpers() {
 		},
 		entryEvent: function( menu, item, type ) {
 			lastItem = item;
-			if ( uiVersionBefore11 ) {
-				findEntry(menu, item).find( "a:first" ).trigger( type );
-			} else {
-				findEntry(menu, item).trigger( type );
-			}
+			findEntryInner(menu, item).trigger( type );
 		},
 		click: function( menu, item ) {
 			lastItem = item;
-			if ( uiVersionBefore11 ) {
-				findEntry(menu, item).find( "a:first" ).trigger( "click" );
-			} else {
-				findEntry(menu, item).trigger( "click" );
-			}
+			// console.log("click", menu, item, findEntryInner(menu, item));
+			findEntryInner(menu, item).trigger( "click" );
 		},
 		entry: findEntry,
 		entryTitle: function( menu, item ) {
 			// return the plain text (without sub-elements)
-			if ( uiVersionBefore11 ) {
-				return findEntry(menu, item).find( "a:first" ).contents().filter(function() {
+			return findEntryInner(menu, item).contents().filter(function() {
 					return this.nodeType === 3;
 				})[0].nodeValue;
-			} else {
-			return findEntry(menu, item).contents().filter(function() {
-					return this.nodeType === 3;
-				})[0].nodeValue;
-			}
 		}
 	};
 }
@@ -306,7 +308,7 @@ function _clickTest(menu) {
 		createMenu: function(event, ui) {
 			log("createMenu");
 		},
-		/*TODO: Seems that focus gets called twice in Safary, but nod PhantomJS */
+		/*TODO: Seems that focus gets called twice in Safary, but not PhantomJS */
 //        focus: function(event, ui) {
 //            var t = ui.item ? $(ui.item).find("a:first").attr("href") : ui.item;
 //            log("focus(" + t + ")");
