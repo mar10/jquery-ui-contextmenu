@@ -34,7 +34,6 @@ function TestHelpers() {
 				return findEntry(menu, indexOrCommand);
 			} else {
 				// jQuery UI 1.12+ introduced `<div>` wrappers
-				// console.log("findEntryInner", menu, indexOrCommand, findEntry(menu, indexOrCommand).find( ">div:first" ));
 				return findEntry(menu, indexOrCommand).find( ">div:first" );
 				// return findEntry(menu, indexOrCommand).children( ".ui-menu-item-wrapper" );
 			}
