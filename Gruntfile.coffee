@@ -93,7 +93,7 @@ module.exports = (grunt) ->
       ui_12:
         options:
           urls: [
-            "http://localhost:9999/test/test-jquery-1.3-ui-1.12.html"
+            "http://localhost:9999/test/test-jquery-3-ui-1.12.html"
           ]
           build: process.env.TRAVIS_JOB_ID
           throttled: 8
