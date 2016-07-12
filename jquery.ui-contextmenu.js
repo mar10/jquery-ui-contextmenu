@@ -193,7 +193,7 @@ $.widget("moogle.contextmenu", {
 			self = this,
 			manualTrigger = !!event.isTrigger,
 			ui = { menu: this.$menu, target: $(event.target),
-				   extraData: event.extraData, originalEvent: event,
+				   extraData: event._extraData, originalEvent: event,
 				   result: null };
 
 		if ( !opts.autoTrigger && !manualTrigger ) {
@@ -337,10 +337,20 @@ $.widget("moogle.contextmenu", {
 	/** Open context menu on a specific target (must match options.delegate)
 	 *  Optional `extraData` is passed to event handlers as `ui.extraData`.
 	 */
-	open: function(target, extraData) {
+	open: function(targetOrEvent, extraData) {
 		// Fake a 'contextmenu' event
 		extraData = extraData || {};
-		var e = jQuery.Event("contextmenu", { target: target.get(0), extraData: extraData });
+
+		var isEvent = (targetOrEvent && targetOrEvent.type && targetOrEvent.target),
+			event =  isEvent ? targetOrEvent : {},
+			target = isEvent ? targetOrEvent.target : targetOrEvent,
+			e = jQuery.Event("contextmenu", {
+				target: $(target).get(0),
+				pageX: event.pageX,
+				pageY: event.pageY,
+				originalEvent: isEvent ? targetOrEvent : undefined,
+				_extraData: extraData
+			});
 		return this.element.trigger(e);
 	},
 	/** Replace the menu altogether. */
