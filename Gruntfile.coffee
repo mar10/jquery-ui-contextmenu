@@ -80,11 +80,11 @@ module.exports = (grunt) ->
           build: process.env.TRAVIS_JOB_ID
           throttled: 8
           browsers: [
-            { browserName: "chrome", platform: "Windows 7" }
-            { browserName: "firefox", platform: "Windows 7" }
+            { browserName: "chrome", platform: "Windows 8.1" }
+            { browserName: "firefox", platform: "Windows 8.1" }
             { browserName: "firefox", platform: "Linux" }
             { browserName: "internet explorer", version: "6", platform: "Windows XP" }
-            { browserName: "internet explorer", version: "7", platform: "Windows XP" }
+            { browserName: "internet explorer", version: "7", platform: "Windows 7" }
             { browserName: "internet explorer", version: "11", platform: "Windows 8.1" }
             { browserName: "microsoftedge", platform: "Windows 10" }
             { browserName: "safari", version: "9", platform: "OS X 10.11" }
@@ -119,8 +119,8 @@ module.exports = (grunt) ->
           build: process.env.TRAVIS_JOB_ID
           throttled: 8
           browsers: [
-            { browserName: "chrome", platform: "Windows 7" }
-            { browserName: "firefox", platform: "Windows 7" }
+            { browserName: "chrome", platform: "Windows 8.1" }
+            { browserName: "firefox", platform: "Windows 8.1" }
             # { browserName: "firefox", platform: "Windows XP" }
             { browserName: "firefox", platform: "Linux" }
             # jQuery UI 11+ stopped support for IE 7
