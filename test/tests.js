@@ -494,7 +494,7 @@ asyncTest("modify on open", function() {
 	   equal(logOutput(), "open(),beforeOpen,after open(),open,select(cut),close",
 		   "Event sequence OK.");
 	   start();
-   }, 500);
+   }, 1000);
 
 });
 
