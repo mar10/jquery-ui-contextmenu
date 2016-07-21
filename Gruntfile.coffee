@@ -84,7 +84,8 @@ module.exports = (grunt) ->
             { browserName: "firefox", platform: "Windows 8.1" }
             { browserName: "firefox", platform: "Linux" }
             { browserName: "internet explorer", version: "6", platform: "Windows XP" }
-            { browserName: "internet explorer", version: "7", platform: "Windows 7" }
+            { browserName: "internet explorer", version: "7", platform: "Windows XP" }
+            { browserName: "internet explorer", version: "8", platform: "Windows 7" }
             { browserName: "internet explorer", version: "11", platform: "Windows 8.1" }
             { browserName: "microsoftedge", platform: "Windows 10" }
             { browserName: "safari", version: "9", platform: "OS X 10.11" }
