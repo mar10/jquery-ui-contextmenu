@@ -420,7 +420,7 @@ asyncTest("Array menu", function() {
 	   equal(logOutput(), "open(),after open(),open,select(cut),cut action,close",
 		   "Event sequence OK.");
 	   start();
-   }, 500);
+   }, 1500);
 });
 
 // ****************************************************************************
@@ -494,7 +494,7 @@ asyncTest("modify on open", function() {
 	   equal(logOutput(), "open(),beforeOpen,after open(),open,select(cut),close",
 		   "Event sequence OK.");
 	   start();
-   }, 1000);
+   }, 1500);
 
 });
 
