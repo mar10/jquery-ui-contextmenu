@@ -165,7 +165,7 @@ module.exports = (grunt) ->
     yabs:
       release:
         common: # defaults for all tools
-          manifests: ['package.json', 'bower.json', 'ui-contextmenu.jquery.json']
+          manifests: ['package.json', 'bower.json']
         # The following tools are run in order:
         check: { branch: ['master'], canPush: true, clean: true, cmpVersion: 'gte' }
         run_test: { tasks: ['test'] }
