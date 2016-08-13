@@ -26,6 +26,14 @@ See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/ma
 [Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/):<br>
 [ ![sample](demo/teaser.png?raw=true) ](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/ "Live demo")
 
+See also the unit tests and live examples 
+
+**More:**
+
+  * Play with [jsFiddle](http://jsfiddle.net/mar10/6o3u8a88/) or 
+    [Plunker](http://plnkr.co/edit/Bbcoqy?p=preview)
+  * Run the [unit tests](http://rawgit.com/mar10/jquery-ui-contextmenu/master/test/index.html).
+
 
 ## Getting Started
 

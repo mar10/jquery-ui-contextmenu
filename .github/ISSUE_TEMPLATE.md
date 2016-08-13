@@ -21,5 +21,4 @@ Plunker (http://plnkr.co/edit/Bbcoqy?p=preview) ?
 
   - Browser type and version:
   - jQuery and jQuery UI versions:
-  - Fancytree version:    
-    enabled/affected extensions: 
+  - ui-contextmenu version:    
