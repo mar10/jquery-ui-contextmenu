@@ -86,6 +86,7 @@ jQuery(document).ready(function() {
 QUnit.config.requireExpects = true;
 
 var th = new TestHelpers(),
+	$ = jQuery,
 	log = th.log,
 	logOutput = th.logOutput,
 	click = th.click,
@@ -113,7 +114,6 @@ var th = new TestHelpers(),
 			{ title: "Sub Item 2", cmd: "sub2" }
 			] }
 		],
-	$ = jQuery,
 	sauceLabsLog = [];
 
 // SauceLabs integration
