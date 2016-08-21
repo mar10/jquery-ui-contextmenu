@@ -2,7 +2,7 @@
  // asyncTest,deepEqual,equal,expect,module,notDeepEqual,notEqual,notStrictEqual,
  // ok,QUnit,raises,start,stop,strictEqual,test
 
- /*globals asyncTest,equal,expect,module,ok,QUnit,start,test */
+ /*globals QUnit */
 
 /**
  * Tools inspired by https://github.com/jquery/jquery-ui/blob/master/tests/unit/menu/
@@ -148,22 +148,22 @@ QUnit.done(function(testResults) {
 
 //---------------------------------------------------------------------------
 
-module("prototype", lifecycle);
+QUnit.module("prototype", lifecycle);
 
-test("globals", function() {
-	expect(2);
-	ok( !!$.moogle.contextmenu, "exists in ui namnespace");
-	ok( !!$.moogle.contextmenu.version, "has version number");
+QUnit.test("globals", function(assert) {
+	assert.expect(2);
+	assert.ok( !!$.moogle.contextmenu, "exists in ui namnespace");
+	assert.ok( !!$.moogle.contextmenu.version, "has version number");
 });
 
 // ---------------------------------------------------------------------------
 
-module("create", lifecycle);
+QUnit.module("create", lifecycle);
 
-function _createTest(menu) {
+function _createTest(menu, assert) {
 	var $ctx;
 
-	expect(5);
+	assert.expect(5);
 
 	log( "constructor");
 	$("#container").contextmenu({
@@ -179,38 +179,39 @@ function _createTest(menu) {
 	});
 	log( "afterConstructor");
 	$ctx = $(":moogle-contextmenu");
-	equal( $ctx.length, 1, "widget created");
+	assert.equal( $ctx.length, 1, "widget created");
 	// equal( $("#sampleMenu").hasClass( "ui-contextmenu" ), true,
 	// 	"Class set to menu definition");
-	equal( $("head style.moogle-contextmenu-style").length, 1, "global stylesheet created");
+	assert.equal( $("head style.moogle-contextmenu-style").length, 1, "global stylesheet created");
 
 	$ctx.contextmenu("destroy");
 
-	equal( $(":moogle-contextmenu").length, 0, "widget destroyed");
+	assert.equal( $(":moogle-contextmenu").length, 0, "widget destroyed");
   //   equal( $("#sampleMenu").hasClass("ui-contextmenu"), false,
 		// "Class removed from menu definition");
-	equal( $("head style.moogle-contextmenu-style").length, 0, "global stylesheet removed");
+	assert.equal( $("head style.moogle-contextmenu-style").length, 0, "global stylesheet removed");
 
-	equal(logOutput(), "constructor,createMenu,create,afterConstructor",
+	assert.equal(logOutput(), "constructor,createMenu,create,afterConstructor",
 		  "Event sequence OK." );
 }
 
-test("create from UL", function() {
-	_createTest("ul#sampleMenu");
+QUnit.test("create from UL", function(assert) {
+	_createTest("ul#sampleMenu", assert);
 });
 
-test("create from array", function() {
-	_createTest(SAMPLE_MENU);
+QUnit.test("create from array", function(assert) {
+	_createTest(SAMPLE_MENU, assert);
 });
 
 //---------------------------------------------------------------------------
 
-module("open", lifecycle);
+QUnit.module("open", lifecycle);
 
-function _openTest(menu) {
-	var $ctx, $popup;
+function _openTest(menu, assert) {
+	var $ctx, $popup,
+		done = assert.async();
 
-	expect(19);
+	assert.expect(19);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -218,18 +219,18 @@ function _openTest(menu) {
 		beforeOpen: function(event, ui) {
 			log("beforeOpen");
 
-			equal( event.type, "contextmenubeforeopen",
+			assert.equal( event.type, "contextmenubeforeopen",
 				   "beforeOpen: Got contextmenubeforeopen event" );
-			equal( ui.target.text(), "AAA",
+			assert.equal( ui.target.text(), "AAA",
 				  "beforeOpen: ui.target is set" );
-			ok( $popup.is(":hidden"),
+			assert.ok( $popup.is(":hidden"),
 				"beforeOpen: Menu is hidden" );
-			ok( !entry($popup, 0).hasClass("ui-state-disabled"),
+			assert.ok( !entry($popup, 0).hasClass("ui-state-disabled"),
 				"beforeOpen: Entry 0 is enabled" );
-			ok( entry($popup, 2).hasClass("ui-state-disabled"),
+			assert.ok( entry($popup, 2).hasClass("ui-state-disabled"),
 				"beforeOpen: Entry 2 is disabled" );
 
-			ok($ctx.contextmenu("isOpen"), "isOpen() false in beforeOpen event");
+			assert.ok($ctx.contextmenu("isOpen"), "isOpen() false in beforeOpen event");
 
 			$("#container").contextmenu("enableEntry", "cut", false);
 			$("#container").contextmenu("showEntry", "copy", false);
@@ -237,61 +238,62 @@ function _openTest(menu) {
 		open: function(event) {
 			log("open");
 
-			ok( $popup.is(":visible"),
+			assert.ok( $popup.is(":visible"),
 				"open: Menu is visible" );
-			ok( $popup.hasClass("ui-contextmenu"),
+			assert.ok( $popup.hasClass("ui-contextmenu"),
 				"Class removed from menu definition");
-			ok( entry($popup, 2).hasClass("ui-state-disabled"),
+			assert.ok( entry($popup, 2).hasClass("ui-state-disabled"),
 				"open: Entry is disabled" );
 
-			ok( $ctx.contextmenu("isOpen"),
+			assert.ok( $ctx.contextmenu("isOpen"),
 				"isOpen() true in open event");
 
-			ok( entry($popup, 0).is(":visible"),
+			assert.ok( entry($popup, 0).is(":visible"),
 				"beforeOpen: Entry 0 is visible" );
-			ok( entry($popup, 0).hasClass("ui-state-disabled"),
+			assert.ok( entry($popup, 0).hasClass("ui-state-disabled"),
 				"beforeOpen: Entry 0 is disabled: enableEntry(false) worked" );
 
-			ok( entry($popup, 1).is(":hidden"),
+			assert.ok( entry($popup, 1).is(":hidden"),
 				"beforeOpen: Entry 1 is hidden: showEntry(false) worked" );
-			ok( !entry($popup, 1).hasClass("ui-state-disabled"),
+			assert.ok( !entry($popup, 1).hasClass("ui-state-disabled"),
 				"beforeOpen: Entry 1 is enabled" );
 
-			equal(logOutput(), "open(),beforeOpen,after open(),open",
+			assert.equal(logOutput(), "open(),beforeOpen,after open(),open",
 				  "Event sequence OK.");
-			start();
+			done();
 		}
 	});
 
 	$ctx = $(":moogle-contextmenu");
 	$popup = $ctx.contextmenu("getMenu");
 
-	ok($popup, "getMenu() works");
-	ok(!$ctx.contextmenu("isOpen"), "menu initially closed");
+	assert.ok($popup, "getMenu() works");
+	assert.ok(!$ctx.contextmenu("isOpen"), "menu initially closed");
 
-	equal( $ctx.length, 1, "widget created");
-	ok($popup.is(":hidden"), "Menu is hidden");
+	assert.equal( $ctx.length, 1, "widget created");
+	assert.ok($popup.is(":hidden"), "Menu is hidden");
 	log("open()");
 	$ctx.contextmenu("open", $("span.hasmenu:first"));
 	log("after open()");
 }
 
-asyncTest("UL menu", function() {
-	_openTest("ul#sampleMenu");
+QUnit.test("UL menu", function(assert) {
+	_openTest("ul#sampleMenu", assert);
 });
 
-asyncTest("Array menu", function() {
-	_openTest(SAMPLE_MENU);
+QUnit.test("Array menu", function(assert) {
+	_openTest(SAMPLE_MENU, assert);
 });
 
 //---------------------------------------------------------------------------
 
-module("click event sequence", lifecycle);
+QUnit.module("click event sequence", lifecycle);
 
-function _clickTest(menu) {
-	var $ctx, $popup;
+function _clickTest(menu, assert) {
+	var $ctx, $popup,
+		done = assert.async();
 
-	expect(3);
+	assert.expect(3);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -325,8 +327,8 @@ function _clickTest(menu) {
 //			window.console.log("select");
 			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
-			equal( ui.cmd, "cut", "select: ui.cmd is set" );
-			equal( ui.target.text(), "AAA", "select: ui.target is set" );
+			assert.equal( ui.cmd, "cut", "select: ui.cmd is set" );
+			assert.equal( ui.target.text(), "AAA", "select: ui.target is set" );
 		},
 		open: function(event) {
 			log("open");
@@ -337,6 +339,10 @@ function _clickTest(menu) {
 		},
 		close: function(event) {
 			log("close");
+			assert.equal(logOutput(),
+				  "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
+				  "Event sequence OK.");
+			done();
 		}
 	});
 
@@ -347,45 +353,46 @@ function _clickTest(menu) {
 	$ctx.contextmenu("open", $("span.hasmenu:first"));
 	log("after open()");
 
-	setTimeout(function() {
-		// TODO: why is focus() called twice?
-		equal(logOutput(),
-			  "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
-			  "Event sequence OK.");
-		start();
-	}, 1000);
+	// setTimeout(function() {
+	// 	// TODO: why is focus() called twice?
+	// 	assert.equal(logOutput(),
+	// 		  "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
+	// 		  "Event sequence OK.");
+	// 	done();
+	// }, 500);
 }
 
-asyncTest("Array menu", function() {
-	_clickTest(SAMPLE_MENU);
+QUnit.test("Array menu", function(assert) {
+	_clickTest(SAMPLE_MENU, assert);
 });
 
-asyncTest("UL menu", function() {
-	_clickTest("ul#sampleMenu");
+QUnit.test("UL menu", function(assert) {
+	_clickTest("ul#sampleMenu", assert);
 });
 
 // ****************************************************************************
 
-module("'action' option", lifecycle);
+QUnit.module("'action' option", lifecycle);
 
-asyncTest("Array menu", function() {
+QUnit.test("Array menu", function(assert) {
 	var $ctx, $popup,
 		menu  = [
 		   { title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors",
 			data: { foo: "bar" }, addClass: "custom-class-1",
 			action: function(event, ui) {
 				log("cut action");
-				equal( ui.cmd, "cut", "action: ui.cmd is set" );
-				equal( ui.target.text(), "AAA", "action: ui.target is set" );
-				equal( ui.item.data().foo, "bar", "action: ui.item.data() is set" );
-				ok( ui.item.hasClass("custom-class-1"), "action: addClass property works" );
+				assert.equal( ui.cmd, "cut", "action: ui.cmd is set" );
+				assert.equal( ui.target.text(), "AAA", "action: ui.target is set" );
+				assert.equal( ui.item.data().foo, "bar", "action: ui.item.data() is set" );
+				assert.ok( ui.item.hasClass("custom-class-1"), "action: addClass property works" );
 			}
 		   },
 		   { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
 		   { title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
-		   ];
+		   ],
+		done = assert.async();
 
-	expect(9);
+	assert.expect(9);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -399,13 +406,16 @@ asyncTest("Array menu", function() {
 		select: function(event, ui) {
 			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
-			equal( ui.cmd, "cut", "select: ui.cmd is set" );
-			equal( ui.target.text(), "AAA", "select: ui.target is set" );
-			equal( ui.item.data().foo, "bar", "ui.item.data() is set" );
-			ok( ui.item.hasClass("custom-class-1"), "addClass property works" );
+			assert.equal( ui.cmd, "cut", "select: ui.cmd is set" );
+			assert.equal( ui.target.text(), "AAA", "select: ui.target is set" );
+			assert.equal( ui.item.data().foo, "bar", "ui.item.data() is set" );
+			assert.ok( ui.item.hasClass("custom-class-1"), "addClass property works" );
 		},
 		close: function(event) {
 			log("close");
+			assert.equal(logOutput(), "open(),after open(),open,select(cut),cut action,close",
+				"Event sequence OK.");
+			done();
 		}
 	});
 
@@ -416,26 +426,27 @@ asyncTest("Array menu", function() {
    $ctx.contextmenu("open", $("span.hasmenu:first"));
    log("after open()");
 
-   setTimeout(function() {
-	   equal(logOutput(), "open(),after open(),open,select(cut),cut action,close",
-		   "Event sequence OK.");
-	   start();
-   }, 1500);
+   // setTimeout(function() {
+	  //  assert.equal(logOutput(), "open(),after open(),open,select(cut),cut action,close",
+		 //   "Event sequence OK.");
+	  //  done();
+   // }, 500);
 });
 
 // ****************************************************************************
 
-module("'beforeOpen' event", lifecycle);
+QUnit.module("'beforeOpen' event", lifecycle);
 
-asyncTest("modify on open", function() {
+QUnit.test("modify on open", function(assert) {
 	var $ctx, $popup,
 		menu  = [
 		   { title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors" },
 		   { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
 		   { title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
-		   ];
+		   ],
+		done = assert.async();
 
-	expect(9);
+	assert.expect(9);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -455,17 +466,17 @@ asyncTest("modify on open", function() {
 		},
 		open: function(event) {
 			log("open");
-			equal(entryTitle($popup, "cut"), "Cut - changed",
+			assert.equal(entryTitle($popup, "cut"), "Cut - changed",
 				"setEntry(string)");
-			equal(entry($popup, "copy").length, 0,
+			assert.equal(entry($popup, "copy").length, 0,
 				"setEntry(object) change command id");
-			equal(entryTitle($popup, "copy2"), "Copy - changed",
+			assert.equal(entryTitle($popup, "copy2"), "Copy - changed",
 				"setEntry(object) set title");
-			equal(entryTitle($popup, "paste"), "Paste - changed",
+			assert.equal(entryTitle($popup, "paste"), "Paste - changed",
 				"setEntry(object) set nested title");
-			equal(entryTitle($popup, "sub_1"), "Sub 1",
+			assert.equal(entryTitle($popup, "sub_1"), "Sub 1",
 				"setEntry(object) created nested entry");
-			ok(entry($popup, "sub_2").hasClass("ui-state-disabled"),
+			assert.ok(entry($popup, "sub_2").hasClass("ui-state-disabled"),
 				"setEntry(object) created nested disabled entry");
 
 			setTimeout(function() {
@@ -475,11 +486,14 @@ asyncTest("modify on open", function() {
 		select: function(event, ui) {
 			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
-			equal( ui.cmd, "cut", "select: ui.cmd is set" );
-			equal( ui.target.text(), "AAA", "select: ui.target is set" );
+			assert.equal( ui.cmd, "cut", "select: ui.cmd is set" );
+			assert.equal( ui.target.text(), "AAA", "select: ui.target is set" );
 		},
 		close: function(event) {
 			log("close");
+			assert.equal(logOutput(), "open(),beforeOpen,after open(),open,select(cut),close",
+				"Event sequence OK.");
+			done();
 		}
 	});
 
@@ -490,11 +504,11 @@ asyncTest("modify on open", function() {
    $ctx.contextmenu("open", $("span.hasmenu:first"));
    log("after open()");
 
-   setTimeout(function() {
-	   equal(logOutput(), "open(),beforeOpen,after open(),open,select(cut),close",
-		   "Event sequence OK.");
-	   start();
-   }, 1500);
+   // setTimeout(function() {
+	  //  assert.equal(logOutput(), "open(),beforeOpen,after open(),open,select(cut),close",
+		 //   "Event sequence OK.");
+	  //  done();
+   // }, 1500);
 
 });
 

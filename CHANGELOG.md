@@ -2,6 +2,8 @@
 
  * [FEATURE] Test with jQuery 3
  * [FEATURE] #104 Allow to pass mouse click events to `open()`
+ * Update grunt to 1.0
+ * Upate QUnit to 1.23 and refactor tests to use `assert`
 
 # 1.12.0 / 2016-05-18
 
