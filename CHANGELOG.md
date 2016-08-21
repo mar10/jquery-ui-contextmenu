@@ -1,4 +1,7 @@
 # 1.13.0-0 / Unreleased
+ *
+
+# 1.13.0 / 2016-08-21
 
  * [FEATURE] Test with jQuery 3
  * [FEATURE] #104 Allow to pass mouse click events to `open()`
