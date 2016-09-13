@@ -21,7 +21,7 @@
 
 # 1.10.0 / 2015-06-27
 
-* [FEATURE] New option `tooltip`,  adds a `title` attribute to the menu markup
+* [FEATURE] New option `tooltip`, adds a `title` attribute to the menu markup
 
 # 1.9.0 / 2015-04-20
 
