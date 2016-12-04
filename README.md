@@ -43,16 +43,16 @@ First, include dependencies:
 * jQuery UI 1.9+ (at least core, widget, menu), 1.11+ recommended
 * One of the ThemeRoller CSS themes or a custom one
 * jquery.ui-contextmenu.js (also available as CDN on 
-  [jsdelivr](http://www.jsdelivr.com/#!jquery.ui-contextmenu)
-  or [cdnjs](https://cdnjs.com/libraries/jquery.ui-contextmenu))
+  [jsdelivr](http://www.jsdelivr.com/#!jquery.ui-contextmenu),
+  [cdnjs](https://cdnjs.com/libraries/jquery.ui-contextmenu)), or
+  [UNPKG](https://unpkg.com/ui-contextmenu@latest/jquery.ui-contextmenu.min.js)
 
 ```html
 <head>
-    <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" 
-        type="text/css" rel="stylesheet" />
-    <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="assets/jquery.ui-contextmenu.min.js" type="text/javascript"></script>
+    <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="assets/jquery.ui-contextmenu.min.js"></script>
 ```
 
 Assume we have some HTML elements that we want to attach a popup menu to:

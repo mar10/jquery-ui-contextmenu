@@ -54,7 +54,8 @@ module.exports = (grunt) ->
     #         overwrite : true
     #         replacements: [ {
     #             from : /@DATE/g
-    #             to : "<%= grunt.template.today('yyyy-mm-dd\"T\"HH:MM') %>"
+    #             # https://github.com/felixge/node-dateformat
+    #             to : "<%= grunt.template.today('isoUtcDateTime') %>"
     #         },{
     #             from : /buildType:\s*\"[a-zA-Z]+\"/g
     #             to : "buildType: \"production\""
@@ -152,7 +153,7 @@ module.exports = (grunt) ->
 
     uglify:
       options:
-        banner: "/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - " + "<%= grunt.template.today('yyyy-mm-dd') %> | " + "<%= pkg.homepage ? ' ' + pkg.homepage + ' | ' : '' %>" + " Copyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>;" + " Licensed <%= _.map(pkg.licenses, 'type').join(', ') %> */\n"
+        banner: "/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - " + "<%= grunt.template.today('yyyy-mm-dd') %> | " + "<%= pkg.homepage ? ' ' + pkg.homepage + ' | ' : '' %>" + " Copyright (c) 2013 -<%= grunt.template.today('yyyy') %> <%= pkg.author.name %>;" + " Licensed <%= _.map(pkg.licenses, 'type').join(', ') %> */\n"
         report: "gzip"
 
       build:
