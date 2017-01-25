@@ -1,4 +1,4 @@
-Copyright 2013-2016 Martin Wendt and others (see commiter list on GitHub)
+Copyright 2013-2017 Martin Wendt and others (see commiter list on GitHub)
 https://github.com/mar10/jquery-ui-contextmenu
 
 Permission is hereby granted, free of charge, to any person obtaining
