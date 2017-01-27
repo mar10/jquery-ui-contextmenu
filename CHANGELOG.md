@@ -1,5 +1,6 @@
 # 1.13.1-0 / Unreleased
  * [BUGFIX] #109 Fix `setEntry(title)` for titles containing icons
+ * [BUGFIX] #110 Fix `setEntry({...})` for jQuery UI 1.12
 
 # 1.13.0 / 2016-08-21
 

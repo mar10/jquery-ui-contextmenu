@@ -372,6 +372,8 @@ $.widget("moogle.contextmenu", {
 				$ul = $("<ul/>").appendTo($entryLi);
 				$.moogle.contextmenu.createMenuMarkup(entry.children, $ul);
 			}
+			// #110: jQuery UI 1.12: refresh only works when this class is not set:
+			$entryLi.removeClass("ui-menu-item");
 			this.getMenu().menu("refresh");
 		}
 	},
