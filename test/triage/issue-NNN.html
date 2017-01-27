@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<title>jquery.ui-contextmenu.js - Demo</title>
+
+	<link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+
+	<!-- <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> -->
+	<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+	<!-- <script src="//code.jquery.com/jquery-3.0.0.min.js"></script> -->
+	<!-- <script src="//code.jquery.com/jquery-migrate-3.0.0.min.js"></script> -->
+
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+	<!-- Just for this demo: Custom library to add a dynamic themeroller switcher -->
+	<script src="../../lib/Super-Theme-Switcher/jquery.themeswitcher.js"></script>
+
+	<!-- Finally this plugin itself -->
+	<script src="../../jquery.ui-contextmenu.js"></script>
+
+<style type="text/css">
+
+/* Only for the demo */
+.hasmenu, .hasmenu2 {
+	border: 1px solid #008;
+	margin: 3px;
+	padding: 5px;
+	width: 30px;
+}
+
+/* Optionally define a fixed width for menus */
+.ui-menu {
+	width: 220px;
+}
+/* Allow to use <kbd> elements inside the title to define shortcut hints. */
+.ui-menu kbd {
+	padding-left: 1em;
+	float: right;
+}
+
+/* Define a custom icon */
+.ui-icon.custom-icon-firefox {
+	background-image: url(../../demo/application_firefox.gif);
+	background-position: 0 0;
+}
+</style>
+
+
+<script type="text/javascript">
+var CLIPBOARD = "";
+$(function(){
+	/* Enable a themeroller theme-switching using a combobox. */
+	$("#switcher").themeswitcher({
+		jqueryuiversion: "1.11.2",
+		themepath: "//code.jquery.com/ui/",
+		imgpath: "../../lib/Super-Theme-Switcher/images/",
+		loadTheme: "Smoothness"
+	});
+
+	/* Menu 1: init by passing an array of entries. */
+
+	$(document).contextmenu({
+		delegate: ".hasmenu",
+		autoFocus: true,
+		preventContextMenuForPopup: true,
+		preventSelect: true,
+		taphold: true,
+		menu: [
+			{title: "Menu Header", cmd: "cat1", isHeader: true},
+			{title: "Cut <kbd>Ctrl+X</kbd>", cmd: "cut", uiIcon: "ui-icon-scissors"},
+			{title: "Copy <kbd>Ctrl+C</kbd>", cmd: "copy", uiIcon: "ui-icon-copy"},
+			{title: "Paste <kbd>Ctrl+V</kbd>", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
+			{title: "----"},
+			{title: "More", children: [
+				{title: "Sub 1 (callback)", action: function(event, ui) { alert("action callback sub1");} },
+				{title: "Edit <kbd>[F2]</kbd>", cmd: "sub2", tooltip: "Edit the title"},
+				]}
+			],
+		// Handle menu selection to implement a fake-clipboard
+		select: function(event, ui) {
+			var $target = ui.target;
+			switch(ui.cmd){
+			case "copy":
+				CLIPBOARD = $target.text();
+				break
+			case "paste":
+				CLIPBOARD = "";
+				break
+			}
+			alert("select " + ui.cmd + " on " + $target.text());
+			// Optionally return false, to prevent closing the menu now
+		},
+		// Implement the beforeOpen callback to dynamically change the entries
+		beforeOpen: function(event, ui) {
+			var $menu = ui.menu,
+				$target = ui.target,
+				extraData = ui.extraData; // passed when menu was opened by call to open()
+
+			// console.log("beforeOpen", event, ui, event.originalEvent.type);
+
+			ui.menu.zIndex( $(event.target).zIndex() + 1);
+
+			$(document)
+//				.contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}])
+//				.contextmenu("replaceMenu", "#options2")
+//				.contextmenu("setEntry", "cut", {title: "Cuty", uiIcon: "ui-icon-heart", disabled: true})
+				.contextmenu("setEntry", "copy", "Copy '" + $target.text() + "'")
+				.contextmenu("setEntry", "paste", "Paste" + (CLIPBOARD ? " '" + CLIPBOARD + "'" : ""))
+				.contextmenu("enableEntry", "paste", (CLIPBOARD !== ""));
+
+			// Optionally return false, to prevent opening the menu now
+		}
+	});
+
+	/* Open and close an existing menu without programatically. */
+
+	$("#btn1").click(function(){
+		$(document)
+			.contextmenu("open", $(".hasmenu:first")	)
+			.contextmenu("setEntry", );
+	});
+	$("#btn2").click(function(){
+		$(document).contextmenu("open", $(".hasmenu:first"), {foo: "bar"});
+	});
+	$("#btn3").click(function(){
+		$(document).contextmenu("open", $(".hasmenu:first"), {foo: "bar"});
+	});
+});
+</script>
+</head>
+
+<body class="example">
+	<h1>jquery-ui-contextmenu Triage</h1>
+
+	<div>
+		<label for="switcher">Theme:</label> <div id="switcher"></div>
+	</div>
+	<div>
+		<button id="btn1">Action 1</button>
+		<button id="btn2">Action 2</button>
+		<button id="btn3">Action 3</button>
+	</div>
+
+	<div>
+		<span class="hasmenu" tabindex="0">AAA</span>
+		<span class="hasmenu" tabindex="0">BBB</span>
+		<span class="hasmenu" tabindex="0">CCC</span>
+	</div>
+
+</body>
+</html>
