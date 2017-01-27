@@ -1,5 +1,5 @@
-# 1.13.0-0 / Unreleased
- *
+# 1.13.1-0 / Unreleased
+ * [BUGFIX] #109 Fix `setEntry(title)` for titles containing icons
 
 # 1.13.0 / 2016-08-21
 

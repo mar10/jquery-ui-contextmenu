@@ -476,13 +476,14 @@ $.extend($.moogle.contextmenu, {
 			return item.has(">div[aria-haspopup='true']").length > 0;
 		}
 	},
-	/** Replaces the value of elem's first text node child */
-	replaceFirstTextNodeChild: function(elem, text) {
+	/** Replace the title of elem', but retain icons andchild entries. */
+	replaceFirstTextNodeChild: function(elem, html) {
+		var $icons = elem.find(">span.ui-icon,>ul.ui-menu").detach();
+
 		elem
-			.contents()
-			.filter(function() { return this.nodeType === 3; })
-			.first()
-			.replaceWith(text);
+			.empty()
+			.html(html)
+			.append($icons);
 	},
 	/** Updates the menu item's title */
 	updateTitle: function(item, title) {
