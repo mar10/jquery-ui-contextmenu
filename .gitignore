@@ -1,6 +1,6 @@
 /.settings
 /node_modules
-/test/issue-*
+/test/triage/
 .DS_Store
 npm-debug.log
 .sizecache.json
