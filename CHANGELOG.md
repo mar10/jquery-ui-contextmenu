@@ -1,4 +1,12 @@
-# 1.13.1-0 / Unreleased
+# 1.14.0-0 / Unreleased
+
+ * #108: Update AMD dependency to be compatible with the jQuery 1.12 layout:
+   "jquery-ui/ui/widgets/menu" 
+   NOTE: this is not backwards compatible with jQuery 1.11 and before:
+   http://jqueryui.com/upgrade-guide/1.12/#official-package-on-npm
+
+# 1.13.1 / 2017-01-27
+
  * [BUGFIX] #109 Fix `setEntry(title)` for titles containing icons
  * [BUGFIX] #110 Fix `setEntry({...})` for jQuery UI 1.12
 
@@ -124,3 +132,7 @@
 * [FEATURE] Support `taphold` events.
 * [FEATURE] Show / hide effects configurable.
 * [BUGFIX] Fixed markup for disabled entries.
+
+# 0.2.0 / 2013-05-10
+
+* First release.
