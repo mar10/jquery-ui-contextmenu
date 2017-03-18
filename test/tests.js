@@ -293,7 +293,7 @@ function _clickTest(menu, assert) {
 	var $ctx, $popup,
 		done = assert.async();
 
-	assert.expect(3);
+	assert.expect(6);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -302,6 +302,7 @@ function _clickTest(menu, assert) {
 //        hide: false,
 		beforeOpen: function(event, ui) {
 			log("beforeOpen(" + ui.target.text() + ")");
+			assert.equal( ui.target.text(), "AAA", "beforeOpen: ui.target is set" );
 		},
 		create: function(event, ui) {
 			log("create");
@@ -330,15 +331,17 @@ function _clickTest(menu, assert) {
 			assert.equal( ui.cmd, "cut", "select: ui.cmd is set" );
 			assert.equal( ui.target.text(), "AAA", "select: ui.target is set" );
 		},
-		open: function(event) {
+		open: function(event, ui) {
 			log("open");
+			assert.equal( ui.target.text(), "AAA", "open: ui.target is set" );
 			setTimeout(function() {
 				entryEvent($popup, 0, "mouseenter");
 				click($popup, 0);
 			}, 10);
 		},
-		close: function(event) {
+		close: function(event, ui) {
 			log("close");
+			assert.equal( ui.target.text(), "AAA", "open: ui.target is set" );
 			assert.equal(logOutput(),
 				  "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
 				  "Event sequence OK.");

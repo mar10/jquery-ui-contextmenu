@@ -82,16 +82,51 @@ module.exports = (grunt) ->
           throttled: 5
           browsers: [
             { browserName: "chrome", platform: "Windows 8.1" }
-            { browserName: "firefox", platform: "Windows 8.1" }
+            # { browserName: "firefox", platform: "Windows 8.1" }
             { browserName: "firefox", platform: "Linux" }
-            { browserName: "internet explorer", version: "6", platform: "Windows XP" }
-            { browserName: "internet explorer", version: "7", platform: "Windows XP" }
-            { browserName: "internet explorer", version: "8", platform: "Windows 7" }
+            # { browserName: "internet explorer", version: "6", platform: "Windows XP" }
+            # { browserName: "internet explorer", version: "7", platform: "Windows XP" }
+            # { browserName: "internet explorer", version: "8", platform: "Windows 7" }
             { browserName: "internet explorer", version: "11", platform: "Windows 8.1" }
             { browserName: "microsoftedge", platform: "Windows 10" }
-            { browserName: "safari", version: "9", platform: "OS X 10.11" }
+            # { browserName: "safari", version: "9", platform: "OS X 10.11" }
+            { browserName: "safari", version: "10", platform: "OS X 10.12" }
           ]
           testname: "jquery.ui-contextmenu qunit tests (jQuery UI 10)"
+          # statusCheckAttempts: 180
+          recordVideo: false
+          videoUploadOnPass: false
+
+      ui_11: # UI Menu 11+ dropped support for IE7
+        options:
+          urls: [
+            "http://localhost:9999/test/test-jquery-1.11-ui-1.11.html"
+            # "http://localhost:9999/test/index.html",
+            # "http://localhost:9999/test/index-jquery-ui-1-10.html"
+          ]
+          
+          # username: process.env.SAUCE_USERNAME,
+          # key: process.env.SAUCE_ACCESS_KEY,
+          build: process.env.TRAVIS_JOB_ID
+          throttled: 5
+          browsers: [
+            { browserName: "chrome", platform: "Windows 8.1" }
+            # { browserName: "firefox", platform: "Windows 8.1" }
+            # { browserName: "firefox", platform: "Windows XP" }
+            { browserName: "firefox", platform: "Linux" }
+            # jQuery UI 11+ stopped support for IE <= 7
+            { browserName: "internet explorer", version: "8", platform: "Windows 7" }
+            { browserName: "internet explorer", version: "9", platform: "Windows 7" }
+            { browserName: "internet explorer", version: "10", platform: "Windows 8" }
+            { browserName: "internet explorer", version: "11", platform: "Windows 8.1" }
+            { browserName: "microsoftedge", platform: "Windows 10" }
+            # { browserName: "safari", version: "6", platform: "OS X 10.8" }
+            # { browserName: "safari", version: "7", platform: "OS X 10.9" }
+            # { browserName: "safari", version: "8", platform: "OS X 10.10" }
+            # { browserName: "safari", version: "9", platform: "OS X 10.11" }
+            { browserName: "safari", version: "10", platform: "OS X 10.12" }
+          ]
+          testname: "jquery.ui-contextmenu qunit tests (jQuery UI 11+)"
           # statusCheckAttempts: 180
           recordVideo: false
           videoUploadOnPass: false
@@ -107,46 +142,16 @@ module.exports = (grunt) ->
             { browserName: "chrome", platform: "Windows 8.1" }
             { browserName: "firefox", platform: "Windows 8.1" }
             { browserName: "firefox", platform: "Linux" }
+            # jQuery UI 12+ stopped support for IE <= 10
             { browserName: "internet explorer", version: "11", platform: "Windows 8.1" }
             { browserName: "microsoftedge", platform: "Windows 10" }
+            # { browserName: "safari", version: "6", platform: "OS X 10.8" }
+            # { browserName: "safari", version: "7", platform: "OS X 10.9" }
+            # { browserName: "safari", version: "8", platform: "OS X 10.10" }
             { browserName: "safari", version: "9", platform: "OS X 10.11" }
+            { browserName: "safari", version: "10", platform: "OS X 10.12" }
           ]
           testname: "jquery.ui-contextmenu qunit tests (jQuery UI 12)"
-          # statusCheckAttempts: 180
-          recordVideo: false
-          videoUploadOnPass: false
-
-      ui: # UI Menu 11+ dropped support for IE7
-        options:
-          urls: [
-            "http://localhost:9999/test/test-jquery-1.11-ui-1.11.html"
-            # "http://localhost:9999/test/index.html",
-            # "http://localhost:9999/test/index-jquery-ui-1-10.html"
-          ]
-          
-          # username: process.env.SAUCE_USERNAME,
-          # key: process.env.SAUCE_ACCESS_KEY,
-          build: process.env.TRAVIS_JOB_ID
-          throttled: 5
-          browsers: [
-            { browserName: "chrome", platform: "Windows 8.1" }
-            { browserName: "firefox", platform: "Windows 8.1" }
-            # { browserName: "firefox", platform: "Windows XP" }
-            { browserName: "firefox", platform: "Linux" }
-            # jQuery UI 11+ stopped support for IE 7
-            # { browserName: "internet explorer", version: "6", platform: "Windows XP" }
-            # { browserName: "internet explorer", version: "7", platform: "Windows XP" }
-            { browserName: "internet explorer", version: "8", platform: "Windows 7" }
-            { browserName: "internet explorer", version: "9", platform: "Windows 7" }
-            { browserName: "internet explorer", version: "10", platform: "Windows 8" }
-            { browserName: "internet explorer", version: "11", platform: "Windows 8.1" }
-            { browserName: "microsoftedge", platform: "Windows 10" }
-            { browserName: "safari", version: "6", platform: "OS X 10.8" }
-            { browserName: "safari", version: "7", platform: "OS X 10.9" }
-            { browserName: "safari", version: "8", platform: "OS X 10.10" }
-            { browserName: "safari", version: "9", platform: "OS X 10.11" }
-          ]
-          testname: "jquery.ui-contextmenu qunit tests (jQuery UI 11+)"
           # statusCheckAttempts: 180
           recordVideo: false
           videoUploadOnPass: false
@@ -203,7 +208,7 @@ module.exports = (grunt) ->
   grunt.registerTask "server", ["connect:demo"]
   grunt.registerTask "dev", ["connect:dev", "watch:dev"]
   grunt.registerTask "test", ["jshint", "jscs", "qunit"]
-  grunt.registerTask "sauce", ["connect:sauce", "saucelabs-qunit:ui","saucelabs-qunit:ui_10", "saucelabs-qunit:ui_12"]
+  grunt.registerTask "sauce", ["connect:sauce", "saucelabs-qunit:ui_12", "saucelabs-qunit:ui_11", "saucelabs-qunit:ui_10"]
   if parseInt(process.env.TRAVIS_PULL_REQUEST, 10) > 0
       # saucelab keys do not work on forks
       # http://support.saucelabs.com/entries/25614798

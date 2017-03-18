@@ -1,4 +1,12 @@
-# 1.14.0-0 / Unreleased
+# 1.15.1-0 / Unreleased
+
+ * 
+
+# 1.15.0 / 2017-03-18
+
+  * [FEATURE] #113: Pass `ui` argument to `open` event.
+
+# 1.14.0 / 2017-01-30
 
  * #108: Update AMD dependency to be compatible with the jQuery 1.12 layout:
    "jquery-ui/ui/widgets/menu" 

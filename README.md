@@ -84,6 +84,10 @@ $("#container").contextmenu({
 });
 ```
 
+Alternatively we can
+<a href="https://github.com/mar10/jquery-ui-contextmenu/wiki#initialize-menu-from-an-existing-ul-element">
+initialaize the menu from embedded &lt;ul> markup</a>.
+
 For more information:
 
   * [Read the Tutorial](https://github.com/mar10/jquery-ui-contextmenu/wiki) and 

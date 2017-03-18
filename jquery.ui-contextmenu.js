@@ -279,7 +279,8 @@ $.widget("moogle.contextmenu", {
 	/** Close popup. */
 	_closeMenu: function(immediately) {
 		var self = this,
-			hideOpts = immediately ? false : this.options.hide;
+			hideOpts = immediately ? false : this.options.hide,
+			ui = { menu: this.$menu, target: $(this.currentTarget) };
 
 		// Note: we don't want to unbind the 'contextmenu' event
 		$(document)
@@ -296,10 +297,10 @@ $.widget("moogle.contextmenu", {
 					self.previousFocus.focus();
 					self.previousFocus = null;
 				}
-				self._trigger("close");
+				self._trigger("close", null, ui);
 			});
 		} else {
-			self._trigger("close");
+			self._trigger("close", null, ui);
 		}
 	},
 	/** Handle $().contextmenu("option", key, value) calls. */
