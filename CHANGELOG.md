@@ -1,6 +1,8 @@
-# 1.15.1-0 / Unreleased
+# 1.16.0-0 / Unreleased
 
- * 
+  * [FEATURE] #114: Pass `extraData` argument to `select` and other events.  
+    The same ui.extraData instance is passed to all events of a open-select-close
+    sequence, so it can also be used to pass data between events.
 
 # 1.15.0 / 2017-03-18
 

@@ -293,7 +293,7 @@ function _clickTest(menu, assert) {
 	var $ctx, $popup,
 		done = assert.async();
 
-	assert.expect(6);
+	assert.expect(13);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -303,6 +303,8 @@ function _clickTest(menu, assert) {
 		beforeOpen: function(event, ui) {
 			log("beforeOpen(" + ui.target.text() + ")");
 			assert.equal( ui.target.text(), "AAA", "beforeOpen: ui.target is set" );
+			assert.equal( ui.extraData.foo, "bar", "beforeOpen: ui.extraData is set" );
+			ui.extraData.helloFromBO = true;
 		},
 		create: function(event, ui) {
 			log("create");
@@ -330,10 +332,14 @@ function _clickTest(menu, assert) {
 			log("select(" + t + ")");
 			assert.equal( ui.cmd, "cut", "select: ui.cmd is set" );
 			assert.equal( ui.target.text(), "AAA", "select: ui.target is set" );
+			assert.equal( ui.extraData.foo, "bar", "select: ui.extraData is set" );
+			assert.equal( ui.extraData.helloFromBO, true, "select: ui.extraData is maintained" );
 		},
 		open: function(event, ui) {
 			log("open");
 			assert.equal( ui.target.text(), "AAA", "open: ui.target is set" );
+			assert.equal( ui.extraData.foo, "bar", "open: ui.extraData is set" );
+			assert.equal( ui.extraData.helloFromBO, true, "open: ui.extraData is maintained" );
 			setTimeout(function() {
 				entryEvent($popup, 0, "mouseenter");
 				click($popup, 0);
@@ -341,7 +347,9 @@ function _clickTest(menu, assert) {
 		},
 		close: function(event, ui) {
 			log("close");
-			assert.equal( ui.target.text(), "AAA", "open: ui.target is set" );
+			assert.equal( ui.target.text(), "AAA", "close: ui.target is set" );
+			assert.equal( ui.extraData.foo, "bar", "close: ui.extraData is set" );
+			assert.equal( ui.extraData.helloFromBO, true, "close: ui.extraData is maintained" );
 			assert.equal(logOutput(),
 				  "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
 				  "Event sequence OK.");
@@ -353,16 +361,8 @@ function _clickTest(menu, assert) {
 	$popup = $ctx.contextmenu("getMenu");
 
 	log("open()");
-	$ctx.contextmenu("open", $("span.hasmenu:first"));
+	$ctx.contextmenu("open", $("span.hasmenu:first"), { foo: "bar" });
 	log("after open()");
-
-	// setTimeout(function() {
-	// 	// TODO: why is focus() called twice?
-	// 	assert.equal(logOutput(),
-	// 		  "createMenu,create,open(),beforeOpen(AAA),after open(),open,select(cut),close",
-	// 		  "Event sequence OK.");
-	// 	done();
-	// }, 500);
 }
 
 QUnit.test("Array menu", function(assert) {
@@ -428,12 +428,6 @@ QUnit.test("Array menu", function(assert) {
    log("open()");
    $ctx.contextmenu("open", $("span.hasmenu:first"));
    log("after open()");
-
-   // setTimeout(function() {
-	  //  assert.equal(logOutput(), "open(),after open(),open,select(cut),cut action,close",
-		 //   "Event sequence OK.");
-	  //  done();
-   // }, 500);
 });
 
 // ****************************************************************************
@@ -506,13 +500,6 @@ QUnit.test("modify on open", function(assert) {
    log("open()");
    $ctx.contextmenu("open", $("span.hasmenu:first"));
    log("after open()");
-
-   // setTimeout(function() {
-	  //  assert.equal(logOutput(), "open(),beforeOpen,after open(),open,select(cut),close",
-		 //   "Event sequence OK.");
-	  //  done();
-   // }, 1500);
-
 });
 
 });

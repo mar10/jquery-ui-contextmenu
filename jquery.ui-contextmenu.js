@@ -34,7 +34,7 @@ $.widget("moogle.contextmenu", {
 	version: "@VERSION",
 	options: {
 		addClass: "ui-contextmenu",  // Add this class to the outer <ul>
-		autoFocus: false,      // Set keyboard focus to first entry on open
+		autoFocus: false,     // Set keyboard focus to first entry on open
 		autoTrigger: true,    // open menu on browser's `contextmenu` event
 		delegate: null,       // selector
 		hide: { effect: "fadeOut", duration: "fast" },
@@ -66,6 +66,7 @@ $.widget("moogle.contextmenu", {
 		this.$menu = null;
 		this.menuIsTemp = false;
 		this.currentTarget = null;
+		this.extraData = {};
 		this.previousFocus = null;
 
 		if (opts.preventSelect) {
@@ -120,16 +121,18 @@ $.widget("moogle.contextmenu", {
 	},
 	/** (Re)Create jQuery UI Menu. */
 	_createUiMenu: function(menuDef) {
-		var ct,
+		var ct, ed,
 			opts = this.options;
 
 		// Remove temporary <ul> if any
 		if (this.isOpen()) {
 			// #58: 'replaceMenu' in beforeOpen causing select: to lose ui.target
 			ct = this.currentTarget;
+			ed = this.extraData;
 			// close without animation, to force async mode
 			this._closeMenu(true);
 			this.currentTarget = ct;
+			this.extraData = ed;
 		}
 		if (this.menuIsTemp) {
 			this.$menu.remove(); // this will also destroy ui.menu
@@ -171,6 +174,7 @@ $.widget("moogle.contextmenu", {
 
 					ui.cmd = ui.item.attr("data-command");
 					ui.target = $(this.currentTarget);
+					ui.extraData = this.extraData;
 					// ignore clicks, if they only open a sub-menu
 					if ( !isParent || !opts.ignoreParentSelect) {
 						retval = this._trigger.call(this, "select", event, ui);
@@ -187,24 +191,24 @@ $.widget("moogle.contextmenu", {
 	},
 	/** Open popup (called on 'contextmenu' event). */
 	_openMenu: function(event, recursive) {
-		var res, promise,
+		var res, promise, ui,
 			opts = this.options,
 			posOption = opts.position,
 			self = this,
-			manualTrigger = !!event.isTrigger,
-			ui = { menu: this.$menu, target: $(event.target),
-				   extraData: event._extraData, originalEvent: event,
-				   result: null };
+			manualTrigger = !!event.isTrigger;
 
 		if ( !opts.autoTrigger && !manualTrigger ) {
 			// ignore browser's `contextmenu` events
 			return;
 		}
-
 		// Prevent browser from opening the system context menu
 		event.preventDefault();
 
 		this.currentTarget = event.target;
+		this.extraData = event._extraData || {};
+
+		ui = { menu: this.$menu, target: $(this.currentTarget), extraData: this.extraData,
+			   originalEvent: event, result: null };
 
 		if ( !recursive ) {
 			res = this._trigger("beforeOpen", event, ui);
@@ -280,7 +284,7 @@ $.widget("moogle.contextmenu", {
 	_closeMenu: function(immediately) {
 		var self = this,
 			hideOpts = immediately ? false : this.options.hide,
-			ui = { menu: this.$menu, target: $(this.currentTarget) };
+			ui = { menu: this.$menu, target: $(this.currentTarget), extraData: this.extraData };
 
 		// Note: we don't want to unbind the 'contextmenu' event
 		$(document)
@@ -289,6 +293,7 @@ $.widget("moogle.contextmenu", {
 			.unbind("keydown" + this.eventNamespace);
 
 		self.currentTarget = null; // issue #44 after hide animation is too late
+		self.extraData = {};
 		if ( this.$menu ) { // #88: widget might have been destroyed already
 			this.$menu
 				.unbind("contextmenu" + this.eventNamespace);
