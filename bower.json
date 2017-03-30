@@ -1,7 +1,7 @@
 {
   "name": "ui-contextmenu",
   "description": "Turn a jQuery UI Menu widget into a contextmenu.",
-  "version": "1.15.1-0",
+  "version": "1.16.0",
   "main": [
     "jquery.ui-contextmenu.js"
   ],
