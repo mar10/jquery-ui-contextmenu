@@ -1,37 +1,41 @@
-# 1.16.0-0 / Unreleased
+# 1.16.0-1 / Unreleased
 
-  * [FEATURE] #114: Pass `extraData` argument to `select` and other events.  
-    The same ui.extraData instance is passed to all events of a open-select-close
-    sequence, so it can also be used to pass data between events.
+*
+
+# 1.16.0 / 2017-03-30
+
+* [FEATURE] #114: Pass `extraData` argument to `select` and other events.  
+  The same ui.extraData instance is passed to all events of a open-select-close
+  sequence, so it can also be used to pass data between events.
 
 # 1.15.0 / 2017-03-18
 
-  * [FEATURE] #113: Pass `ui` argument to `open` event.
+* [FEATURE] #113: Pass `ui` argument to `open` event.
 
 # 1.14.0 / 2017-01-30
 
- * #108: Update AMD dependency to be compatible with the jQuery 1.12 layout:
-   "jquery-ui/ui/widgets/menu" 
-   NOTE: this is not backwards compatible with jQuery 1.11 and before:
-   http://jqueryui.com/upgrade-guide/1.12/#official-package-on-npm
+* #108: Update AMD dependency to be compatible with the jQuery 1.12 layout:
+  "jquery-ui/ui/widgets/menu" 
+  NOTE: this is not backwards compatible with jQuery 1.11 and before:
+  http://jqueryui.com/upgrade-guide/1.12/#official-package-on-npm
 
 # 1.13.1 / 2017-01-27
 
- * [BUGFIX] #109 Fix `setEntry(title)` for titles containing icons
- * [BUGFIX] #110 Fix `setEntry({...})` for jQuery UI 1.12
+* [BUGFIX] #109 Fix `setEntry(title)` for titles containing icons
+* [BUGFIX] #110 Fix `setEntry({...})` for jQuery UI 1.12
 
 # 1.13.0 / 2016-08-21
 
- * [FEATURE] Test with jQuery 3
- * [FEATURE] #104 Allow to pass mouse click events to `open()`
- * Update grunt to 1.0
- * Upate QUnit to 1.23 and refactor tests to use `assert`
+* [FEATURE] Test with jQuery 3
+* [FEATURE] #104 Allow to pass mouse click events to `open()`
+* Update grunt to 1.0
+* Upate QUnit to 1.23 and refactor tests to use `assert`
 
 # 1.12.0 / 2016-05-18
 
- * [FEATURE] Support jQuery UI 1.12 (wrap menu items in separate `<div>` tags)
- * [FEATURE] #100 new menu option `isHeader` for category headers.
- * Add jQuery UI 1.12 sample with new 'Base' theme
+* [FEATURE] Support jQuery UI 1.12 (wrap menu items in separate `<div>` tags)
+* [FEATURE] #100 new menu option `isHeader` for category headers.
+* Add jQuery UI 1.12 sample with new 'Base' theme
 
 # 1.11.0 / 2015-09-10
 
@@ -89,10 +93,13 @@
 # 1.3.0 / 2014-03-09
 
 * [FEATURE] New optional parameter open(..., extraData).
-* [FEATURE] New option `autoTrigger: true` can be set to `false` to prevent opening menus on browser's `contextmenu` event
-  (if you want to use the `open()` method instead).
-* [FEATURE] New option `preventContextMenuForPopup`to prevent opening the browser's system context menu on menu entries.
-* [CHANGE] `setEntry()` and `replaceMenu()` now allow to define titles with HTML markup.
+* [FEATURE] New option `autoTrigger: true` can be set to `false` to prevent
+	opening menus on browser's `contextmenu` event (if you want to use the `open()` 
+	method instead).
+* [FEATURE] New option `preventContextMenuForPopup`to prevent opening the browser's
+	system context menu on menu entries.
+* [CHANGE] `setEntry()` and `replaceMenu()` now allow to define titles with HTML 
+	markup.
 
 # 1.2.4 / 2013-12-25
 
@@ -103,7 +110,8 @@
 # 1.2.3 / 2013-10-19
 
 * [CHANGE] Detection of separators compliant with UI Menu 1.10
-* [BUGFIX] Fixed setEntry for entries that don't have icons and handle missing `cmd` option.
+* [BUGFIX] Fixed setEntry for entries that don't have icons and handle missing
+	`cmd` option.
 
 # 1.2.2 / 2013-07-28
 
