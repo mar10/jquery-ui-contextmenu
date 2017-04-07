@@ -1,6 +1,7 @@
 # 1.16.0-1 / Unreleased
 
 * Use `.on()` / `.off()` syntax
+* Add check for missing `.delegate` option
 
 # 1.16.0 / 2017-03-30
 
