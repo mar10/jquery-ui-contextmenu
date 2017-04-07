@@ -33,12 +33,13 @@ body{
 	   use the 'preventSelect: true' option.
 	   But we disable it more globally for tablet pc's, because the whole line
 	   or paragraph will still be selected otherwise.
-	 */
+
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	*/
 }
 
 /* Only for the demo */
@@ -72,7 +73,7 @@ var CLIPBOARD = "";
 $(function(){
 	/* Enable a themeroller theme-switching using a combobox. */
 	$("#switcher").themeswitcher({
-		jqueryuiversion: "1.11.2",
+		jqueryuiversion: "1.11.4",
 		themepath: "//code.jquery.com/ui/",
 		imgpath: "../lib/Super-Theme-Switcher/images/",
 		loadTheme: "Smoothness"
