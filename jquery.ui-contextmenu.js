@@ -94,7 +94,7 @@ $.widget("moogle.contextmenu", {
 			}
 			// TODO: the selectstart is not supported by FF?
 			if (supportSelectstart) {
-				this.element.delegate(opts.delegate, "selectstart" + this.eventNamespace,
+				this.element.on("selectstart" + this.eventNamespace, opts.delegate,
 									  function(event) {
 					event.preventDefault();
 				});
@@ -106,11 +106,11 @@ $.widget("moogle.contextmenu", {
 		if (opts.taphold) {
 			eventNames += " taphold" + this.eventNamespace;
 		}
-		this.element.delegate(opts.delegate, eventNames, $.proxy(this._openMenu, this));
+		this.element.on(eventNames, opts.delegate, $.proxy(this._openMenu, this));
 	},
 	/** Destructor, called on $().contextmenu("destroy"). */
 	_destroy: function() {
-		this.element.undelegate(this.eventNamespace);
+		this.element.off(this.eventNamespace);
 
 		this._createUiMenu(null);
 
@@ -230,11 +230,11 @@ $.widget("moogle.contextmenu", {
 		}
 
 		// Register global event handlers that close the dropdown-menu
-		$(document).bind("keydown" + this.eventNamespace, function(event) {
+		$(document).on("keydown" + this.eventNamespace, function(event) {
 			if ( event.which === $.ui.keyCode.ESCAPE ) {
 				self._closeMenu();
 			}
-		}).bind("mousedown" + this.eventNamespace + " touchstart" + this.eventNamespace,
+		}).on("mousedown" + this.eventNamespace + " touchstart" + this.eventNamespace,
 				function(event) {
 			// Close menu when clicked outside menu
 			if ( !$(event.target).closest(".ui-menu-item").length ) {
@@ -265,7 +265,7 @@ $.widget("moogle.contextmenu", {
 			.hide(); // hide again, so we can apply nice effects
 
 		if ( opts.preventContextMenuForPopup ) {
-			this.$menu.bind("contextmenu" + this.eventNamespace, function(event) {
+			this.$menu.on("contextmenu" + this.eventNamespace, function(event) {
 				event.preventDefault();
 			});
 		}
@@ -288,15 +288,15 @@ $.widget("moogle.contextmenu", {
 
 		// Note: we don't want to unbind the 'contextmenu' event
 		$(document)
-			.unbind("mousedown" + this.eventNamespace)
-			.unbind("touchstart" + this.eventNamespace)
-			.unbind("keydown" + this.eventNamespace);
+			.off("mousedown" + this.eventNamespace)
+			.off("touchstart" + this.eventNamespace)
+			.off("keydown" + this.eventNamespace);
 
 		self.currentTarget = null; // issue #44 after hide animation is too late
 		self.extraData = {};
 		if ( this.$menu ) { // #88: widget might have been destroyed already
 			this.$menu
-				.unbind("contextmenu" + this.eventNamespace);
+				.off("contextmenu" + this.eventNamespace);
 			this._hide(this.$menu, hideOpts, function() {
 				if ( self.previousFocus ) {
 					self.previousFocus.focus();
