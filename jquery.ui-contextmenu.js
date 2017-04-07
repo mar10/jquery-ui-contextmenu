@@ -69,6 +69,9 @@ $.widget("moogle.contextmenu", {
 		this.extraData = {};
 		this.previousFocus = null;
 
+		if (opts.delegate == null) {
+			$.error("ui-contextmenu: Missing required option `delegate`.");
+		}
 		if (opts.preventSelect) {
 			// Create a global style for all potential menu targets
 			// If the contextmenu was bound to `document`, we apply the
