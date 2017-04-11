@@ -273,12 +273,17 @@ $.widget("moogle.contextmenu", {
 			});
 		}
 		this._show(this.$menu, opts.show, function() {
+			var $first;
+
 			// Set focus to first active menu entry
 			if ( opts.autoFocus ) {
-				// var $first = self.$menu.children(".ui-menu-item:enabled:first");
-				// self.$menu.menu("focus", event, $first).focus();
-				self.$menu.focus();
 				self.previousFocus = $(event.target);
+				// self.$menu.focus();
+				$first = self.$menu
+					.children("li.ui-menu-item")
+					.not(".ui-state-disabled")
+					.first();
+				self.$menu.menu("focus", null, $first).focus();
 			}
 			self._trigger.call(self, "open", event, ui);
 		});
