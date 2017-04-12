@@ -433,9 +433,6 @@ $.extend($.moogle.contextmenu, {
 			} else if ( isLTE111 ) {
 				// jQuery UI Menu 1.11 preferes to avoid `<a>` tags
 				$parentLi.html("" + entry.title);
-				if ( $.isFunction(entry.action) ) {
-					$parentLi.data("actionHandler", entry.action);
-				}
 				if ( entry.uiIcon ) {
 					$parentLi
 						.append($("<span class='ui-icon' />")
