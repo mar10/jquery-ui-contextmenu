@@ -34,6 +34,7 @@ $.widget("moogle.contextmenu", {
 	version: "@VERSION",
 	options: {
 		addClass: "ui-contextmenu",  // Add this class to the outer <ul>
+		closeOnWindowBlur: true,     // Close menu when window loses focus
 		autoFocus: false,     // Set keyboard focus to first entry on open
 		autoTrigger: true,    // open menu on browser's `contextmenu` event
 		delegate: null,       // selector
@@ -244,6 +245,11 @@ $.widget("moogle.contextmenu", {
 				self._closeMenu();
 			}
 		});
+		$(window).on("blur" + this.eventNamespace, function(event) {
+			if ( opts.closeOnWindowBlur ) {
+				self._closeMenu();
+			}
+		});
 
 		// required for custom positioning (issue #18 and #13).
 		if ($.isFunction(posOption)) {
@@ -299,6 +305,8 @@ $.widget("moogle.contextmenu", {
 			.off("mousedown" + this.eventNamespace)
 			.off("touchstart" + this.eventNamespace)
 			.off("keydown" + this.eventNamespace);
+		$(window)
+			.off("blur" + this.eventNamespace);
 
 		self.currentTarget = null; // issue #44 after hide animation is too late
 		self.extraData = {};

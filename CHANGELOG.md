@@ -1,6 +1,7 @@
-# 1.16.0-1 / Unreleased
+# 1.17.0-1 / Unreleased
 
 * [FEATURE] #116 `autoFocus` skips leading disabled entries.
+* [FEATURE] #118 New option `closeOnWindowBlur`
 * Use `.on()` / `.off()` syntax
 * Add check for missing `.delegate` option
 
