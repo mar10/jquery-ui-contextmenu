@@ -2,24 +2,25 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-	<title>jquery.ui-contextmenu.js - Demo</title>
+	<title>jquery.ui-contextmenu.js - Demo (jQuery UI 1.12)</title>
 
 	<link href="demo.css" rel="stylesheet" />
-	<link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+	<link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
 
 	<!-- <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> -->
-	<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
-	<!-- <script src="//code.jquery.com/jquery-3.0.0.min.js"></script> -->
+	<!-- <script src="//code.jquery.com/jquery-1.12.4.min.js"></script> -->
+	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 	<!-- <script src="//code.jquery.com/jquery-migrate-3.0.0.min.js"></script> -->
 
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 	<!-- Optional custom library to enable 'taphold' events -->
 	<script src="jquery-taphold/taphold.js"></script>
 
 	<!-- Just for this demo: Custom library to add a dynamic themeroller switcher -->
+<!--
 	<script src="../lib/Super-Theme-Switcher/jquery.themeswitcher.js"></script>
-
+-->
 	<!-- Finally this plugin itself -->
 	<script src="../jquery.ui-contextmenu.js"></script>
 
@@ -32,13 +33,13 @@ body{
 	   use the 'preventSelect: true' option.
 	   But we disable it more globally for tablet pc's, because the whole line
 	   or paragraph will still be selected otherwise.
-
+	   
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	*/
+	 */
 }
 
 /* Only for the demo */
@@ -71,13 +72,14 @@ body{
 var CLIPBOARD = "";
 $(function(){
 	/* Enable a themeroller theme-switching using a combobox. */
+/*	
 	$("#switcher").themeswitcher({
-		jqueryuiversion: "1.11.4",
+		jqueryuiversion: "1.12.1",
 		themepath: "//code.jquery.com/ui/",
 		imgpath: "../lib/Super-Theme-Switcher/images/",
-		loadTheme: "smoothness"
+		loadTheme: "Base"
 	});
-
+*/
 	/* Menu 1: init by passing an array of entries. */
 
 	$(document).contextmenu({
@@ -119,7 +121,9 @@ $(function(){
 
 			// console.log("beforeOpen", event, ui, event.originalEvent.type);
 
-			ui.menu.zIndex( $(event.target).zIndex() + 1);
+			// NOTE: zIndex() was removed in jQuery 1.12:
+			// https://jqueryui.com/upgrade-guide/1.12/#removed-zindex
+//			ui.menu.zIndex( $(event.target).zIndex() + 1);
 
 			$(document)
 //				.contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}])
@@ -195,15 +199,15 @@ $(function(){
 		&mdash;
 		<a href="index-1-10.html">Demo with jQuery UI 1.10</a>
 		&mdash;
-		<b>Demo with jQuery UI 1.11</b>
+		<a href="index-1-11.html">Demo with jQuery UI 1.11</a>
 		&mdash;
-		<a href="index-1-12.html">Demo with jQuery UI 1.12</a>
+		<b>Demo with jQuery UI 1.12</b>
 	</p>
-
+<!--
 	<div>
 		<label for="switcher">Theme:</label> <div id="switcher"></div>
 	</div>
-
+-->
 	<h3>Sample 1</h3>
 	<ul>
 		<li>Initialized using a command-array.
@@ -236,21 +240,21 @@ $(function(){
 	</div>
 
 	<ul id="options" style="display: none;">
-		<li data-command="action1"><span class="ui-icon custom-icon-firefox"></span>Action 1</li>
-		<li data-command="action2"><span class="ui-icon ui-icon-heart"></span>Action 2</li>
-		<li data-command="action3" class="ui-state-disabled">Action 3</li>
+		<li data-command="action1"><div><span class="ui-icon custom-icon-firefox"></span>Action 1</div></li>
+		<li data-command="action2"><div><span class="ui-icon ui-icon-heart"></span>Action 2</div></li>
+		<li data-command="action3" class="ui-state-disabled"><div>Action 3</div></li>
 		<li>----</li>
 		<li>Extra
 			<ul>
-				<li data-command="action4">sub4</li>
-				<li data-command="action5">sub5</li>
+				<li data-command="action4"><div>sub4</div></li>
+				<li data-command="action5"><div>sub5</div></li>
 			</ul>
 		</li>
 	</ul>
 
 	<ul id="options2" class="ui-helper-hidden">
-		<li data-command="action2"><span class="ui-icon ui-icon-heart"></span>Action 2
-		<li data-command="action3" class="ui-state-disabled">Action 3
+		<li data-command="action2"><span class="ui-icon ui-icon-heart"></span>Action 2</li>
+		<li data-command="action3" class="ui-state-disabled">Action 3</li>
 	</ul>
 
 	<h3>Sample 3</h3>
