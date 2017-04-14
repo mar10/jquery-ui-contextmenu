@@ -1,5 +1,6 @@
 # 1.17.0-1 / Unreleased
 
+* [FEATURE] #59 Allow callbacks for `disabled` and `title` options
 * [FEATURE] #116 `autoFocus` skips leading disabled entries.
 * [FEATURE] #118 New option `closeOnWindowBlur`
 * Use `.on()` / `.off()` syntax

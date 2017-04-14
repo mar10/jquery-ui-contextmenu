@@ -263,6 +263,9 @@ $.widget("moogle.contextmenu", {
 			collision: "fit"
 		}, posOption);
 
+		// Update entry statuses from callbacks
+		this._updateEntries(this.$menu);
+
 		// Finally display the popup
 		this.$menu
 			.show() // required to fix positioning error
@@ -342,6 +345,29 @@ $.widget("moogle.contextmenu", {
 		if (this.isOpen()) {
 			this._closeMenu();
 		}
+	},
+	/* Apply status callbacks when menu is opened. */
+	_updateEntries: function() {
+		var self = this;
+
+		$.each(this.$menu.find(".ui-menu-item"), function(i, o) {
+			var $entry = $(o),
+				ui = { item: $entry, cmd: $entry.attr("data-command") },
+				fn = $entry.data("disabledHandler"),
+				res = fn ? fn(null, ui) : null;
+
+			// Evaluate `disabled()` callback
+			if ( res != null ) {
+				self.enableEntry(ui.cmd, !res);
+				self.showEntry(ui.cmd, res !== "hide");
+			}
+			// Evaluate `title()` callback
+			fn = $entry.data("titleHandler"),
+			res = fn ? fn(null, ui) : null;
+			if ( res != null ) {
+				self.setEntry(ui.cmd, res);
+			}
+		});
 	},
 	/** Enable or disable the menu command. */
 	enableEntry: function(cmd, flag) {
@@ -448,10 +474,13 @@ $.extend($.moogle.contextmenu, {
 					$wrapper.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
 				}
 			}
-			if ( $.isFunction(entry.action) ) {
-				$parentLi.data("actionHandler", entry.action);
-			}
-			if ( entry.disabled ) {
+			$.each( [ "action", "disabled", "title" ], function(i, attr) {
+				if ( $.isFunction(entry[attr]) ) {
+					$parentLi.data(attr + "Handler", entry[attr]);
+					// console.log("handler", $parentLi, attr);
+				}
+			});
+			if ( entry.disabled === true ) {
 				$parentLi.addClass("ui-state-disabled");
 			}
 			if ( entry.isHeader ) {

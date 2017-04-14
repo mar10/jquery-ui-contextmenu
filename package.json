@@ -52,7 +52,8 @@
     "grunt-exec": "^1.0.0",
     "grunt-jscs": "^2.7.0",
     "grunt-saucelabs": "^8.1.0",
-    "grunt-yabs": "^1.0.0"
+    "grunt-yabs": "^1.0.0",
+    "jquery-ui-dist": "^1.12.1"
   },
   "scripts": {
     "test": "grunt ci --verbose"
