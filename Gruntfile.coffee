@@ -186,10 +186,10 @@ module.exports = (grunt) ->
         # The following tools are run in order:
         check: { branch: ['master'], canPush: true, clean: true, cmpVersion: 'gte' }
         run_test: { tasks: ['test'] }
-        bump: {} # 'bump' also uses the increment mode `yabs:release:MODE`
+        bump: {} # 'bump' uses the increment mode `yabs:release:MODE` by default
         run_build: { tasks: ['build'] }
         commit: {}
-        check_after_build: { clean: true } # Fails if new files found
+        check_after_build: { clean: true } # Fails if new files are found
         tag: {}
         push: { tags: true, useFollowTags: true }
         githubRelease:
@@ -198,7 +198,7 @@ module.exports = (grunt) ->
         npmPublish: {}
         bump_develop: { inc: 'prepatch' }
         commit_develop: { message: 'Bump prerelease ({%= version %}) [ci skip]' }
-        push_develop: {}
+        push_develop: {}  # another push (append a suffix for a uniqu ename)
 
 
   # Load "grunt*" dependencies

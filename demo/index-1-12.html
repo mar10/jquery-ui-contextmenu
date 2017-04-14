@@ -96,7 +96,19 @@ $(function(){
 			{title: "----"},
 			{title: "More", children: [
 				{title: "Sub 1 (callback)", action: function(event, ui) { alert("action callback sub1");} },
-				{title: "Edit <kbd>[F2]</kbd>", cmd: "sub2", tooltip: "Edit the title"},
+				{title: "Sub 2 (dynamic state)", cmd: "sub2", disabled: function(event, ui) {
+					return true;
+				} },
+				{title: "Sub 3 (dynamic hide)", cmd: "sub3", disabled: function(event, ui) {
+					return "hide";
+				} },
+				{title: "Sub 4 (tooltip)", cmd: "sub4", tooltip: "My tooltip"},
+				{title: "Sub 5 (dynamic tooltip)", cmd: "sub5", tooltip: function(event, ui) {
+					return ui.item.text() + " !!!";
+				} },
+				{cmd: "sub6", title: function(event, ui) {
+					return "Sub 6 (dynamic title): " + ui.target.text();
+				} }
 				]}
 			],
 		// Handle menu selection to implement a fake-clipboard

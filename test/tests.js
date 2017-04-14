@@ -375,24 +375,25 @@ QUnit.test("UL menu", function(assert) {
 
 // ****************************************************************************
 
-QUnit.module("'action' option", lifecycle);
+QUnit.module("Dynmic options", lifecycle);
 
-QUnit.test("Array menu", function(assert) {
+QUnit.test("'action' option", function(assert) {
 	var $ctx, $popup,
 		menu  = [
-		   { title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors",
-			data: { foo: "bar" }, addClass: "custom-class-1",
-			action: function(event, ui) {
-				log("cut action");
-				assert.equal( ui.cmd, "cut", "action: ui.cmd is set" );
-				assert.equal( ui.target.text(), "AAA", "action: ui.target is set" );
-				assert.equal( ui.item.data().foo, "bar", "action: ui.item.data() is set" );
-				assert.ok( ui.item.hasClass("custom-class-1"), "action: addClass property works" );
-			}
-		   },
-		   { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
-		   { title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
-		   ],
+			{ title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors",
+				data: { foo: "bar" }, addClass: "custom-class-1",
+				action: function(event, ui) {
+					log("cut action");
+					assert.equal( ui.cmd, "cut", "action: ui.cmd is set" );
+					assert.equal( ui.target.text(), "AAA", "action: ui.target is set" );
+					assert.equal( ui.item.data().foo, "bar", "action: ui.item.data() is set" );
+					assert.ok( ui.item.hasClass("custom-class-1"),
+						"action: addClass property works" );
+				}
+			},
+			{ title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
+			{ title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
+		],
 		done = assert.async();
 
 	assert.expect(9);
@@ -416,7 +417,86 @@ QUnit.test("Array menu", function(assert) {
 		},
 		close: function(event) {
 			log("close");
-			assert.equal(logOutput(), "open(),after open(),open,select(cut),cut action,close",
+			assert.equal(logOutput(),
+				"open(),after open(),open,select(cut),cut action,close",
+				"Event sequence OK.");
+			done();
+		}
+	});
+
+   $ctx = $(":moogle-contextmenu");
+   $popup = $ctx.contextmenu("getMenu");
+
+   log("open()");
+   $ctx.contextmenu("open", $("span.hasmenu:first"));
+   log("after open()");
+});
+
+QUnit.test("'tooltip' / 'disabled' options", function(assert) {
+	var $ctx, $popup,
+		menu  = [ {
+			title: "Cut", cmd: "cut", tooltip: function(event, ui) {
+					log("tooltip(cut)");
+					assert.equal( ui.cmd, "cut", "ui.cmd is set" );
+					assert.equal( ui.target.text(), "AAA", "ui.target is set" );
+					assert.equal( ui.item.text(), "Cut", "ui.item is set" );
+					return "dynamic tt";
+				}
+			},
+			{ title: "Copy", cmd: "copy", tooltip: "static tt" },
+			{ title: "Paste", cmd: "paste", disabled: true },
+			{ title: "Delete", cmd: "delete", disabled: function(event, ui) {
+					log("disabled(delete)");
+					return false;
+				}
+			},
+			{ title: "Edit", cmd: "edit", disabled: function(event, ui) {
+				log("disabled(edit)");
+				return true; }
+			},
+			{ title: "Hidden", cmd: "hidden", disabled: function(event, ui) {
+					log("disabled(hidden)");
+					return "hide";
+				}
+			}
+		],
+		done = assert.async();
+
+	assert.expect(12);
+
+	$("#container").contextmenu({
+		delegate: ".hasmenu",
+		menu: menu,
+		open: function(event) {
+			log("open");
+			assert.equal(entry($popup, "cut").attr("title"), "dynamic tt",
+				"tooltip callback result was used");
+			assert.equal(entry($popup, "copy").attr("title"), "static tt",
+				"static tooltip value was used");
+
+			assert.equal(entry($popup, "paste").hasClass("ui-state-disabled"), true,
+				"static disabled value was used");
+			assert.equal(entry($popup, "delete").hasClass("ui-state-disabled"), false,
+				"dynamic disabled value 'false' was used");
+			assert.ok(entry($popup, "delete").is(":visible"),
+				"dynamic disabled value 'false' does not hide");
+			assert.equal(entry($popup, "paste").hasClass("ui-state-disabled"), true,
+				"dynamic disabled value 'true' was used");
+			assert.ok(entry($popup, "delete").is(":visible"),
+				"dynamic disabled value 'true' does not hide");
+			assert.ok(entry($popup, "hidden").is(":hidden"),
+				"dynamic disabled value 'hide' was used");
+
+			// Click s.th. to close the menu
+			setTimeout(function() {
+				click($popup, 0);
+			}, 10);
+		},
+		close: function(event) {
+			log("close");
+			assert.equal(logOutput(),
+				"open(),tooltip(cut),disabled(delete),disabled(edit),disabled(hidden)," +
+					"after open(),open,close",
 				"Event sequence OK.");
 			done();
 		}

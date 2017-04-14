@@ -348,14 +348,17 @@ $.widget("moogle.contextmenu", {
 	},
 	/* Apply status callbacks when menu is opened. */
 	_updateEntries: function() {
-		var self = this;
+		var self = this,
+			ui = {
+				menu: this.$menu, target: $(this.currentTarget), extraData: this.extraData };
 
 		$.each(this.$menu.find(".ui-menu-item"), function(i, o) {
 			var $entry = $(o),
-				ui = { item: $entry, cmd: $entry.attr("data-command") },
 				fn = $entry.data("disabledHandler"),
-				res = fn ? fn(null, ui) : null;
+				res = fn ? fn({ type: "disabled" }, ui) : null;
 
+			ui.item = $entry;
+			ui.cmd = $entry.attr("data-command");
 			// Evaluate `disabled()` callback
 			if ( res != null ) {
 				self.enableEntry(ui.cmd, !res);
@@ -363,9 +366,15 @@ $.widget("moogle.contextmenu", {
 			}
 			// Evaluate `title()` callback
 			fn = $entry.data("titleHandler"),
-			res = fn ? fn(null, ui) : null;
+			res = fn ? fn({ type: "title" }, ui) : null;
 			if ( res != null ) {
-				self.setEntry(ui.cmd, res);
+				self.setEntry(ui.cmd, "" + res);
+			}
+			// Evaluate `tooltip()` callback
+			fn = $entry.data("tooltipHandler"),
+			res = fn ? fn({ type: "tooltip" }, ui) : null;
+			if ( res != null ) {
+				$entry.attr("title", "" + res);
 			}
 		});
 	},
@@ -474,10 +483,10 @@ $.extend($.moogle.contextmenu, {
 					$wrapper.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
 				}
 			}
-			$.each( [ "action", "disabled", "title" ], function(i, attr) {
+			// Store option callbacks in entry's data
+			$.each( [ "action", "disabled", "title", "tooltip" ], function(i, attr) {
 				if ( $.isFunction(entry[attr]) ) {
 					$parentLi.data(attr + "Handler", entry[attr]);
-					// console.log("handler", $parentLi, attr);
 				}
 			});
 			if ( entry.disabled === true ) {
@@ -492,7 +501,7 @@ $.extend($.moogle.contextmenu, {
 			if ( $.isPlainObject(entry.data) ) {
 				$parentLi.data(entry.data);
 			}
-			if ( entry.tooltip != null ) {
+			if ( typeof entry.tooltip === "string" ) {
 				$parentLi.attr("title", entry.tooltip);
 			}
 		}
