@@ -3,37 +3,21 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 	<title>jquery.ui-contextmenu.js - Demo</title>
+<!--
+	<link href="../node_modules/jquery-ui/themes/base/jquery.ui.all.css" rel="stylesheet">
+	<script src="../lib/jquery.js"></script>
+	<script src="../lib/jquery-ui.custom.js"></script>
+-->
+	<link href="../node_modules/jquery-ui-dist/jquery-ui.css" rel="stylesheet">
 
-	<link rel="stylesheet" href="../node_modules/jquery-ui/themes/base/jquery.ui.all.css">
 	<script src="../node_modules/jquery/dist/jquery.js"></script>
-	<script src="../node_modules/jquery-ui/ui/jquery-ui.js"></script>
-
+	<script src="../node_modules/jquery-ui-dist/jquery-ui.js"></script>
 	<!-- Some custom library to enable 'taphold' events -->
-	<script src="jquery-taphold/taphold.js" type="text/javascript"></script>
+	<script src="jquery-taphold/taphold.js"></script>
 
-	<!-- Custom library to add a dynamic themeroller switcher -->
-	<script type="text/javascript" src="../lib/Super-Theme-Switcher/jquery.themeswitcher.js"></script>
-
-	<script src="../jquery.ui-contextmenu.js" type="text/javascript"></script>
+	<script src="../jquery.ui-contextmenu.js"></script>
 
 <style type="text/css">
-
-body{
-	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
-	font-size: .8em;
-	/* Prevent tablets from selecting text on taphold, etc:
-	   Note:
-	   If only the potential menu trigger elements should be protected, simply
-	   use the 'preventSelect: true' option.
-	   But we disable it more globally for tablet PCs, because the whole line
-	   or paragraph will still be selected otherwise.
-	 */
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
 
 .hasmenu, .hasmenu2 {
 	border: 1px solid #008;
@@ -61,28 +45,25 @@ body{
 <script type="text/javascript">
 var CLIPBOARD = "";
 $(function(){
-	/* Enable a themeroller theme-switching using a combobox. */
-	$("#switcher").themeswitcher({
-		jqueryuiversion: "1",
-		imgpath: "../lib/Super-Theme-Switcher/images/",
-		loadTheme: "Smoothness"
-	});
 
 	/* Menu 1: init by passing an array of entries. */
 
 	$(document).contextmenu({
+		autoFocus: true,
 		delegate: ".hasmenu",
 		preventContextMenuForPopup: true,
 		preventSelect: true,
 		taphold: true,
 		menu: [
-			{title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors"},
+			{title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors" },
 			{title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
 			{title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
 			{title: "----"},
 			{title: "More", children: [
-				{title: "Sub 1 (using callback)", action: function(event, ui) { alert("action callback sub1");} },
-				{title: "Sub 2", cmd: "sub1"}
+				{title: "Sub 1 (using callback)", cmd: "sub1", action: function(event, ui) { alert("action callback sub1");} },
+				{title: "Sub 2", cmd: "sub2", disabled: function(){ return true; } },
+				{title: "Sub 3", cmd: "sub3", disabled: function(){ return "hide"; } },
+				{cmd: "sub4", title: function(){ return "Sub 4" + Date.now(); } }
 				]}
 			],
 		// Handle menu selection to implement a fake-clipboard
@@ -107,9 +88,8 @@ $(function(){
 
 			// console.log("beforeOpen", event, ui, event.originalEvent.type);
 			console.log("beforeOpen", event, ui);
-			alert(JSON.stringify(extraData));
 
-			ui.menu.zIndex( $(event.target).zIndex() + 1);
+			// ui.menu.zIndex( $(event.target).zIndex() + 1);
 
 			$(document)
 //				.contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}])
@@ -174,13 +154,6 @@ $(function(){
 	<h1>jquery.ui-contextmenu.js</h1>
 
 	<p><a href="https://github.com/mar10/jquery-ui-contextmenu">View project on GitHub</a></p>
-
-	<div>
-		<label for="switcher">Theme:</label> <div id="switcher"></div>
-		<!--
-		<label for="skinswitcher">Skin:</label> <select id="skinswitcher"></select>
-		-->
-	</div>
 
 	<h3>Sample 1</h3>
 	<ul>
