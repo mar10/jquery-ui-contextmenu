@@ -1,4 +1,8 @@
-# 1.17.0-1 / Unreleased
+# 1.17.1-1 / Unreleased
+
+*
+
+# 1.17.0 / 2017-04-17
 
 * [FEATURE] #59 Allow callbacks for `disabled`, `title`, and `tooltip` options
 * [FEATURE] #116 `autoFocus` skips leading disabled entries.
