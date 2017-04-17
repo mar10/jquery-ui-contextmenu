@@ -32,7 +32,7 @@ module.exports = (grunt) ->
 
       upload:
         # FTP upload the demo files (requires https://github.com/mar10/pyftpsync)
-        cmd: "pyftpsync --progress upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --omit dist,node_modules,.*,_* -x"
+        cmd: "pyftpsync --progress upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --omit dist,node_modules,.*,_*"
 
     jscs:
       src: ["jquery.ui-contextmenu.js", "test/tests.js"]
@@ -188,6 +188,11 @@ module.exports = (grunt) ->
         run_test: { tasks: ['test'] }
         bump: {} # 'bump' uses the increment mode `yabs:release:MODE` by default
         run_build: { tasks: ['build'] }
+        replace_build:
+          files: ['jquery.ui-contextmenu.min.js']
+          patterns: [
+            { match: /@VERSION/g, replacement: '{%= version %}'}
+          ]
         commit: {}
         check_after_build: { clean: true } # Fails if new files are found
         tag: {}

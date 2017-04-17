@@ -5,6 +5,7 @@
 * [FEATURE] #118 New option `closeOnWindowBlur`
 * Use `.on()` / `.off()` syntax
 * Add check for missing `.delegate` option
+* Set @VERSION in minified script
 
 # 1.16.0 / 2017-03-30
 
