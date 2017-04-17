@@ -5,6 +5,12 @@ body {
 
 p.menu {
 	padding: 5px 16px;
-	background-color: #ccc;
+	background-color: #eee;
 	border: 2px outset;
+}
+
+p.menu b {
+	padding: 5px 16px;
+	background-color: #ccc;
+	border: 2px inset;
 }
