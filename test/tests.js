@@ -527,7 +527,7 @@ QUnit.test("modify on open", function(assert) {
 		   { title: "Entry 6", cmd: "e6", uiIcon: "ui-icon-copy" },
 		   { title: "Entry 7", cmd: "e7", uiIcon: "ui-icon-copy" },
 		   { title: "Entry 8", cmd: "e8", uiIcon: "ui-icon-copy" },
-		   { title: "Entry 9", cmd: "e9", uiIcon: "ui-icon-copy"}
+		   { title: "Entry 9", cmd: "e9", uiIcon: "ui-icon-copy" }
 		   ],
 		done = assert.async();
 
@@ -619,7 +619,7 @@ QUnit.test("modify on open", function(assert) {
 				tooltip: "tooltip updated",
 				disabled: false,
 				hide: false,
-				data: {foo: "bar"},
+				data: { foo: "bar" },
 				setClass: "custom-class"
 			});
 			assert.ok( !entry($popup, "e9").hasClass("ui-state-disabled"),
