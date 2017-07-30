@@ -433,7 +433,7 @@ $.widget("moogle.contextmenu", {
 
 		if (typeof entry === "string") {
 			window.console && window.console.warn(
-				"setEntry(cmd, t) with a plain string title is deprecated." +
+				"setEntry(cmd, t) with a plain string title is deprecated since v1.18." +
 				"Use setTitle(cmd, '" + entry + "') instead.");
 			return this.setTitle(cmd, entry);
 		}
@@ -490,6 +490,7 @@ $.widget("moogle.contextmenu", {
 		if ( entry.hide !== undefined ) {
 			$entryLi.toggle(!entry.hide);
 		} else if ( entry.show !== undefined ) {
+			// Note: `show` is an undocumented variant. `hide: false` is preferred
 			$entryLi.toggle(!!entry.show);
 		}
 		// if ( entry.isHeader !== undefined ) {
@@ -504,6 +505,9 @@ $.widget("moogle.contextmenu", {
 			entry.disabled = $entryLi.hasClass("ui-state-disabled");
 		}
 		if ( entry.setClass ) {
+			if ( $entryLi.hasClass("ui-menu-item") ) {
+				entry.setClass += " ui-menu-item";
+			}
 			$entryLi.removeClass();
 			$entryLi.addClass(entry.setClass);
 		} else if ( entry.addClass ) {
