@@ -531,7 +531,7 @@ QUnit.test("modify on open", function(assert) {
 		beforeOpen: function(event, ui) {
 			log("beforeOpen");
 			$ctx
-				.contextmenu("setEntry", "cut", "Cut - changed")
+				.contextmenu("setTitle", "cut", "Cut - changed")
 				.contextmenu("setEntry", "copy", { title: "Copy - changed", cmd: "copy2" })
 				.contextmenu("setEntry", "paste", {
 					title: "Paste - changed", cmd: "paste",

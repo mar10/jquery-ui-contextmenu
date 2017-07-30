@@ -382,6 +382,18 @@ $.widget("moogle.contextmenu", {
 	enableEntry: function(cmd, flag) {
 		this._getMenuEntry(cmd).toggleClass("ui-state-disabled", (flag === false));
 	},
+	/** Return ui-menu entry (LI tag) as jQuery object. */
+	getEntry: function(cmd) {
+		return this._getMenuEntry(cmd);
+	},
+	/** Return ui-menu entry wrapper as jQuery object.
+	    UI 1.10: this is the <a> tag inside the LI
+	    UI 1.11: this is the LI istself
+	    UI 1.12: this is the <div> tag inside the LI
+	 */
+	getEntryWrapper: function(cmd) {
+		return this._getMenuEntry(cmd).find(">[role=menuitem]").addBack("[role=menuitem]");
+	},
 	/** Return Menu element (UL). */
 	getMenu: function() {
 		return this.$menu;
@@ -414,29 +426,93 @@ $.widget("moogle.contextmenu", {
 	replaceMenu: function(data) {
 		this._createUiMenu(data);
 	},
-	/** Redefine menu entry (title or all of it). */
+	/** Redefine a whole menu entry. */
 	setEntry: function(cmd, entry) {
 		var $ul,
 			$entryLi = this._getMenuEntry(cmd);
 
 		if (typeof entry === "string") {
-			$.moogle.contextmenu.updateTitle($entryLi, entry);
-		} else {
-			$entryLi.empty();
-			entry.cmd = entry.cmd || cmd;
-			$.moogle.contextmenu.createEntryMarkup(entry, $entryLi);
-			if ($.isArray(entry.children)) {
-				$ul = $("<ul/>").appendTo($entryLi);
-				$.moogle.contextmenu.createMenuMarkup(entry.children, $ul);
-			}
-			// #110: jQuery UI 1.12: refresh only works when this class is not set:
-			$entryLi.removeClass("ui-menu-item");
-			this.getMenu().menu("refresh");
+			window.console && window.console.warn(
+				"setEntry(cmd, t) with a plain string title is deprecated." +
+				"Use setTitle(cmd, '" + entry + "') instead.");
+			return this.setTitle(cmd, entry);
 		}
+		$entryLi.empty();
+		entry.cmd = entry.cmd || cmd;
+		$.moogle.contextmenu.createEntryMarkup(entry, $entryLi);
+		if ($.isArray(entry.children)) {
+			$ul = $("<ul/>").appendTo($entryLi);
+			$.moogle.contextmenu.createMenuMarkup(entry.children, $ul);
+		}
+		// #110: jQuery UI 1.12: refresh only works when this class is not set:
+		$entryLi.removeClass("ui-menu-item");
+		this.getMenu().menu("refresh");
 	},
+	/** Set icon (pass null to remove). */
+	setIcon: function(cmd, icon) {
+		return this.updateEntry(cmd, { uiIcon: icon });
+	},
+	/** Set title. */
+	setTitle: function(cmd, title) {
+		return this.updateEntry(cmd, { title: title });
+	},
+	// /** Set tooltip (pass null to remove). */
+	// setTooltip: function(cmd, tooltip) {
+	// 	this._getMenuEntry(cmd).attr("title", tooltip);
+	// },
 	/** Show or hide the menu command. */
 	showEntry: function(cmd, flag) {
 		this._getMenuEntry(cmd).toggle(flag !== false);
+	},
+	/** Redefine selective attributes of a menu entry. */
+	updateEntry: function(cmd, entry) {
+		var $icon, $wrapper,
+			$entryLi = this._getMenuEntry(cmd);
+
+		if ( entry.title !== undefined ) {
+			$.moogle.contextmenu.updateTitle($entryLi, "" + entry.title);
+		}
+		if ( entry.tooltip !== undefined ) {
+			if ( entry.tooltip === null ) {
+				$entryLi.removeAttr("title");
+			} else {
+				$entryLi.attr("title", entry.tooltip);
+			}
+		}
+		if ( entry.uiIcon !== undefined ) {
+			$wrapper = this.getEntryWrapper(cmd),
+			$icon = $wrapper.find("span.ui-icon").not(".ui-menu-icon");
+			$icon.remove();
+			if ( entry.uiIcon ) {
+				$wrapper.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
+			}
+		}
+		if ( entry.hide !== undefined ) {
+			$entryLi.toggle(!entry.hide);
+		} else if ( entry.show !== undefined ) {
+			$entryLi.toggle(!!entry.show);
+		}
+		// if ( entry.isHeader !== undefined ) {
+		// 	$entryLi.toggleClass("ui-widget-header", !!entry.isHeader);
+		// }
+		if ( entry.data !== undefined ) {
+			$entryLi.data(entry.data);
+		}
+
+		// Set/clear class names, but handle ui-state-disabled separately
+		if ( entry.disabled === undefined ) {
+			entry.disabled = $entryLi.hasClass("ui-state-disabled");
+		}
+		if ( entry.setClass ) {
+			$entryLi.removeClass();
+			$entryLi.addClass(entry.setClass);
+		} else if ( entry.addClass ) {
+			$entryLi.addClass(entry.addClass);
+		}
+		$entryLi.toggleClass("ui-state-disabled", !!entry.disabled);
+		// // #110: jQuery UI 1.12: refresh only works when this class is not set:
+		// $entryLi.removeClass("ui-menu-item");
+		// this.getMenu().menu("refresh");
 	}
 });
 
@@ -461,27 +537,19 @@ $.extend($.moogle.contextmenu, {
 						href: "#"
 					}).appendTo($parentLi);
 
-				if ( entry.uiIcon ) {
-					$wrapper.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
-				}
-
 			} else if ( isLTE111 ) {
-				// jQuery UI Menu 1.11 preferes to avoid `<a>` tags
+				// jQuery UI Menu 1.11 preferes to avoid `<a>` tags or <div> wrapper
 				$parentLi.html("" + entry.title);
-				if ( entry.uiIcon ) {
-					$parentLi
-						.append($("<span class='ui-icon' />")
-						.addClass(entry.uiIcon));
-				}
+				$wrapper = $parentLi;
 
 			} else {
 				// jQuery UI Menu 1.12 introduced `<div>` wrappers
 				$wrapper = $("<div/>", {
 						html: "" + entry.title
 					}).appendTo($parentLi);
-				if ( entry.uiIcon ) {
-					$wrapper.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
-				}
+			}
+			if ( entry.uiIcon ) {
+				$wrapper.append($("<span class='ui-icon' />").addClass(entry.uiIcon));
 			}
 			// Store option callbacks in entry's data
 			$.each( [ "action", "disabled", "title", "tooltip" ], function(i, attr) {

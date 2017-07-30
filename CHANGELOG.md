@@ -1,6 +1,16 @@
-# 1.17.1-1 / Unreleased
+# 1.18.0-0 / Unreleased
 
-*
+* [CHANGE] Refactored entry update methods
+  - `setEntry(cmd, data)`:
+  	Clarify that this method resets all attributes *not* passed in
+  	`data` are reset to defaults.<br>
+    Also, passing a plain title string as `data` is deprecated: use `setTitle()` instead.
+  - Add method `updateEntry(cmd, data)`.<br>
+    Example: `updateEntry("info", {title: "Show info...", enable: false})`<br>
+    Unlike `setEntry()`, this method only updates menu attibutes that are
+    passed in `data`, leaving other attributes intact.
+  - Add methods `getEntry()`, `getEntryWrapper()`, `setIcon`, `setTitle`
+    (in addition to the existing `enableEntry` and `showEntry`).
 
 # 1.17.0 / 2017-04-17
 
@@ -13,7 +23,7 @@
 
 # 1.16.0 / 2017-03-30
 
-* [FEATURE] #114: Pass `extraData` argument to `select` and other events.  
+* [FEATURE] #114: Pass `extraData` argument to `select` and other events.
   The same ui.extraData instance is passed to all events of a open-select-close
   sequence, so it can also be used to pass data between events.
 
@@ -24,7 +34,7 @@
 # 1.14.0 / 2017-01-30
 
 * #108: Update AMD dependency to be compatible with the jQuery 1.12 layout:
-  "jquery-ui/ui/widgets/menu" 
+  "jquery-ui/ui/widgets/menu"
   NOTE: this is not backwards compatible with jQuery 1.11 and before:
   http://jqueryui.com/upgrade-guide/1.12/#official-package-on-npm
 
@@ -103,11 +113,11 @@
 
 * [FEATURE] New optional parameter open(..., extraData).
 * [FEATURE] New option `autoTrigger: true` can be set to `false` to prevent
-	opening menus on browser's `contextmenu` event (if you want to use the `open()` 
+	opening menus on browser's `contextmenu` event (if you want to use the `open()`
 	method instead).
 * [FEATURE] New option `preventContextMenuForPopup`to prevent opening the browser's
 	system context menu on menu entries.
-* [CHANGE] `setEntry()` and `replaceMenu()` now allow to define titles with HTML 
+* [CHANGE] `setEntry()` and `replaceMenu()` now allow to define titles with HTML
 	markup.
 
 # 1.2.4 / 2013-12-25
