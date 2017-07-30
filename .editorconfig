@@ -21,6 +21,6 @@ indent_style = tab
 ;indent_size = 4
 
 ; Indentation override for all JS under lib directory
-[lib/**.js]
-indent_style = space
-indent_size = 2
+;[lib/**.js]
+;indent_style = space
+;indent_size = 2
