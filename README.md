@@ -1,8 +1,8 @@
-# jquery.ui-contextmenu [![GitHub version](https://badge.fury.io/gh/mar10%2Fjquery-ui-contextmenu.svg)](https://github.com/mar10/jquery-ui-contextmenu/releases/latest) [![Build Status](https://travis-ci.org/mar10/jquery-ui-contextmenu.png?branch=master)](https://travis-ci.org/mar10/jquery-ui-contextmenu) [![Selenium Test Status](https://saucelabs.com/buildstatus/sauce-contextmenu)](https://saucelabs.com/u/sauce-contextmenu)
+# jquery.ui-contextmenu [![GitHub version](https://badge.fury.io/gh/mar10%2Fjquery-ui-contextmenu.svg)](https://github.com/mar10/jquery-ui-contextmenu/releases/latest) [![Build Status](https://travis-ci.org/mar10/jquery-ui-contextmenu.png?branch=master)](https://travis-ci.org/mar10/jquery-ui-contextmenu) [![Selenium Test Status](https://saucelabs.com/buildstatus/sauce-contextmenu)](https://saucelabs.com/u/sauce-contextmenu) [![npm](https://img.shields.io/npm/dm/ui-contextmenu.svg)](https://www.npmjs.com/package/ui-contextmenu)
 
 > A jQuery plugin that provides a context menu (based on the standard [jQueryUI menu] widget).
 
-  * Define menus from `<ul>` element or definition list (i.e. 
+  * Define menus from `<ul>` element or definition list (i.e.
     `[{title: "Paste", cmd: "paste"}, ...]`).
   * Themable using [jQuery ThemeRoller](http://jqueryui.com/themeroller/).
   * Supports delegation (i.e. can be bound to elements that don't exist at the
@@ -26,11 +26,11 @@ See also the [Change Log](https://github.com/mar10/jquery-ui-contextmenu/blob/ma
 [Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/):<br>
 [ ![sample](demo/teaser.png?raw=true) ](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/ "Live demo")
 
-See also the unit tests and live examples 
+See also the unit tests and live examples
 
 **More:**
 
-  * Play with [jsFiddle](http://jsfiddle.net/mar10/6o3u8a88/) or 
+  * Play with [jsFiddle](http://jsfiddle.net/mar10/6o3u8a88/) or
     [Plunker](http://plnkr.co/edit/Bbcoqy?p=preview)
   * Run the [unit tests](http://rawgit.com/mar10/jquery-ui-contextmenu/master/test/index.html).
 
@@ -42,8 +42,8 @@ First, include dependencies:
 * jQuery 1.7+ (1.10 or later recommended)
 * jQuery UI 1.9+ (at least core, widget, menu), 1.11+ recommended
 * One of the ThemeRoller CSS themes or a custom one
-* jquery.ui-contextmenu.js (also available as CDN on 
-  [jsdelivr](http://www.jsdelivr.com/#!jquery.ui-contextmenu),
+* jquery.ui-contextmenu.js (also available as CDN on
+  [jsDelivr](https://cdn.jsdelivr.net/gh/mar10/jquery-ui-contextmenu/),
   [cdnjs](https://cdnjs.com/libraries/jquery.ui-contextmenu)), or
   [UNPKG](https://unpkg.com/ui-contextmenu@latest/jquery.ui-contextmenu.min.js)
 
@@ -90,11 +90,11 @@ initialize the menu from embedded &lt;ul> markup</a>.
 
 For more information:
 
-  * [Read the Tutorial](https://github.com/mar10/jquery-ui-contextmenu/wiki) and 
+  * [Read the Tutorial](https://github.com/mar10/jquery-ui-contextmenu/wiki) and
     [API Reference](https://github.com/mar10/jquery-ui-contextmenu/wiki/ApiRef)
   * Have a look at the [Live demo page](http://wwwendt.de/tech/demo/jquery-contextmenu/demo/)
   * Ask questions on [Stackoverflow](http://stackoverflow.com/questions/tagged/jquery-ui-contextmenu)
-  * Play with [jsFiddle](http://jsfiddle.net/mar10/6o3u8a88/) or 
+  * Play with [jsFiddle](http://jsfiddle.net/mar10/6o3u8a88/) or
     [Plunker](http://plnkr.co/edit/Bbcoqy?p=preview)
 
 

@@ -68,7 +68,9 @@ function TestHelpers() {
 		entry: findEntry,
 		entryTitle: function( menu, item ) {
 			// return the plain text (without sub-elements)
-			return findEntryInner(menu, item).contents().filter(function() {
+			var ei =  findEntryInner(menu, item);
+			if ( !ei || !ei.length ) { return null; }
+			return ei.contents().filter(function() {
 					return this.nodeType === 3;
 				})[0].nodeValue;
 		}
@@ -517,13 +519,19 @@ QUnit.module("'beforeOpen' event", lifecycle);
 QUnit.test("modify on open", function(assert) {
 	var $ctx, $popup,
 		menu  = [
-		   { title: "Cut", cmd: "cut", uiIcon: "ui-icon-scissors" },
-		   { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
-		   { title: "Paste", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true }
+		   { title: "Entry 1", cmd: "e1", uiIcon: "ui-icon-copy" },
+		   { title: "Entry 2", cmd: "e2", uiIcon: "ui-icon-copy" },
+		   { title: "Entry 3", cmd: "e3", uiIcon: "ui-icon-copy" },
+		   { title: "Entry 4", cmd: "e4", uiIcon: "ui-icon-copy" },
+		   { title: "Entry 5", cmd: "e5", uiIcon: "ui-icon-copy" },
+		   { title: "Entry 6", cmd: "e6", uiIcon: "ui-icon-copy" },
+		   { title: "Entry 7", cmd: "e7", uiIcon: "ui-icon-copy" },
+		   { title: "Entry 8", cmd: "e8", uiIcon: "ui-icon-copy" },
+		   { title: "Entry 9", cmd: "e9", uiIcon: "ui-icon-copy" }
 		   ],
 		done = assert.async();
 
-	assert.expect(9);
+	assert.expect(29);
 
 	$("#container").contextmenu({
 		delegate: ".hasmenu",
@@ -531,44 +539,117 @@ QUnit.test("modify on open", function(assert) {
 		beforeOpen: function(event, ui) {
 			log("beforeOpen");
 			$ctx
-				.contextmenu("setEntry", "cut", "Cut - changed")
-				.contextmenu("setEntry", "copy", { title: "Copy - changed", cmd: "copy2" })
-				.contextmenu("setEntry", "paste", {
-					title: "Paste - changed", cmd: "paste",
+				.contextmenu("setTitle", "e1", "Entry 1 - changed")
+				.contextmenu("setEntry", "e2", { uiIcon: "ui-icon-changed" })
+				.contextmenu("setEntry", "e3", {
+					title: "Entry 3 - changed", cmd: "e3",
 					children: [
-						{ title: "Sub 1", cmd: "sub_1" },
-						{ title: "Sub 2", cmd: "sub_2", disabled: true }
+						{ title: "Sub 1", cmd: "e3_1" },
+						{ title: "Sub 2", cmd: "e3_2", disabled: true }
 						]
-					} );
+					} )
+				.contextmenu("setEntry", "e4", { title: "Entry 4 - changed", cmd: "e4_changed" })
+				.contextmenu("updateEntry", "e5", { uiIcon: "ui-icon-changed" });
 		},
 		open: function(event) {
 			log("open");
-			assert.equal(entryTitle($popup, "cut"), "Cut - changed",
-				"setEntry(string)");
-			assert.equal(entry($popup, "copy").length, 0,
-				"setEntry(object) change command id");
-			assert.equal(entryTitle($popup, "copy2"), "Copy - changed",
-				"setEntry(object) set title");
-			assert.equal(entryTitle($popup, "paste"), "Paste - changed",
+			// setTitle()
+			assert.equal(entryTitle($popup, "e1"), "Entry 1 - changed",
+				"setTitle(string) changed title");
+			assert.equal(entry($popup, "e1").find("span.ui-icon").length, 1,
+				"setTitle(string) keeps existing icon");
+
+			// setEntry() with icon
+			assert.equal(entry($popup, "e2").find("span.ui-icon-changed").length, 1,
+				"setEntry(<uiIcon>) sets icon");
+			assert.equal(entryTitle($popup, "e2"), "undefined",
+				"setEntry(<uiIcon>) resets title");
+
+			// setEntry() with new sub-elements
+			assert.equal(entryTitle($popup, "e3"), "Entry 3 - changed",
 				"setEntry(object) set nested title");
-			assert.equal(entryTitle($popup, "sub_1"), "Sub 1",
+			assert.ok( !entry($popup, "e3").hasClass("ui-state-disabled"),
+				"setEntry(object) has reset 'disabled' attribute");
+			assert.equal(entryTitle($popup, "e3_1"), "Sub 1",
 				"setEntry(object) created nested entry");
-			assert.ok(entry($popup, "sub_2").hasClass("ui-state-disabled"),
+			assert.ok(entry($popup, "e3_2").hasClass("ui-state-disabled"),
 				"setEntry(object) created nested disabled entry");
 
+			// setEntry() with different CMD
+			assert.equal(entry($popup, "e4").length, 0,
+				"setEntry(object) change command id (old is gone)");
+			assert.equal(entry($popup, "e4_changed").length, 1,
+				"setEntry(object) change command id (new is set)");
+			assert.equal(entryTitle($popup, "e4_changed"), "Entry 4 - changed",
+				"setEntry(object) set title");
+
+			// updateEntry() with icon
+			assert.equal(entry($popup, "e5").find("span.ui-icon-changed").length, 1,
+				"updateEntry(<uiIcon>) sets icon");
+			assert.equal(entryTitle($popup, "e5"), "Entry 5",
+				"updateEntry(<uiIcon>) keeps  title");
+
+			// Some more on-the-fly modifications
+
+			assert.ok( !entry($popup, "e9").is(":hidden"),
+				"Entry 9 is visible" );
+			assert.ok( !entry($popup, "e9").hasClass("ui-state-disabled"),
+				"Entry 9 is enabled" );
+
+			$ctx.contextmenu("enableEntry", "e9", false);
+			assert.ok( entry($popup, "e9").hasClass("ui-state-disabled"),
+				"enableEntry(false)" );
+
+			$ctx.contextmenu("setIcon", "e9", "ui-icon-changed");
+			assert.equal(entry($popup, "e9").find("span.ui-icon-changed").length, 1,
+				"setIcon()");
+
+			$ctx.contextmenu("setTitle", "e9", "Entry 9 - changed");
+			assert.equal(entryTitle($popup, "e9"), "Entry 9 - changed",
+				"setTitle()");
+
+			$ctx.contextmenu("showEntry", "e9", false);
+			assert.ok( entry($popup, "e9").is(":hidden"),
+				"showEntry(false)" );
+
+			// Use updateEntry()
+			$ctx.contextmenu("updateEntry", "e9", {
+				title: "Entry 9 - updated",
+				uiIcon: "ui-icon-updated",
+				tooltip: "tooltip updated",
+				disabled: false,
+				hide: false,
+				data: { foo: "bar" },
+				setClass: "custom-class"
+			});
+			assert.ok( !entry($popup, "e9").hasClass("ui-state-disabled"),
+				"updateEntry(disabled: false)" );
+			assert.equal(entry($popup, "e9").find("span.ui-icon-updated").length, 1,
+				"updateEntry(icon)");
+			assert.ok( !entry($popup, "e9").is(":hidden"),
+				"updateEntry(hide: false)" );
+			assert.equal(entryTitle($popup, "e9"), "Entry 9 - updated",
+				"updateEntry(title)");
+			assert.equal(entry($popup, "e9").attr("title"), "tooltip updated",
+				"updateEntry(tooltip)");
+			assert.equal(entry($popup, "e9").data().foo, "bar",
+				"updateEntry(data)");
+			assert.ok(entry($popup, "e9").is(".ui-menu-item.custom-class"),
+				"updateEntry(setClass)");
+
 			setTimeout(function() {
-				click($popup, "cut");
+				click($popup, "e1");
 			}, 10);
 		},
 		select: function(event, ui) {
 			var t = ui.item ? $(ui.item).attr("data-command") : ui.item;
 			log("select(" + t + ")");
-			assert.equal( ui.cmd, "cut", "select: ui.cmd is set" );
+			assert.equal( ui.cmd, "e1", "select: ui.cmd is set" );
 			assert.equal( ui.target.text(), "AAA", "select: ui.target is set" );
 		},
 		close: function(event) {
 			log("close");
-			assert.equal(logOutput(), "open(),beforeOpen,after open(),open,select(cut),close",
+			assert.equal(logOutput(), "open(),beforeOpen,after open(),open,select(e1),close",
 				"Event sequence OK.");
 			done();
 		}
