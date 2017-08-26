@@ -1,4 +1,8 @@
-# 1.18.0-0 / Unreleased
+# 1.18.1 / Unreleased
+
+*
+
+# 1.18.0 / 2017-08-26
 
 * [CHANGE] Refactored entry update methods
   - `setEntry(cmd, data)`:

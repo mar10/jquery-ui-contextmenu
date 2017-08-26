@@ -48,8 +48,8 @@ First, include dependencies:
 * One of the ThemeRoller CSS themes or a custom one
 * jquery.ui-contextmenu.js (also available as CDN on
   [jsDelivr](https://cdn.jsdelivr.net/gh/mar10/jquery-ui-contextmenu/),
-  [cdnjs](https://cdnjs.com/libraries/jquery.ui-contextmenu)), or
-  [UNPKG](https://unpkg.com/ui-contextmenu@latest/jquery.ui-contextmenu.min.js)
+  [cdnjs](https://cdnjs.com/libraries/jquery.ui-contextmenu), or
+  [UNPKG](https://unpkg.com/ui-contextmenu@latest/jquery.ui-contextmenu.min.js))
 
 ```html
 <head>
