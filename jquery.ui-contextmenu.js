@@ -387,9 +387,9 @@ $.widget("moogle.contextmenu", {
 		return this._getMenuEntry(cmd);
 	},
 	/** Return ui-menu entry wrapper as jQuery object.
-	    UI 1.10: this is the <a> tag inside the LI
-	    UI 1.11: this is the LI istself
-	    UI 1.12: this is the <div> tag inside the LI
+		UI 1.10: this is the <a> tag inside the LI
+		UI 1.11: this is the LI istself
+		UI 1.12: this is the <div> tag inside the LI
 	 */
 	getEntryWrapper: function(cmd) {
 		return this._getMenuEntry(cmd).find(">[role=menuitem]").addBack("[role=menuitem]");
