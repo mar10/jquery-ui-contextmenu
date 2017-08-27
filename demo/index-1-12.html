@@ -140,7 +140,7 @@ $(function(){
 			$(document)
 //				.contextmenu("replaceMenu", [{title: "aaa"}, {title: "bbb"}])
 //				.contextmenu("replaceMenu", "#options2")
-//				.contextmenu("setEntry", "cut", {title: "Cuty", uiIcon: "ui-icon-heart", disabled: true})
+//				.contextmenu("updateEntry", "cut", {title: "Cuty", uiIcon: "ui-icon-heart", disabled: true})
 				.contextmenu("setTitle", "copy", "Copy '" + $target.text() + "'")
 				.contextmenu("setTitle", "paste", "Paste" + (CLIPBOARD ? " '" + CLIPBOARD + "'" : ""))
 				.contextmenu("enableEntry", "paste", (CLIPBOARD !== ""));
