@@ -368,7 +368,7 @@ $.widget("moogle.contextmenu", {
 			fn = $entry.data("titleHandler"),
 			res = fn ? fn({ type: "title" }, ui) : null;
 			if ( res != null ) {
-				self.setEntry(ui.cmd, "" + res);
+				self.setTitle(ui.cmd, "" + res);
 			}
 			// Evaluate `tooltip()` callback
 			fn = $entry.data("tooltipHandler"),
