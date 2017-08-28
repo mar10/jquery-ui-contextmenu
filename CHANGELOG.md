@@ -1,4 +1,6 @@
-# 1.18.1 / Unreleased
+# 1.18.2 / Unreleased
+
+# 1.18.1 / 2017-08-28
 
 * [BUGFIX] Fix deprecation warnings when menu with `title` callback is opened
 
