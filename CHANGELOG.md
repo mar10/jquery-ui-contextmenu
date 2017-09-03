@@ -1,3 +1,7 @@
+# 2.0.0 / Unreleased branch: 'dist-folder'
+
+* [BREAKING CHANGE] Distribution files moved from project root to /dist folder.
+
 # 1.18.2 / Unreleased
 
 # 1.18.1 / 2017-08-28

@@ -1,9 +1,13 @@
-#jshint node: true, camelcase: false 
+#jshint node: true, camelcase: false
 "use strict"
 module.exports = (grunt) ->
   grunt.initConfig
-    pkg: 
+    pkg:
       grunt.file.readJSON("package.json")
+
+    clean:
+        dist:
+            src: [ "dist" ]
 
     connect:
       demo:
@@ -23,6 +27,13 @@ module.exports = (grunt) ->
           port: 9999
           base: ""
           keepalive: false
+
+    copy:
+        dist: # copy production files to dist folder
+            files: [{
+                src: ["LICENSE.txt", "jquery.ui-contextmenu.js"]
+                dest: "dist/"
+            }]
 
     exec:
       tabfix:
@@ -104,7 +115,7 @@ module.exports = (grunt) ->
             # "http://localhost:9999/test/index.html",
             # "http://localhost:9999/test/index-jquery-ui-1-10.html"
           ]
-          
+
           # username: process.env.SAUCE_USERNAME,
           # key: process.env.SAUCE_ACCESS_KEY,
           build: process.env.TRAVIS_JOB_ID
@@ -164,8 +175,8 @@ module.exports = (grunt) ->
       build:
         options:
           sourceMap: true
-        src: "jquery.ui-contextmenu.js"
-        dest: "jquery.ui-contextmenu.min.js"
+        src: "dist/jquery.ui-contextmenu.js"
+        dest: "dist/jquery.ui-contextmenu.min.js"
 
     watch:
       dev:
@@ -189,7 +200,7 @@ module.exports = (grunt) ->
         bump: {} # 'bump' uses the increment mode `yabs:release:MODE` by default
         run_build: { tasks: ['build'] }
         replace_build:
-          files: ['jquery.ui-contextmenu.min.js']
+          files: ['dist/jquery.ui-contextmenu.min.js', 'dist/jquery.ui-contextmenu.js']
           patterns: [
             { match: /@VERSION/g, replacement: '{%= version %}'}
           ]
@@ -208,8 +219,8 @@ module.exports = (grunt) ->
 
   # Load "grunt*" dependencies
   for key of grunt.file.readJSON("package.json").devDependencies
-    grunt.loadNpmTasks key  if key isnt "grunt" and key.indexOf("grunt") is 0
-    
+    grunt.loadNpmTasks key if key isnt "grunt" and key.indexOf("grunt") is 0
+
   grunt.registerTask "server", ["connect:demo"]
   grunt.registerTask "dev", ["connect:dev", "watch:dev"]
   grunt.registerTask "test", ["jshint", "jscs", "qunit"]
@@ -222,8 +233,14 @@ module.exports = (grunt) ->
       grunt.registerTask "travis", ["test", "sauce"]
   grunt.registerTask "default", ["test"]
   grunt.registerTask "ci", ["test"]  # Called by 'npm test'
-  
+
   # "sauce",
-  grunt.registerTask "build", ["exec:tabfix", "test", "uglify"]
+  grunt.registerTask "build", [
+    # "exec:tabfix"
+    "test"
+    "clean:dist"
+    "copy:dist"
+    "uglify"
+    ]
   grunt.registerTask "upload", ["build", "exec:upload"]
   grunt.registerTask "server", ["connect:demo"]

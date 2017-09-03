@@ -3,7 +3,7 @@
   "description": "Turn a jQuery UI Menu widget into a contextmenu.",
   "version": "1.18.2-0",
   "main": [
-    "jquery.ui-contextmenu.js"
+    "dist/jquery.ui-contextmenu.js"
   ],
   "moduleType": "globals",
   "license": "MIT",
@@ -14,7 +14,6 @@
     "/lib",
     "/test",
     "bower.json",
-    "ui-contextmenu.jquery.json",
     "Gruntfile.coffee"
   ],
   "keywords": [

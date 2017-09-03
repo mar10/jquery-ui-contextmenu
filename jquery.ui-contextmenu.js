@@ -43,7 +43,7 @@ $.widget("moogle.contextmenu", {
 		menu: null,           // selector or jQuery pointing to <UL>, or a definition hash
 		position: null,       // popup positon
 		preventContextMenuForPopup: false, // prevent opening the browser's system
-										   // context menu on menu entries
+										      // context menu on menu entries
 		preventSelect: false, // disable text selection of target
 		show: { effect: "slideDown", duration: "fast" },
 		taphold: false,       // open menu on taphold events (requires external plugins)

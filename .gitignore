@@ -1,12 +1,10 @@
 /.settings
+/dist
 /node_modules
 /test/triage/
 .DS_Store
-npm-debug.log
+.pyftpsync-meta.json
 .sizecache.json
+npm-debug.log
 sauce_connect.log
 sc_*.log
-
-demo/.pyftpsync-meta.json
-
-.pyftpsync-meta.json

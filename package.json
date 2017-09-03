@@ -1,8 +1,6 @@
 {
   "name": "ui-contextmenu",
-  "filename": "jquery.ui-contextmenu.min.js",
-  "main": "jquery.ui-contextmenu.js",
-  "version": "1.18.2-0",
+  "version": "2.0.0-0",
   "title": "jQuery UI context menu plugin",
   "description": "Turn a jQuery UI Menu widget into a contextmenu.",
   "keywords": [
@@ -38,13 +36,17 @@
       "url": "https://raw.githubusercontent.com/mar10/jquery-ui-contextmenu/master/LICENSE.txt"
     }
   ],
+  "main": "dist/jquery.ui-contextmenu.js",
+  "files": "dist",
   "dependencies": {
     "jquery": ">=1.7"
   },
   "devDependencies": {
     "grunt": "^1.0.0",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.0",
     "grunt-contrib-connect": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-qunit": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.0",
