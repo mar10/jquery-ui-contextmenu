@@ -43,19 +43,20 @@ See also the unit tests and live examples
 
 First, include dependencies:
 
-* jQuery 1.7+ (1.10 or later recommended)
-* jQuery UI 1.9+ (at least core, widget, menu), 1.11+ recommended
+* jQuery 1.7+ (3.x or later recommended)
+* jQuery UI 1.9+ (at least core, widget, menu), 1.12+ recommended
 * One of the ThemeRoller CSS themes or a custom one
 * jquery.ui-contextmenu.js (also available as CDN on
   [![](https://data.jsdelivr.com/v1/package/npm/ui-contextmenu/badge)](https://www.jsdelivr.com/package/npm/ui-contextmenu),
   [cdnjs](https://cdnjs.com/libraries/jquery.ui-contextmenu), or
   [UNPKG](https://unpkg.com/ui-contextmenu@latest/jquery.ui-contextmenu.min.js))
 
+for example
 ```html
 <head>
-    <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="assets/jquery.ui-contextmenu.min.js"></script>
 ```
 
