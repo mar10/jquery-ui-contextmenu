@@ -1,8 +1,8 @@
-#jshint node: true, camelcase: false 
+#jshint node: true, camelcase: false
 "use strict"
 module.exports = (grunt) ->
   grunt.initConfig
-    pkg: 
+    pkg:
       grunt.file.readJSON("package.json")
 
     connect:
@@ -32,7 +32,9 @@ module.exports = (grunt) ->
 
       upload:
         # FTP upload the demo files (requires https://github.com/mar10/pyftpsync)
-        cmd: "pyftpsync --progress upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --omit dist,node_modules,.*,_*"
+        stdin: true  # Allow interactive console
+        cmd: "pyftpsync --progress upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --exclude dist,node_modules,.*,_*"
+        # cmd: "pyftpsync --progress upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --omit dist,node_modules,.*,_*"
 
     jscs:
       src: ["jquery.ui-contextmenu.js", "test/tests.js"]
@@ -104,7 +106,7 @@ module.exports = (grunt) ->
             # "http://localhost:9999/test/index.html",
             # "http://localhost:9999/test/index-jquery-ui-1-10.html"
           ]
-          
+
           # username: process.env.SAUCE_USERNAME,
           # key: process.env.SAUCE_ACCESS_KEY,
           build: process.env.TRAVIS_JOB_ID
@@ -209,7 +211,7 @@ module.exports = (grunt) ->
   # Load "grunt*" dependencies
   for key of grunt.file.readJSON("package.json").devDependencies
     grunt.loadNpmTasks key  if key isnt "grunt" and key.indexOf("grunt") is 0
-    
+
   grunt.registerTask "server", ["connect:demo"]
   grunt.registerTask "dev", ["connect:dev", "watch:dev"]
   grunt.registerTask "test", ["jshint", "jscs", "qunit"]
@@ -222,7 +224,7 @@ module.exports = (grunt) ->
       grunt.registerTask "travis", ["test", "sauce"]
   grunt.registerTask "default", ["test"]
   grunt.registerTask "ci", ["test"]  # Called by 'npm test'
-  
+
   # "sauce",
   grunt.registerTask "build", ["exec:tabfix", "test", "uglify"]
   grunt.registerTask "upload", ["build", "exec:upload"]
