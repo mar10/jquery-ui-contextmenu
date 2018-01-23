@@ -1,5 +1,5 @@
 # 1.19.0 / Unreleased
-  - Add `appendTo` option.
+  - [FEATURE] Add `appendTo` option.
 
 # 1.18.1 / 2017-08-28
 
