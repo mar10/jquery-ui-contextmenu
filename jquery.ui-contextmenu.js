@@ -35,6 +35,7 @@ $.widget("moogle.contextmenu", {
 	options: {
 		addClass: "ui-contextmenu",  // Add this class to the outer <ul>
 		closeOnWindowBlur: true,     // Close menu when window loses focus
+		appendTo: "body",     // Set keyboard focus to first entry on open
 		autoFocus: false,     // Set keyboard focus to first entry on open
 		autoTrigger: true,    // open menu on browser's `contextmenu` event
 		delegate: null,       // selector
@@ -143,7 +144,7 @@ $.widget("moogle.contextmenu", {
 		} else if (this.$menu) {
 			this.$menu
 				.menu("destroy")
-				.removeClass(this.options.addClass)
+				.removeClass(opts.addClass)
 				.hide();
 		}
 		this.$menu = null;
@@ -153,7 +154,7 @@ $.widget("moogle.contextmenu", {
 		if ( !menuDef ) {
 			return;
 		} else if ($.isArray(menuDef)) {
-			this.$menu = $.moogle.contextmenu.createMenuMarkup(menuDef);
+			this.$menu = $.moogle.contextmenu.createMenuMarkup(menuDef, null, opts);
 			this.menuIsTemp = true;
 		}else if ( typeof menuDef === "string" ) {
 			this.$menu = $(menuDef);
@@ -579,10 +580,12 @@ $.extend($.moogle.contextmenu, {
 		}
 	},
 	/** Convert a nested array of command objects into a <ul> structure. */
-	createMenuMarkup: function(options, $parentUl) {
-		var i, menu, $ul, $li;
+	createMenuMarkup: function(options, $parentUl, opts) {
+		var i, menu, $ul, $li,
+			appendTo = (opts && opts.appendTo) ? opts.appendTo : "body";
+
 		if ( $parentUl == null ) {
-			$parentUl = $("<ul class='ui-helper-hidden' />").appendTo("body");
+			$parentUl = $("<ul class='ui-helper-hidden' />").appendTo(appendTo);
 		}
 		for (i = 0; i < options.length; i++) {
 			menu = options[i];
