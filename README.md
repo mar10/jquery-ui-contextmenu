@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/mar10/jquery-ui-contextmenu.svg?branch=master)](https://travis-ci.org/mar10/jquery-ui-contextmenu)
 [![Selenium Test Status](https://saucelabs.com/buildstatus/sauce-contextmenu)](https://saucelabs.com/u/sauce-contextmenu)
 [![npm](https://img.shields.io/npm/dm/ui-contextmenu.svg)](https://www.npmjs.com/package/ui-contextmenu)
+[![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-contextmenu/badge)](https://www.jsdelivr.com/package/npm/ui-contextmenu),
 
 > A jQuery plugin that provides a context menu (based on the standard [jQueryUI menu] widget).
 
