@@ -33,7 +33,7 @@ module.exports = (grunt) ->
       upload:
         # FTP upload the demo files (requires https://github.com/mar10/pyftpsync)
         stdin: true  # Allow interactive console
-        cmd: "pyftpsync --progress upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --exclude dist,node_modules,.*,_*"
+        cmd: "pyftpsync upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --exclude dist,node_modules,.*,_*"
         # cmd: "pyftpsync --progress upload . ftp://www.wwwendt.de/tech/demo/jquery-contextmenu --delete-unmatched --omit dist,node_modules,.*,_*"
 
     jscs:
