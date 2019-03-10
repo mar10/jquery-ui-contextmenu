@@ -80,6 +80,14 @@ $(function(){
 		loadTheme: "Base"
 	});
 */
+	/* SAMPLE for issue #136: globally disable hyphen detection. */
+	$.ui.menu.prototype._isDivider = function(item) {
+		console.log("_isDivider", this, arguments);
+		// Match hyphen, em dash, en dash
+		// return !/[^\-\u2014\u2013\s]/.test( item.text() );
+		// return false;
+		return item.text() === "----";
+	};
 	/* Menu 1: init by passing an array of entries. */
 
 	$(document).contextmenu({
@@ -93,6 +101,8 @@ $(function(){
 			{title: "Cut <kbd>Ctrl+X</kbd>", cmd: "cut", uiIcon: "ui-icon-scissors"},
 			{title: "Copy <kbd>Ctrl+C</kbd>", cmd: "copy", uiIcon: "ui-icon-copy"},
 			{title: "Paste <kbd>Ctrl+V</kbd>", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
+			{title: "-", cmd: "hyphen"},
+			{title: " - -", cmd: "hyphen2"},
 			{title: "----"},
 			{title: "More", children: [
 				{title: "Sub 1 (callback)", action: function(event, ui) { alert("action callback sub1");} },

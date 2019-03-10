@@ -531,7 +531,8 @@ $.extend($.moogle.contextmenu, {
 
 		$parentLi.attr("data-command", entry.cmd);
 
-		if ( !/[^\-\u2014\u2013\s]/.test( entry.title ) ) {
+		if ( entry.title === "----" ) {
+		// if ( !/[^\-\u2014\u2013\s]/.test( entry.title ) ) {
 			// hyphen, em dash, en dash: separator as defined by UI Menu 1.10
 			$parentLi.text(entry.title);
 		} else {
